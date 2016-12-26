@@ -1,6 +1,9 @@
 package com.ldz.view.UINodes.generic;
 
 import com.ldz.model.generic.IYamlDomain;
+import com.ldz.view.UINodes.generic.childrenInterface.IHasChildren;
+import com.ldz.view.UINodes.generic.childrenInterface.IHasOutputAndInputChildren;
+import javafx.scene.Node;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -10,7 +13,7 @@ import java.util.*;
 /**
  * Created by ldalzotto on 25/12/2016.
  */
-public class UIOutputNodePoints extends BorderPane{
+public class UIOutputNodePoints extends BorderPane implements IHasOutputAndInputChildren<UINodePoint>, IHasChildren<UINodePoint>{
 
     private Map<String, IYamlDomain> _carriedData = new HashMap();
     private Map<String, IYamlDomain> _inputData = new HashMap();
@@ -85,6 +88,33 @@ public class UIOutputNodePoints extends BorderPane{
             Map.Entry<String, IYamlDomain> entry = inputDataIterator.next();
             _inputData.put(entry.getKey(), entry.getValue());
         }
+    }
+
+    public List<UINodePoint> getInputChildrens() {
+        List<UINodePoint> uiNodePoints = new ArrayList<UINodePoint>();
+        for(Node node : _inputLabelsAndPoints.getChildren()){
+            if(node instanceof UINodePoint){
+                uiNodePoints.add((UINodePoint)node);
+            }
+        }
+        return uiNodePoints;
+    }
+
+    public List<UINodePoint> getOutputChildren() {
+        List<UINodePoint> uiNodePoints = new ArrayList<UINodePoint>();
+        for(Node node : _outputLabelsAndPoints.getChildren()){
+            if(node instanceof UINodePoint){
+                uiNodePoints.add((UINodePoint)node);
+            }
+        }
+        return uiNodePoints;
+    }
+
+    public List<UINodePoint> getChilds() {
+        List<UINodePoint> uiNodePoints = new ArrayList<UINodePoint>();
+        uiNodePoints.addAll(getInputChildrens());
+        uiNodePoints.addAll(getOutputChildren());
+        return uiNodePoints;
     }
 
     public VBox get_outputLabelsAndPoints() {

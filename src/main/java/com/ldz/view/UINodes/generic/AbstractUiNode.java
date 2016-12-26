@@ -1,16 +1,20 @@
 package com.ldz.view.UINodes.generic;
 
+import com.ldz.view.UINodes.generic.childrenInterface.IHasChildren;
 import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
 import javafx.scene.Cursor;
+import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
-import javafx.scene.shape.Rectangle;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by ldalzotto on 24/12/2016.
  */
-public abstract class AbstractUiNode extends StackPane {
+public abstract class AbstractUiNode extends StackPane implements IHasChildren<UIOutputNodePoints> {
 
     private Point2D _initialCursorPosition = null;
 
@@ -56,6 +60,16 @@ public abstract class AbstractUiNode extends StackPane {
                     }
                 }
         });
+    }
+
+    public List<UIOutputNodePoints> getChilds(){
+        List<UIOutputNodePoints> uiOutputNodePointses = new ArrayList<UIOutputNodePoints>();
+        for (Node node : getChildren()){
+            if(node instanceof UIOutputNodePoints){
+                uiOutputNodePointses.add((UIOutputNodePoints)node);
+            }
+        }
+        return uiOutputNodePointses;
     }
 
 }

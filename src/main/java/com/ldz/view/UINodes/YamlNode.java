@@ -5,7 +5,9 @@ import com.ldz.model.Path;
 import com.ldz.model.generic.IYamlDomain;
 import com.ldz.view.LinkerEventHandler;
 import com.ldz.view.UINodes.generic.AbstractUiNode;
+import com.ldz.view.UINodes.generic.UINodePoint;
 import com.ldz.view.UINodes.generic.UIOutputNodePoints;
+import com.ldz.view.YamlToController;
 import javafx.event.EventHandler;
 import javafx.geometry.Bounds;
 import javafx.geometry.Pos;
@@ -28,12 +30,16 @@ public class YamlNode extends AbstractUiNode {
     private final double MIN_HEIGHT = 100;
     private Text _nodeName = null;
 
-    private Map<Node, LinkerEventHandler> _linkEvents = new HashMap<Node, LinkerEventHandler>();
+    private YamlNode _instance = null;
+
+    private YamlToController _yamlToController = YamlToController.getInstance();
 
     private UIOutputNodePoints _output = null;
 
     public YamlNode(double posX, double posY, String nodeName, Path outputData){
         super();
+
+        _instance = this;
 
         setLayoutX(posX);
         setLayoutY(posY);
@@ -75,7 +81,8 @@ public class YamlNode extends AbstractUiNode {
         addEventFilter(MouseEvent.MOUSE_DRAGGED, new EventHandler<MouseEvent>() {
             public void handle(MouseEvent event) {
                 if(event.isSecondaryButtonDown()){
-                    updateLinksPosition();
+                    //TODO what UInODE is selected here ?
+                    updateLinksPosition(_instance);
                 }
             }
         });
@@ -99,19 +106,39 @@ public class YamlNode extends AbstractUiNode {
         setVisible(true);
     }
 
-    private void updateLinksPosition(){
-        Iterator<Node> nodeIterator = _linkEvents.keySet().iterator();
-        while (nodeIterator.hasNext()){
-            Node node = nodeIterator.next();
-            _linkEvents.get(node).set_startNode(node);
-            _linkEvents.get(node).updateStartPosition();
+    private void updateLinksPosition(AbstractUiNode abstractUiNode){
+
+         Iterator<Map.Entry<LinkerEventHandler, Map<Node, Node>>> entryIterator = _yamlToController.get_nodeLinkerEventHandlerMap().entrySet().iterator();
+
+        while (entryIterator.hasNext()){
+
+            for(UIOutputNodePoints uiOutputNodePoints : abstractUiNode.getChilds()){
+                for(UINodePoint uiNodePoint : uiOutputNodePoints.getChilds()){
+                    Map.Entry<LinkerEventHandler, Map<Node, Node>> linkerEventHandlerMapEntry = entryIterator.next();
+
+                    //startKey
+                    if(linkerEventHandlerMapEntry.getValue().containsKey(uiNodePoint)){
+                        linkerEventHandlerMapEntry.getKey().set_startNode(uiNodePoint);
+                        linkerEventHandlerMapEntry.getKey().updateStartPosition();
+                        //endKey
+                    } else if (linkerEventHandlerMapEntry.getValue().containsValue(uiNodePoint)) {
+                        linkerEventHandlerMapEntry.getKey().set_endNode(uiNodePoint);
+                        linkerEventHandlerMapEntry.getKey().updateEndPosition();
+                    }
+                }
+            }
         }
+
     }
 
-    public void addLinkerEventHandlerToNode(){
-        for(Node node : _output.get_outputLabelsAndPoints().getChildren()){
-            _linkEvents.put(node, new LinkerEventHandler(node));
+    public Map<LinkerEventHandler, Map<Node, Node>> addLinkerEventHandlerToNode(){
+        Map<LinkerEventHandler, Map<Node, Node>> linkEvents = new HashMap<LinkerEventHandler, Map<Node, Node>>();
+        for(Node node : _output.getOutputChildren()){
+            Map<Node, Node> nodeNodeMap = new HashMap<Node, Node>();
+            nodeNodeMap.put(node, null);
+            linkEvents.put(new LinkerEventHandler(node), nodeNodeMap);
         }
+        return linkEvents;
     }
 
 }

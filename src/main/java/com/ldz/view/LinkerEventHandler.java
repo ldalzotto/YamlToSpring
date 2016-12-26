@@ -9,11 +9,10 @@ import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 
-import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -22,11 +21,14 @@ import java.util.Map;
 public class LinkerEventHandler {
 
     private YamlToController _yamlToController = YamlToController.getInstance();
+    private LinkerEventHandler _instance = null;
 
     private Node _startNode = null;
+    private Node _endNode = null;
     private Line _line = null;
 
     public LinkerEventHandler(Node startNode){
+        _instance = this;
         _startNode = startNode;
 
         _line = new Line();
@@ -58,29 +60,44 @@ public class LinkerEventHandler {
          */
         _startNode.addEventFilter(MouseEvent.MOUSE_RELEASED, new EventHandler<MouseEvent>() {
             public void handle(MouseEvent event) {
-                for(Node node : _yamlToController.getChildren()){
-                    if(node instanceof AbstractUiNode){
-                        for(Node childNode : ((AbstractUiNode) node).getChildren()){
-                            if(childNode instanceof UIOutputNodePoints){
-                                VBox inputData = ((UIOutputNodePoints) childNode).get_inputLabelsAndPoints();
-                                if(inputData != null){
-                                    for(Node vBoxChildNode : inputData.getChildren()) {
-                                        if (vBoxChildNode instanceof UINodePoint) {
-                                            Bounds vBoxChildNodeScreen = vBoxChildNode.localToScreen(vBoxChildNode.getBoundsInLocal());
-                                            if (vBoxChildNodeScreen.contains(event.getScreenX(), event.getScreenY())) {
-                                                UINodePoint uiNodePointStart = (UINodePoint) _startNode;
-                                                Map<String, IYamlDomain> inputMapData = uiNodePointStart.get_carriedData();
-                                                ((UINodePoint)vBoxChildNode).set_carriedData(inputMapData);
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
+                UINodePoint uiNodePoint = isMouseReleasedOnInputUINode(event);
+                if(uiNodePoint == null){
+                    _line.setVisible(false);
+                    _endNode = null;
+                } else {
+                    _line.setVisible(true);
+                    _endNode = uiNodePoint;
+                    _yamlToController.get_nodeLinkerEventHandlerMap().get(_instance)
+                            .put(_startNode, _endNode);
+                };
+
+            }
+        });
+    }
+
+    private UINodePoint isMouseReleasedOnInputUINode(MouseEvent event) {
+        List<AbstractUiNode> abstractUiNodes = _yamlToController.getChilds();
+        for(AbstractUiNode abstractUiNode : abstractUiNodes){
+            List<UIOutputNodePoints> uiOutputNodePointses = abstractUiNode.getChilds();
+
+            for(UIOutputNodePoints uiOutputNodePoints : uiOutputNodePointses){
+                //getting input childrens
+                List<UINodePoint> inputUiNodePoints = uiOutputNodePoints.getInputChildrens();
+
+                for(UINodePoint uiNodePoint : inputUiNodePoints){
+                    Bounds vBoxChildNodeScreen = uiNodePoint.localToScreen(uiNodePoint.getBoundsInLocal());
+                    if (vBoxChildNodeScreen.contains(event.getScreenX(), event.getScreenY())) {
+                        UINodePoint uiNodePointStart = (UINodePoint) _startNode;
+                        Map<String, IYamlDomain> inputMapData = uiNodePointStart.get_carriedData();
+                        (uiNodePoint).set_carriedData(inputMapData);
+                        System.out.println("Linking data : " + inputMapData.toString() + " from " + uiNodePointStart.toString() + " to "
+                                + uiNodePoint.toString());
+                        return uiNodePoint;
                     }
                 }
             }
-        });
+        }
+        return null;
     }
 
     public void updateStartPosition(){
@@ -88,6 +105,13 @@ public class LinkerEventHandler {
         Bounds pointLocal = _line.screenToLocal(screenBound);
         _line.setStartX(pointLocal.getMaxX());
         _line.setStartY((pointLocal.getMaxY()+pointLocal.getMinY())/2);
+    }
+
+    public void updateEndPosition(){
+        Bounds screenBound = _endNode.localToScreen(_endNode.getBoundsInLocal());
+        Bounds pointLocal = _line.screenToLocal(screenBound);
+        _line.setEndX(pointLocal.getMaxX());
+        _line.setEndY((pointLocal.getMaxY()+pointLocal.getMinY())/2);
     }
 
     public Node get_startNode() {
@@ -98,4 +122,11 @@ public class LinkerEventHandler {
         this._startNode = _startNode;
     }
 
+    public Node get_endNode() {
+        return _endNode;
+    }
+
+    public void set_endNode(Node _endNode) {
+        this._endNode = _endNode;
+    }
 }
