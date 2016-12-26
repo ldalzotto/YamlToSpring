@@ -33,7 +33,8 @@ public abstract class AbstractUiNode extends StackPane implements IHasChildren<U
     private UINodePoints _output = null;
     private YamlToController _yamlToController = YamlToController.getInstance();
 
-    public AbstractUiNode(double posX, double posY, String nodeName, IYamlDomain outputData, Color color){
+    public AbstractUiNode(double posX, double posY, String nodeName, Map<String, IYamlDomain> outputData,
+                          Map<String, IYamlDomain> inputData, Color color){
         super();
 
         setLayoutX(posX);
@@ -55,25 +56,8 @@ public abstract class AbstractUiNode extends StackPane implements IHasChildren<U
             _rectangle.setHeight(nameBound.getHeight());
         }
 
-        Map<String, IYamlDomain> carriedOperationData = new HashMap<String, IYamlDomain>();
-        if(outputData instanceof Path){
 
-            try {
-                for(Field field : outputData.getClass().getDeclaredFields()){
-                    field.setAccessible(true);
-                    if(field.get(outputData)!=null &&
-                            (field.get(outputData) instanceof Operation)){
-                        carriedOperationData.put(field.getName(),  (Operation)field.get(outputData));
-                    }
-                }
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            }
-        }
-
-
-
-        _output = new UINodePoints(10.0, carriedOperationData, carriedOperationData);
+        _output = new UINodePoints(10.0, outputData, inputData);
         _output.setVisible(true);
         _output.setOpacity(0.3);
 

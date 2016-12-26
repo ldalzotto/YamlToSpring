@@ -6,6 +6,8 @@ import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 
+import java.util.Map;
+
 /**
  * Created by ldalzotto on 25/12/2016.
  */
@@ -13,8 +15,9 @@ public class SpringNode extends AbstractUiNode {
 
     private SpringNode _instance = null;
 
-    public SpringNode(double posX, double posY, String nodeName, IYamlDomain outputData, Color color){
-        super(posX, posY, nodeName, outputData, color);
+    public SpringNode(double posX, double posY, String nodeName, Map<String, IYamlDomain> outputData,
+                      Map<String, IYamlDomain> inputData, Color color){
+        super(posX, posY, nodeName, outputData, inputData, color);
 
         _instance = this;
 

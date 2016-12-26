@@ -1,7 +1,9 @@
 package com.ldz.view;
 
 import com.ldz.controller.YamlLoadingController;
+import com.ldz.model.Operation;
 import com.ldz.model.Path;
+import com.ldz.model.generic.IYamlDomain;
 import com.ldz.view.UINodes.SpringNode;
 import com.ldz.view.UINodes.YamlNode;
 import com.ldz.view.UINodes.generic.AbstractUiNode;
@@ -65,14 +67,17 @@ public class YamlToController extends Pane implements IHasChildren<AbstractUiNod
 
     public void createYamlNode(double mouseX, double mouseY, String nodeName){
         Path nodePath = _yamlLoadingController.getPathFromRessourceName(nodeName);
-        YamlNode yamlNode = new YamlNode(mouseX, mouseY, nodeName, nodePath, Color.RED);
+        Map<String, IYamlDomain> outputData = _yamlLoadingController.getOperationsFromPath(nodePath);
+        YamlNode yamlNode = new YamlNode(mouseX, mouseY, nodeName, outputData, null, Color.RED);
         getChildren().add(yamlNode);
 
         _nodeLinkerEventHandlerMap.putAll(yamlNode.addLinkerEventHandlerToNode());
     }
 
     public void createSpringNode(double mouseX, double mouseY, String nodeName){
-        SpringNode springNode = new SpringNode(mouseX, mouseY, nodeName, null, Color.GREEN);
+        Map<String, IYamlDomain> inputData = new HashMap<String, IYamlDomain>();
+        inputData.put("TEST", null);
+        SpringNode springNode = new SpringNode(mouseX, mouseY, nodeName, null, inputData, Color.GREEN);
         getChildren().add(springNode);
     }
 

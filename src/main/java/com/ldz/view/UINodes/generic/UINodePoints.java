@@ -52,29 +52,34 @@ public class UINodePoints extends BorderPane implements IHasOutputAndInputChildr
         _inputLabelsAndPoints = new VBox();
         _inputLabelsAndPoints.setSpacing(5);
 
-        Iterator<Map.Entry<String, IYamlDomain>> carriedDataLabelIterator = _carriedData.entrySet().iterator();
-        while (carriedDataLabelIterator.hasNext()){
-            Map.Entry<String, IYamlDomain> entry = carriedDataLabelIterator.next();
+        if(_carriedData != null){
+            Iterator<Map.Entry<String, IYamlDomain>> carriedDataLabelIterator = _carriedData.entrySet().iterator();
+            while (carriedDataLabelIterator.hasNext()){
+                Map.Entry<String, IYamlDomain> entry = carriedDataLabelIterator.next();
 
-            HashMap<String, IYamlDomain> entryMap = new HashMap();
-            entryMap.put(entry.getKey(), entry.getValue());
+                HashMap<String, IYamlDomain> entryMap = new HashMap();
+                entryMap.put(entry.getKey(), entry.getValue());
 
-            HBox labelAndPoint = new UINodePoint(entryMap, radius);
-            _outputLabelsAndPoints.getChildren().add(labelAndPoint);
+                HBox labelAndPoint = new UINodePoint(entryMap, radius);
+                _outputLabelsAndPoints.getChildren().add(labelAndPoint);
+            }
         }
 
         setRight(_outputLabelsAndPoints);
 
-        Iterator<Map.Entry<String, IYamlDomain>> inputDataLabelIterator = _inputData.entrySet().iterator();
-        while (inputDataLabelIterator.hasNext()){
-            Map.Entry<String, IYamlDomain> entry = inputDataLabelIterator.next();
+        if(_inputData != null){
+            Iterator<Map.Entry<String, IYamlDomain>> inputDataLabelIterator = _inputData.entrySet().iterator();
+            while (inputDataLabelIterator.hasNext()){
+                Map.Entry<String, IYamlDomain> entry = inputDataLabelIterator.next();
 
-            HashMap<String, IYamlDomain> entryMap = new HashMap();
-            entryMap.put(entry.getKey(), entry.getValue());
+                HashMap<String, IYamlDomain> entryMap = new HashMap();
+                entryMap.put(entry.getKey(), entry.getValue());
 
-            HBox labelAndPoint = new UINodePoint(entryMap, radius);
-            _inputLabelsAndPoints.getChildren().add(labelAndPoint);
+                HBox labelAndPoint = new UINodePoint(entryMap, radius);
+                _inputLabelsAndPoints.getChildren().add(labelAndPoint);
+            }
         }
+
 
         setLeft(_inputLabelsAndPoints);
         //BorderPane.setAlignment(_outputLabelsAndPoints, Pos.CENTER_RIGHT);
