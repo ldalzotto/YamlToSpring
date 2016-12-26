@@ -3,7 +3,7 @@ package com.ldz.view;
 import com.ldz.model.generic.IYamlDomain;
 import com.ldz.view.UINodes.generic.AbstractUiNode;
 import com.ldz.view.UINodes.generic.UINodePoint;
-import com.ldz.view.UINodes.generic.UIOutputNodePoints;
+import com.ldz.view.UINodes.generic.UINodePoints;
 import javafx.event.EventHandler;
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
@@ -78,11 +78,11 @@ public class LinkerEventHandler {
     private UINodePoint isMouseReleasedOnInputUINode(MouseEvent event) {
         List<AbstractUiNode> abstractUiNodes = _yamlToController.getChilds();
         for(AbstractUiNode abstractUiNode : abstractUiNodes){
-            List<UIOutputNodePoints> uiOutputNodePointses = abstractUiNode.getChilds();
+            List<UINodePoints> uiNodePointses = abstractUiNode.getChilds();
 
-            for(UIOutputNodePoints uiOutputNodePoints : uiOutputNodePointses){
+            for(UINodePoints uiNodePoints : uiNodePointses){
                 //getting input childrens
-                List<UINodePoint> inputUiNodePoints = uiOutputNodePoints.getInputChildrens();
+                List<UINodePoint> inputUiNodePoints = uiNodePoints.getInputChildrens();
 
                 for(UINodePoint uiNodePoint : inputUiNodePoints){
                     Bounds vBoxChildNodeScreen = uiNodePoint.localToScreen(uiNodePoint.getBoundsInLocal());
