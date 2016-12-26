@@ -47,7 +47,6 @@ public class UIOutputNodePoint extends BorderPane{
                     labelAndPoint.getChildren().add(new Text(field.getName()));
 
                     Circle point = new Circle(radius);
-                    point.setOpacity(0.3);
                     point.setFill(Color.BLACK);
                     labelAndPoint.getChildren().add(point);
                     _labelsAndPoints.getChildren().add(labelAndPoint);
@@ -79,4 +78,11 @@ public class UIOutputNodePoint extends BorderPane{
         this._operations = _operations;
     }
 
+    public VBox get_labelsAndPoints() {
+        return _labelsAndPoints;
+    }
+
+    public void set_labelsAndPoints(VBox _labelsAndPoints) {
+        this._labelsAndPoints = _labelsAndPoints;
+    }
 }

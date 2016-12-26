@@ -1,14 +1,19 @@
 package com.ldz.view.UINodes;
 
+import com.ldz.view.LinkerEventHandler;
 import com.ldz.view.UINodes.generic.AbstractUiNode;
 import com.ldz.view.UINodes.generic.UIOutputNodePoint;
+import javafx.event.EventHandler;
 import javafx.geometry.Bounds;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
+
+import java.util.*;
 
 /**
  * Created by ldalzotto on 24/12/2016.
@@ -18,6 +23,8 @@ public class YamlNode extends AbstractUiNode {
     private Rectangle _rectangle = null;
     private final double MIN_HEIGHT = 100;
     private Text _nodeName = null;
+
+    private Map<Node, LinkerEventHandler> _linkEvents = new HashMap<Node, LinkerEventHandler>();
 
     private UIOutputNodePoint _output = null;
 
@@ -29,13 +36,11 @@ public class YamlNode extends AbstractUiNode {
 
         _rectangle = new Rectangle();
         _rectangle.setVisible(true);
-        _rectangle.setOpacity(0.3);
         _rectangle.setFill(Color.RED);
 
         _output = new UIOutputNodePoint(10.0, outputData);
         _output.setVisible(true);
         _output.setOpacity(0.3);
-
 
         _nodeName = new Text(nodeName);
 
@@ -48,6 +53,15 @@ public class YamlNode extends AbstractUiNode {
         }
 
         displayNode();
+
+        addEventFilter(MouseEvent.MOUSE_DRAGGED, new EventHandler<MouseEvent>() {
+            public void handle(MouseEvent event) {
+                if(event.isSecondaryButtonDown()){
+                    updateLinksPosition();
+                }
+            }
+        });
+
         System.out.println("Yaml node created.");
     }
 
@@ -61,11 +75,25 @@ public class YamlNode extends AbstractUiNode {
         }
         if(_output != null){
             getChildren().add(_output);
-            Circle output2 = new Circle();
             StackPane.setAlignment(_output, Pos.CENTER_RIGHT);
         }
 
         setVisible(true);
+    }
+
+    private void updateLinksPosition(){
+        Iterator<Node> nodeIterator = _linkEvents.keySet().iterator();
+        while (nodeIterator.hasNext()){
+            Node node = nodeIterator.next();
+            _linkEvents.get(node).set_startNode(node);
+            _linkEvents.get(node).updateStartPosition();
+        }
+    }
+
+    public void addLinkerEventHandlerToNode(){
+        for(Node node : _output.get_labelsAndPoints().getChildren()){
+            _linkEvents.put(node, new LinkerEventHandler(node));
+        }
     }
 
 }

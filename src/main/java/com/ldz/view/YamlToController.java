@@ -44,6 +44,7 @@ public class YamlToController extends Pane {
         Path nodePath = _yamlLoadingController.getPathFromRessourceName(nodeName);
         YamlNode yamlNode = new YamlNode(mouseX, mouseY, nodeName, nodePath);
         getChildren().add(yamlNode);
+        yamlNode.addLinkerEventHandlerToNode();
     }
 
 }
