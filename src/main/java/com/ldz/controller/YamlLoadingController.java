@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.ldz.exception.YamlProcessingException;
 import com.ldz.model.*;
+import com.ldz.model.generic.IYamlDomain;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -14,6 +15,7 @@ import javafx.scene.text.Text;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -60,6 +62,23 @@ public class YamlLoadingController {
             }
         }
         return null;
+    }
+
+    public Map<String, IYamlDomain> getOperationsFromPath(Path path){
+        Map<String, IYamlDomain> stringOperationMap = new HashMap<String, IYamlDomain>();
+        try {
+            for(Field field : path.getClass().getDeclaredFields()){
+                field.setAccessible(true);
+                if(field.get(path)!=null &&
+                        (field.get(path) instanceof Operation)){
+                    stringOperationMap.put(field.getName(),  (Operation)field.get(path));
+                }
+            }
+            return stringOperationMap;
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public SwaggerYamlFile get_swaggerYamlFile() {
