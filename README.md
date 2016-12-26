@@ -18,9 +18,10 @@ Then, move to the folder target/jfx/native/node-yaml-to-spring/ and run the .exe
 
 #Things TO DO :
 * Creations of Spring controller nodes
-* Link between YAML and Spring nodes
+* Manage input of nodes
 * All Spring code generation
 
 #Things done :
 * Load of Swagger YAML file
 * Drag & Drop ressources name to main workspace
+* Link between AbstractNodes
