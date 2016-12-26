@@ -31,4 +31,11 @@ public class UINodePoint extends HBox{
         getChildren().add(point);
     }
 
+    public Map<String, IYamlDomain> get_carriedData() {
+        return _carriedData;
+    }
+
+    public void set_carriedData(Map<String, IYamlDomain> _carriedData) {
+        this._carriedData = _carriedData;
+    }
 }

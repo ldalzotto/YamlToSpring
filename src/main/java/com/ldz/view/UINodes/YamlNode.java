@@ -55,7 +55,8 @@ public class YamlNode extends AbstractUiNode {
             e.printStackTrace();
         }
 
-        _output = new UIOutputNodePoints(10.0, carriedOperationData);
+
+        _output = new UIOutputNodePoints(10.0, carriedOperationData, carriedOperationData);
         _output.setVisible(true);
         _output.setOpacity(0.3);
 
@@ -108,7 +109,7 @@ public class YamlNode extends AbstractUiNode {
     }
 
     public void addLinkerEventHandlerToNode(){
-        for(Node node : _output.get_labelsAndPoints().getChildren()){
+        for(Node node : _output.get_outputLabelsAndPoints().getChildren()){
             _linkEvents.put(node, new LinkerEventHandler(node));
         }
     }
