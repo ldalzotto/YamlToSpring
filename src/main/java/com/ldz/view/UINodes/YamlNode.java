@@ -111,17 +111,17 @@ public class YamlNode extends AbstractUiNode {
          Iterator<Map.Entry<LinkerEventHandler, Map<Node, Node>>> entryIterator = _yamlToController.get_nodeLinkerEventHandlerMap().entrySet().iterator();
 
         while (entryIterator.hasNext()){
-
+            Map.Entry<LinkerEventHandler, Map<Node, Node>> linkerEventHandlerMapEntry = entryIterator.next();
             for(UIOutputNodePoints uiOutputNodePoints : abstractUiNode.getChilds()){
                 for(UINodePoint uiNodePoint : uiOutputNodePoints.getChilds()){
-                    Map.Entry<LinkerEventHandler, Map<Node, Node>> linkerEventHandlerMapEntry = entryIterator.next();
 
                     //startKey
                     if(linkerEventHandlerMapEntry.getValue().containsKey(uiNodePoint)){
                         linkerEventHandlerMapEntry.getKey().set_startNode(uiNodePoint);
                         linkerEventHandlerMapEntry.getKey().updateStartPosition();
                         //endKey
-                    } else if (linkerEventHandlerMapEntry.getValue().containsValue(uiNodePoint)) {
+                    }
+                    if (linkerEventHandlerMapEntry.getValue().containsValue(uiNodePoint)) {
                         linkerEventHandlerMapEntry.getKey().set_endNode(uiNodePoint);
                         linkerEventHandlerMapEntry.getKey().updateEndPosition();
                     }
