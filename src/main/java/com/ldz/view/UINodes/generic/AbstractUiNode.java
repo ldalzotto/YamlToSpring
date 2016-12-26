@@ -24,13 +24,13 @@ import java.util.*;
 /**
  * Created by ldalzotto on 24/12/2016.
  */
-public abstract class AbstractUiNode extends StackPane implements IHasChildren<UIOutputNodePoints> {
+public abstract class AbstractUiNode extends StackPane implements IHasChildren<UINodePoints> {
 
     private Rectangle _rectangle = null;
     private final double MIN_HEIGHT = 100;
     private Point2D _initialCursorPosition = null;
     private Text _nodeName = null;
-    private UIOutputNodePoints _output = null;
+    private UINodePoints _output = null;
     private YamlToController _yamlToController = YamlToController.getInstance();
 
     public AbstractUiNode(double posX, double posY, String nodeName, IYamlDomain outputData, Color color){
@@ -73,7 +73,7 @@ public abstract class AbstractUiNode extends StackPane implements IHasChildren<U
 
 
 
-        _output = new UIOutputNodePoints(10.0, carriedOperationData, carriedOperationData);
+        _output = new UINodePoints(10.0, carriedOperationData, carriedOperationData);
         _output.setVisible(true);
         _output.setOpacity(0.3);
 
@@ -137,14 +137,14 @@ public abstract class AbstractUiNode extends StackPane implements IHasChildren<U
         setVisible(true);
     }
 
-    public List<UIOutputNodePoints> getChilds(){
-        List<UIOutputNodePoints> uiOutputNodePointses = new ArrayList<UIOutputNodePoints>();
+    public List<UINodePoints> getChilds(){
+        List<UINodePoints> uiNodePointses = new ArrayList<UINodePoints>();
         for (Node node : getChildren()){
-            if(node instanceof UIOutputNodePoints){
-                uiOutputNodePointses.add((UIOutputNodePoints)node);
+            if(node instanceof UINodePoints){
+                uiNodePointses.add((UINodePoints)node);
             }
         }
-        return uiOutputNodePointses;
+        return uiNodePointses;
     }
 
     public Map<LinkerEventHandler, Map<Node, Node>> addLinkerEventHandlerToNode(){
@@ -163,8 +163,8 @@ public abstract class AbstractUiNode extends StackPane implements IHasChildren<U
 
         while (entryIterator.hasNext()){
             Map.Entry<LinkerEventHandler, Map<Node, Node>> linkerEventHandlerMapEntry = entryIterator.next();
-            for(UIOutputNodePoints uiOutputNodePoints : abstractUiNode.getChilds()){
-                for(UINodePoint uiNodePoint : uiOutputNodePoints.getChilds()){
+            for(UINodePoints uiNodePoints : abstractUiNode.getChilds()){
+                for(UINodePoint uiNodePoint : uiNodePoints.getChilds()){
 
                     //startKey
                     if(linkerEventHandlerMapEntry.getValue().containsKey(uiNodePoint)){

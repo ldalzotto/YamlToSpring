@@ -3,6 +3,7 @@ package com.ldz.view.menu;
 import com.ldz.view.YamlToController;
 import javafx.event.Event;
 import javafx.event.EventHandler;
+import javafx.geometry.Point2D;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.input.MouseEvent;
@@ -13,11 +14,12 @@ import javafx.scene.input.MouseEvent;
 public class YamlWorkspaceContextMenu extends ContextMenu {
 
     private static YamlWorkspaceContextMenu _instance = null;
-    //private YamlToController _yamlToController = YamlToController.getInstance();
+    private static YamlToController _yamlToController = null;
 
     private final MenuItem _createSpringNode = new MenuItem("Create Spring node");
 
-    public static YamlWorkspaceContextMenu getInstance(){
+    public static YamlWorkspaceContextMenu getInstance(YamlToController yamlToController){
+        _yamlToController = yamlToController;
         if(_instance == null){
             _instance = new YamlWorkspaceContextMenu();
         }
@@ -28,18 +30,15 @@ public class YamlWorkspaceContextMenu extends ContextMenu {
 
         getItems().add(_createSpringNode);
 
-        addEventFilter(MouseEvent.MOUSE_EXITED, new EventHandler<MouseEvent>() {
+        addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
             public void handle(MouseEvent event) {
                 System.out.println("Hiding context menu");
+                Point2D point2D = _yamlToController.screenToLocal(event.getScreenX(), event.getScreenY());
+                _yamlToController.createSpringNode(point2D.getX(), point2D.getY(), "Spring");
                 _instance.hide();
             }
         });
 
-        _createSpringNode.setOnMenuValidation(new EventHandler<Event>() {
-            public void handle(Event event) {
-
-            }
-        });
     }
 
 }

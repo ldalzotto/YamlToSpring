@@ -13,14 +13,14 @@ import java.util.*;
 /**
  * Created by ldalzotto on 25/12/2016.
  */
-public class UIOutputNodePoints extends BorderPane implements IHasOutputAndInputChildren<UINodePoint>, IHasChildren<UINodePoint>{
+public class UINodePoints extends BorderPane implements IHasOutputAndInputChildren<UINodePoint>, IHasChildren<UINodePoint>{
 
     private Map<String, IYamlDomain> _carriedData = new HashMap();
     private Map<String, IYamlDomain> _inputData = new HashMap();
     private VBox _outputLabelsAndPoints = null;
     private VBox _inputLabelsAndPoints = null;
 
-    public UIOutputNodePoints(double radius, Map<String, IYamlDomain> carriedData){
+    public UINodePoints(double radius, Map<String, IYamlDomain> carriedData){
         super();
         _carriedData = carriedData;
         _outputLabelsAndPoints = new VBox();
@@ -43,7 +43,7 @@ public class UIOutputNodePoints extends BorderPane implements IHasOutputAndInput
         setVisible(true);
     }
 
-    public UIOutputNodePoints(double radius, Map<String, IYamlDomain> carriedData, Map<String, IYamlDomain> inputData){
+    public UINodePoints(double radius, Map<String, IYamlDomain> carriedData, Map<String, IYamlDomain> inputData){
         super();
         _carriedData = carriedData;
         _inputData = inputData;

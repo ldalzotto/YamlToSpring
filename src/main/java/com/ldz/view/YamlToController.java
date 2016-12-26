@@ -5,14 +5,12 @@ import com.ldz.model.Path;
 import com.ldz.view.UINodes.SpringNode;
 import com.ldz.view.UINodes.YamlNode;
 import com.ldz.view.UINodes.generic.AbstractUiNode;
+import com.ldz.view.UINodes.generic.UINodePoints;
 import com.ldz.view.UINodes.generic.childrenInterface.IHasChildren;
 import com.ldz.view.menu.YamlWorkspaceContextMenu;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
-import javafx.geometry.Point2D;
 import javafx.scene.Node;
-import javafx.scene.control.ContextMenu;
-import javafx.scene.control.MenuItem;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -28,13 +26,13 @@ import java.util.*;
 public class YamlToController extends Pane implements IHasChildren<AbstractUiNode>{
 
     private YamlLoadingController _yamlLoadingController = YamlLoadingController.getInstance();
-    private YamlWorkspaceContextMenu _yamlWorkspaceContextMenu = YamlWorkspaceContextMenu.getInstance();
+    private YamlWorkspaceContextMenu _yamlWorkspaceContextMenu = YamlWorkspaceContextMenu.getInstance(this);
 
     /**
      * This attribute represents all {@link LinkerEventHandler} and their start and end node
      * The order is : Map<{@link LinkerEventHandler}, Map<beginNode, endNode>>
      *     endNode may be null
-     *  One {@link LinkerEventHandler} is added for every {@link com.ldz.view.UINodes.generic.UIOutputNodePoints} output nodes.
+     *  One {@link LinkerEventHandler} is added for every {@link UINodePoints} output nodes.
      */
     private Map<LinkerEventHandler, Map<Node, Node>> _nodeLinkerEventHandlerMap = new HashMap<LinkerEventHandler, Map<Node, Node>>();
 
