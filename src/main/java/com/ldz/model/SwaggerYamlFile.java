@@ -1,12 +1,14 @@
 package com.ldz.model;
 
+import com.ldz.model.generic.IYamlDomain;
+
 import java.util.LinkedHashMap;
 import java.util.List;
 
 /**
  * Created by ldalzotto on 24/12/2016.
  */
-public class SwaggerYamlFile {
+public class SwaggerYamlFile implements IYamlDomain {
 
     private String swagger;
     private Info info;

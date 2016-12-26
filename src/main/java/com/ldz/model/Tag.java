@@ -1,9 +1,12 @@
 package com.ldz.model;
 
+
+import com.ldz.model.generic.IYamlDomain;
+
 /**
  * Created by ldalzotto on 24/12/2016.
  */
-public class Tag {
+public class Tag implements IYamlDomain {
     private String name;
     private String description;
     private ExternalDocumentation externalDocs;

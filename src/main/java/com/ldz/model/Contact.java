@@ -1,9 +1,11 @@
 package com.ldz.model;
 
+import com.ldz.model.generic.IYamlDomain;
+
 /**
  * Created by ldalzotto on 24/12/2016.
  */
-public class Contact {
+public class Contact implements IYamlDomain{
     private String name;
     private String url;
     private String email;

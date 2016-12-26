@@ -1,6 +1,7 @@
 package com.ldz.view;
 
 import com.ldz.controller.YamlLoadingController;
+import com.ldz.model.Operation;
 import com.ldz.model.Path;
 import com.ldz.view.UINodes.YamlNode;
 import javafx.geometry.Insets;

@@ -1,12 +1,14 @@
 package com.ldz.model;
 
+import com.ldz.model.generic.IYamlDomain;
+
 import java.util.LinkedHashMap;
 import java.util.List;
 
 /**
  * Created by ldalzotto on 24/12/2016.
  */
-public class Operation {
+public class Operation implements IYamlDomain {
     private List<String> tags;
     private String summary;
     private String description;

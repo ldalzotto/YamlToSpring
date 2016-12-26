@@ -1,9 +1,11 @@
 package com.ldz.model;
 
+import com.ldz.model.generic.IYamlDomain;
+
 /**
  * Created by ldalzotto on 24/12/2016.
  */
-public class XmlObject {
+public class XmlObject implements IYamlDomain {
     private String name;
     private String namespace;
     private String prefix;

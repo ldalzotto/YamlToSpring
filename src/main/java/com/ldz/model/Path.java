@@ -1,9 +1,11 @@
 package com.ldz.model;
 
+import com.ldz.model.generic.IYamlDomain;
+
 /**
  * Created by ldalzotto on 24/12/2016.
  */
-public class Path {
+public class Path implements IYamlDomain {
     private Operation get;
     private Operation put;
     private Operation post;

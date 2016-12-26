@@ -1,9 +1,11 @@
 package com.ldz.model;
 
+import com.ldz.model.generic.IYamlDomain;
+
 /**
  * Created by ldalzotto on 24/12/2016.
  */
-public class Info {
+public class Info implements IYamlDomain {
     private String title;
     private String description;
     private String termsOfService;

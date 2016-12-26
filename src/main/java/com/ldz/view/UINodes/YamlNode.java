@@ -1,8 +1,11 @@
 package com.ldz.view.UINodes;
 
+import com.ldz.model.Operation;
+import com.ldz.model.Path;
+import com.ldz.model.generic.IYamlDomain;
 import com.ldz.view.LinkerEventHandler;
 import com.ldz.view.UINodes.generic.AbstractUiNode;
-import com.ldz.view.UINodes.generic.UIOutputNodePoint;
+import com.ldz.view.UINodes.generic.UIOutputNodePoints;
 import javafx.event.EventHandler;
 import javafx.geometry.Bounds;
 import javafx.geometry.Pos;
@@ -13,6 +16,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
+import java.lang.reflect.Field;
 import java.util.*;
 
 /**
@@ -26,9 +30,9 @@ public class YamlNode extends AbstractUiNode {
 
     private Map<Node, LinkerEventHandler> _linkEvents = new HashMap<Node, LinkerEventHandler>();
 
-    private UIOutputNodePoint _output = null;
+    private UIOutputNodePoints _output = null;
 
-    public YamlNode(double posX, double posY, String nodeName, Object... outputData){
+    public YamlNode(double posX, double posY, String nodeName, Path outputData){
         super();
 
         setLayoutX(posX);
@@ -38,7 +42,20 @@ public class YamlNode extends AbstractUiNode {
         _rectangle.setVisible(true);
         _rectangle.setFill(Color.RED);
 
-        _output = new UIOutputNodePoint(10.0, outputData);
+        Map<String, IYamlDomain> carriedOperationData = new HashMap<String, IYamlDomain>();
+        try {
+            for(Field field : outputData.getClass().getDeclaredFields()){
+                field.setAccessible(true);
+                if(field.get(outputData)!=null &&
+                        (field.get(outputData) instanceof Operation)){
+                    carriedOperationData.put(field.getName(),  (Operation)field.get(outputData));
+                }
+            }
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
+        _output = new UIOutputNodePoints(10.0, carriedOperationData);
         _output.setVisible(true);
         _output.setOpacity(0.3);
 

@@ -1,9 +1,11 @@
 package com.ldz.model;
 
+import com.ldz.model.generic.IYamlDomain;
+
 /**
  * Created by ldalzotto on 24/12/2016.
  */
-public class ExternalDocumentation {
+public class ExternalDocumentation implements IYamlDomain {
     private String description;
     private String url;
 

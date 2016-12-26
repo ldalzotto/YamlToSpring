@@ -1,11 +1,13 @@
 package com.ldz.model;
 
+import com.ldz.model.generic.IYamlDomain;
+
 import java.util.LinkedHashMap;
 
 /**
  * Created by ldalzotto on 24/12/2016.
  */
-public class Response {
+public class Response implements IYamlDomain {
     private String description;
     private Schema schema;
     private LinkedHashMap<String, Header> headers;

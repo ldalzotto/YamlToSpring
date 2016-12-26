@@ -1,13 +1,14 @@
 package com.ldz.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.ldz.model.generic.IYamlDomain;
 
 import java.util.List;
 
 /**
  * Created by ldalzotto on 24/12/2016.
  */
-public class Schema {
+public class Schema implements IYamlDomain {
 
     private String format;
     private String title;
