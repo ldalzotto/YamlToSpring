@@ -24,6 +24,9 @@ public class MainScene extends Scene {
     private YamlToController _yamlToController = YamlToController.getInstance();
     private YamlTree _yamlTree = YamlTree.getInstance();
 
+    private MenuBar _menuBar = null;
+    private Menu _menuFile = null;
+
     public MainScene(){
         super(root, 300, 300);
     }
@@ -36,10 +39,12 @@ public class MainScene extends Scene {
     }
 
     public void initialize(){
-        MenuBar menuBar = new MenuBar();
-        Menu file = new Menu("File");
+        _menuBar = new MenuBar();
+        _menuFile = new Menu("File");
+        _menuFile.setId("fileMenu");
 
         MenuItem loadFile = new MenuItem("Load YAML file");
+        loadFile.setId("loadFileSubMenu");
         loadFile.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
                 File yamlFile = _yamlFileChooserDialog.initializeYamlFileChooser();
@@ -54,10 +59,10 @@ public class MainScene extends Scene {
             }
         });
 
-        file.getItems().add(loadFile);
-        menuBar.getMenus().addAll(file);
+        _menuFile.getItems().add(loadFile);
+        _menuBar.getMenus().addAll(_menuFile);
 
-        root.setTop(menuBar);
+        root.setTop(_menuBar);
 
         root.setLeft(_yamlTree);
         _yamlTree.setVisible(false);
@@ -67,4 +72,11 @@ public class MainScene extends Scene {
 
     }
 
+    public YamlFileChooserDialog get_yamlFileChooserDialog() {
+        return _yamlFileChooserDialog;
+    }
+
+    public void set_yamlFileChooserDialog(YamlFileChooserDialog _yamlFileChooserDialog) {
+        this._yamlFileChooserDialog = _yamlFileChooserDialog;
+    }
 }

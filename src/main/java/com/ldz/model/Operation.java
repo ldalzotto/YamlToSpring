@@ -20,7 +20,7 @@ public class Operation implements IYamlDomain {
     private LinkedHashMap<String, Response> responses;
     private List<String> schemes;
     private Boolean deprecated;
-    private String security;
+    private Object security;
 
     public List<String> getTags() {
         return tags;
@@ -110,11 +110,11 @@ public class Operation implements IYamlDomain {
         this.deprecated = deprecated;
     }
 
-    public String getSecurity() {
+    public Object getSecurity() {
         return security;
     }
 
-    public void setSecurity(String security) {
+    public void setSecurity(Object security) {
         this.security = security;
     }
 }

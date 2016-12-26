@@ -79,4 +79,12 @@ public class YamlTree extends TreeView<String> {
     public void setRootTreeItem(TreeItem<String> rootTreeItem) {
         this.rootTreeItem = rootTreeItem;
     }
+
+    public TreeItem<String> get_wsSelected() {
+        return _wsSelected;
+    }
+
+    public void set_wsSelected(TreeItem<String> _wsSelected) {
+        this._wsSelected = _wsSelected;
+    }
 }
