@@ -2,6 +2,7 @@ package com.ldz.view;
 
 import com.ldz.model.SwaggerYamlFile;
 import com.sun.javafx.scene.control.skin.LabeledText;
+import com.sun.javafx.scene.control.skin.TreeViewSkin;
 import javafx.event.EventHandler;
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
@@ -33,7 +34,7 @@ public class YamlTree extends TreeView<String> {
     }
 
     private YamlTree(){
-        this.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
+        this.addEventFilter(MouseEvent.MOUSE_DRAGGED, new EventHandler<MouseEvent>() {
             public void handle(MouseEvent event) {
                 _wsSelected = _instance.getSelectionModel().getSelectedItem();
             }
@@ -47,8 +48,8 @@ public class YamlTree extends TreeView<String> {
                         if(nodeRect.contains(event.getScreenX(), event.getScreenY())){
                             YamlToController yamlNode = (YamlToController) node;
                             Point2D nodePoint = node.screenToLocal(event.getScreenX(), event.getSceneY());
-                            if(event.getTarget() instanceof LabeledText){
-                                yamlNode.createYamlNode(nodePoint.getX(), nodePoint.getY(), ((LabeledText)event.getTarget()).getText());
+                            if(_wsSelected != null){
+                                yamlNode.createYamlNode(nodePoint.getX(), nodePoint.getY(), _wsSelected.getValue());
                             }
                         }
                     }
