@@ -27,6 +27,7 @@ public class YamlTree extends TreeView<String> {
     public static YamlTree getInstance(){
         if(_instance == null){
             _instance = new YamlTree();
+            _instance.setId("yamlTree");
         }
         return _instance;
     }
@@ -64,7 +65,11 @@ public class YamlTree extends TreeView<String> {
         Iterator<String> pathIterator = swaggerYamlFile.getPaths().keySet().iterator();
         while (pathIterator.hasNext()){
             String path = pathIterator.next();
-            rootTreeItem.getChildren().add(new TreeItem<String>(basePath + path));
+            StringBuilder pathStringBuilder = new StringBuilder(path);
+            if(basePath!=null){
+                pathStringBuilder.insert(0, basePath);
+            }
+            rootTreeItem.getChildren().add(new TreeItem<String>(pathStringBuilder.toString()));
         }
 
         setShowRoot(true);

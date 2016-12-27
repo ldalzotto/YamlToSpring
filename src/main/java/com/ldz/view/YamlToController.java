@@ -43,6 +43,7 @@ public class YamlToController extends Pane implements IHasChildren<AbstractUiNod
     public static YamlToController getInstance(){
         if(_instance == null){
             _instance = new YamlToController();
+            _instance.setId("YamlToController");
         }
         return _instance;
     }
