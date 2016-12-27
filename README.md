@@ -1,4 +1,6 @@
 # YamlToSpring
+[![Build Status](https://travis-ci.org/ldalzotto/YamlToSpring.png?branch=master)](https://travis-ci.org/ldalzotto/YamlToSpring)
+
 This project aims to transform Swagger YAML file to SpringMVC ready to use project.
 
 Through a user friendly node interface, the user will be able to transform a simple Swagger YAML file to SpringMVC ready to use project.
