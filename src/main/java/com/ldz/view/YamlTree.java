@@ -34,6 +34,11 @@ public class YamlTree extends TreeView<String> {
     }
 
     private YamlTree(){
+        this.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
+            public void handle(MouseEvent event) {
+                System.out.println("Starting dragging node from YamlTree");
+            }
+        });
         this.addEventFilter(MouseEvent.MOUSE_DRAGGED, new EventHandler<MouseEvent>() {
             public void handle(MouseEvent event) {
                 _wsSelected = _instance.getSelectionModel().getSelectedItem();
@@ -41,6 +46,9 @@ public class YamlTree extends TreeView<String> {
         });
         this.addEventFilter(MouseEvent.MOUSE_RELEASED, new EventHandler<MouseEvent>() {
             public void handle(MouseEvent event) {
+                if(_wsSelected != null){
+                    System.out.println("Ending dragging node "+ _wsSelected.getValue() +" from YamlTree to workspace");
+                }
                 List<Node> nodes = getParent().getChildrenUnmodifiable();
                 for(Node node : nodes){
                     if(node.getId() != null && node.getId().equals("YamlToController")){
