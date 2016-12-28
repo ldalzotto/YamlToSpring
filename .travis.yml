@@ -3,7 +3,7 @@ jdk:
   - oraclejdk8
   
 script: 
- mvn package -DskipTests
+ mvn package
   
 addons:
   apt:
