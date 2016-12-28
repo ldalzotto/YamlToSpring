@@ -2,15 +2,18 @@ package yamlTreeTest;
 
 import com.google.common.collect.ImmutableList;
 import com.ldz.view.MainScene;
+import com.ldz.view.UINodes.generic.AbstractUiNode;
 import com.ldz.view.YamlFileChooserDialog;
 import com.ldz.view.YamlToController;
 import com.ldz.view.YamlTree;
 import com.sun.javafx.robot.FXRobot;
+import javafx.application.Platform;
 import javafx.scene.control.TreeItem;
 import javafx.scene.input.InputEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -20,6 +23,7 @@ import org.testfx.framework.junit.ApplicationTest;
 import java.awt.*;
 import java.io.File;
 import java.lang.reflect.Field;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -71,14 +75,24 @@ public class MainSceneTest extends ApplicationTest {
             doubleClickOn(yamlTree.getRoot().getValue(), MouseButton.PRIMARY);
 
             //Create a YamlToCntrollerNode
-            moveTo(_fullRessourcesName.get(0));
-            press(MouseButton.PRIMARY);
-            moveTo("#YamlToController");
-            release(MouseButton.PRIMARY);
+            Random r = new Random();
+            int firstNodeIndex = r.nextInt(_fullRessourcesName.size()-1);
+                moveTo(_fullRessourcesName.get(firstNodeIndex));
+                press(MouseButton.PRIMARY);
+                moveTo("#YamlToController");
+                release(MouseButton.PRIMARY);
 
             YamlToController yamlToController = lookup("#YamlToController").query();
             Assert.assertTrue(yamlToController != null);
             Assert.assertTrue(!yamlToController.getChilds().isEmpty());
+            Assert.assertTrue(yamlToController.getChilds().size() == 1);
+
+            //only one type of node !
+            moveTo(_fullRessourcesName.get(firstNodeIndex));
+            press(MouseButton.PRIMARY);
+            moveTo("#YamlToController");
+            release(MouseButton.PRIMARY);
+            Assert.assertTrue(yamlToController.getChilds().size() == 1);
 
 
         } catch (Exception e) {
@@ -87,8 +101,8 @@ public class MainSceneTest extends ApplicationTest {
         }
 
         _mainScene.setRoot(new BorderPane());
-
     }
+
 
 
 

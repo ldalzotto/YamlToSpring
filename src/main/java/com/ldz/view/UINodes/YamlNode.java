@@ -19,6 +19,7 @@ public class YamlNode extends AbstractUiNode {
                     Map<String, IYamlDomain> inputData, Color color){
         super(posX, posY, nodeName, outputData, inputData, color);
 
+        setId(nodeName);
         _instance = this;
 
         displayAbstractNode();

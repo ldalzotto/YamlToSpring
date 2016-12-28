@@ -70,9 +70,22 @@ public class YamlToController extends Pane implements IHasChildren<AbstractUiNod
         Path nodePath = _yamlLoadingController.getPathFromRessourceName(nodeName);
         Map<String, IYamlDomain> outputData = _yamlLoadingController.getOperationsFromPath(nodePath);
         YamlNode yamlNode = new YamlNode(mouseX, mouseY, nodeName, outputData, null, Color.RED);
-        getChildren().add(yamlNode);
+
+        if(!isAbstractNodeAlreadyPresent(yamlNode)){
+            getChildren().add(yamlNode);
+        }
 
         _nodeLinkerEventHandlerMap.putAll(yamlNode.addLinkerEventHandlerToNode());
+    }
+
+    private boolean isAbstractNodeAlreadyPresent(YamlNode yamlNode) {
+        boolean isAlreadyPresent = false;
+        for(AbstractUiNode abstractUiNode : getChilds()){
+            if(abstractUiNode.getId().equals(yamlNode.getId())){
+                isAlreadyPresent = true;
+            }
+        }
+        return isAlreadyPresent;
     }
 
     public void createSpringNode(double mouseX, double mouseY, String nodeName){
