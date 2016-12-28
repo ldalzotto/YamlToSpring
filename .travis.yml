@@ -3,7 +3,7 @@ jdk:
   - oraclejdk8
   
 script: 
- mvn package -Djava.awt.headless=false
+ mvn package -Djava.awt.headless=true
   
 addons:
   apt:
