@@ -28,7 +28,7 @@ public class MainScene extends Scene {
     private Menu _menuFile = null;
 
     public MainScene(){
-        super(root, 300, 300);
+        super(root, 800, 600);
     }
 
     public static MainScene getInstance(){

@@ -50,15 +50,17 @@ public class YamlLoadingController {
     }
 
     public Path getPathFromRessourceName(String ressourceName){
-        String ressourceNameTemp = null;
-        if(ressourceName.contains(_swaggerYamlFile.getBasePath())){
-            ressourceNameTemp = ressourceName.replace(_swaggerYamlFile.getBasePath(), "");
-        }
-        Iterator<String> ressourceNameIteratore = _swaggerYamlFile.getPaths().keySet().iterator();
-        while (ressourceNameIteratore.hasNext()){
-            String pathName = ressourceNameIteratore.next();
-            if(pathName.equals(ressourceNameTemp)){
-                return _swaggerYamlFile.getPaths().get(ressourceNameTemp);
+        if (_swaggerYamlFile != null) {
+            String ressourceNameTemp = null;
+            if(ressourceName.contains(_swaggerYamlFile.getBasePath())){
+                ressourceNameTemp = ressourceName.replace(_swaggerYamlFile.getBasePath(), "");
+            }
+            Iterator<String> ressourceNameIteratore = _swaggerYamlFile.getPaths().keySet().iterator();
+            while (ressourceNameIteratore.hasNext()){
+                String pathName = ressourceNameIteratore.next();
+                if(pathName.equals(ressourceNameTemp)){
+                    return _swaggerYamlFile.getPaths().get(ressourceNameTemp);
+                }
             }
         }
         return null;

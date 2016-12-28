@@ -67,12 +67,17 @@ public class YamlToController extends Pane implements IHasChildren<AbstractUiNod
     }
 
     public void createYamlNode(double mouseX, double mouseY, String nodeName){
+        System.out.println("Start creating a YAML node...");
         Path nodePath = _yamlLoadingController.getPathFromRessourceName(nodeName);
-        Map<String, IYamlDomain> outputData = _yamlLoadingController.getOperationsFromPath(nodePath);
+        Map<String, IYamlDomain> outputData = new HashMap<String, IYamlDomain>();
+        if(nodePath != null){
+            outputData = _yamlLoadingController.getOperationsFromPath(nodePath);
+        }
         YamlNode yamlNode = new YamlNode(mouseX, mouseY, nodeName, outputData, null, Color.RED);
 
         if(!isAbstractNodeAlreadyPresent(yamlNode)){
             getChildren().add(yamlNode);
+            System.out.println("YAML node created with carried information of : " + outputData);
         }
 
         _nodeLinkerEventHandlerMap.putAll(yamlNode.addLinkerEventHandlerToNode());
