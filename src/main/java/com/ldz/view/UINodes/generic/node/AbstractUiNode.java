@@ -1,9 +1,8 @@
-package com.ldz.view.UINodes.generic;
+package com.ldz.view.UINodes.generic.node;
 
-import com.ldz.model.Operation;
-import com.ldz.model.Path;
 import com.ldz.model.generic.IYamlDomain;
 import com.ldz.view.LinkerEventHandler;
+import com.ldz.view.UINodes.generic.IGUIWorkspace;
 import com.ldz.view.UINodes.generic.childrenInterface.IHasChildren;
 import com.ldz.view.YamlToController;
 import javafx.event.EventHandler;
@@ -18,13 +17,12 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
-import java.lang.reflect.Field;
 import java.util.*;
 
 /**
  * Created by ldalzotto on 24/12/2016.
  */
-public abstract class AbstractUiNode extends StackPane implements IHasChildren<UINodePoints> {
+public abstract class AbstractUiNode extends StackPane implements IHasChildren<UINodePoints>, IGUIWorkspace {
 
     private Rectangle _rectangle = null;
     private final double MIN_HEIGHT = 100;
@@ -74,6 +72,7 @@ public abstract class AbstractUiNode extends StackPane implements IHasChildren<U
         addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
             public void handle(MouseEvent event) {
                 if(event.isSecondaryButtonDown()){
+                    System.out.println("Start moving node : " + _nodeName);
                     setCursor(Cursor.HAND);
                     _initialCursorPosition = new Point2D(event.getScreenX(), event.getScreenY());
                 }
@@ -82,18 +81,24 @@ public abstract class AbstractUiNode extends StackPane implements IHasChildren<U
 
         addEventFilter(MouseEvent.MOUSE_DRAGGED, new EventHandler<MouseEvent>() {
             public void handle(MouseEvent event) {
-                if(event.isSecondaryButtonDown()){
-                    if(_initialCursorPosition != null){
+                if((event.getPickResult().getIntersectedNode() instanceof IGUIWorkspace)){
+                    if(event.isSecondaryButtonDown()){
+                        if(_initialCursorPosition != null){
                             setTranslateX(event.getScreenX() - _initialCursorPosition.getX());
                             setTranslateY(event.getScreenY() - _initialCursorPosition.getY());
+                        }
                     }
+                } else {
+                    System.out.println("Node move not tolerated here");
                 }
+
             }
         });
 
         addEventFilter(MouseEvent.MOUSE_RELEASED, new EventHandler<MouseEvent>() {
             public void handle(MouseEvent event) {
                     if(!event.isSecondaryButtonDown()){
+                        System.out.println("The mouse has been released, the node " + _nodeName + " has stopped moving.");
                         _initialCursorPosition = null;
                         setLayoutX(getLayoutX() + getTranslateX());
                         setLayoutY(getLayoutY() + getTranslateY());
@@ -166,4 +171,7 @@ public abstract class AbstractUiNode extends StackPane implements IHasChildren<U
 
     }
 
+    public Point2D get_initialCursorPosition() {
+        return _initialCursorPosition;
+    }
 }

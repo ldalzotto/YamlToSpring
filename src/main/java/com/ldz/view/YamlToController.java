@@ -1,13 +1,13 @@
 package com.ldz.view;
 
 import com.ldz.controller.YamlLoadingController;
-import com.ldz.model.Operation;
 import com.ldz.model.Path;
 import com.ldz.model.generic.IYamlDomain;
 import com.ldz.view.UINodes.SpringNode;
 import com.ldz.view.UINodes.YamlNode;
-import com.ldz.view.UINodes.generic.AbstractUiNode;
-import com.ldz.view.UINodes.generic.UINodePoints;
+import com.ldz.view.UINodes.generic.node.AbstractUiNode;
+import com.ldz.view.UINodes.generic.IGUIWorkspace;
+import com.ldz.view.UINodes.generic.node.UINodePoints;
 import com.ldz.view.UINodes.generic.childrenInterface.IHasChildren;
 import com.ldz.view.menu.YamlWorkspaceContextMenu;
 import javafx.event.EventHandler;
@@ -25,7 +25,7 @@ import java.util.*;
 /**
  * Created by ldalzotto on 24/12/2016.
  */
-public class YamlToController extends Pane implements IHasChildren<AbstractUiNode>{
+public class YamlToController extends Pane implements IHasChildren<AbstractUiNode>, IGUIWorkspace{
 
     private YamlLoadingController _yamlLoadingController = YamlLoadingController.getInstance();
     private YamlWorkspaceContextMenu _yamlWorkspaceContextMenu = YamlWorkspaceContextMenu.getInstance(this);

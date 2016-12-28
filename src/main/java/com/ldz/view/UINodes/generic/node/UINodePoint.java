@@ -1,6 +1,7 @@
-package com.ldz.view.UINodes.generic;
+package com.ldz.view.UINodes.generic.node;
 
 import com.ldz.model.generic.IYamlDomain;
+import com.ldz.view.UINodes.generic.IGUIWorkspace;
 import com.ldz.view.UINodes.generic.childrenInterface.IHasChildren;
 import javafx.scene.Node;
 import javafx.scene.layout.HBox;
@@ -13,7 +14,7 @@ import java.util.*;
 /**
  * Created by ldalzotto on 26/12/2016.
  */
-public class UINodePoint extends HBox implements IHasChildren<HBox> {
+public class UINodePoint extends HBox implements IHasChildren<HBox>, IGUIWorkspace {
 
     private Map<String, IYamlDomain> _carriedData = new HashMap<String, IYamlDomain>();
 
@@ -24,9 +25,9 @@ public class UINodePoint extends HBox implements IHasChildren<HBox> {
         Iterator<Map.Entry<String, IYamlDomain>> iterator = carriedData.entrySet().iterator();
         Map.Entry<String, IYamlDomain> entry = iterator.next();
 
-        getChildren().add(new Text(entry.getKey()));
+        getChildren().add(new UINodeText(entry.getKey()));
 
-        Circle point = new Circle(radius);
+        Circle point = new UINodeCircle(radius);
         point.setFill(Color.BLACK);
         getChildren().add(point);
     }
@@ -48,4 +49,20 @@ public class UINodePoint extends HBox implements IHasChildren<HBox> {
     public void set_carriedData(Map<String, IYamlDomain> _carriedData) {
         this._carriedData = _carriedData;
     }
+}
+
+class UINodeText extends Text implements IGUIWorkspace{
+
+    public UINodeText(String text){
+        super(text);
+    }
+
+}
+
+class UINodeCircle extends Circle implements IGUIWorkspace{
+
+    public UINodeCircle(double radius){
+        super(radius);
+    }
+
 }

@@ -1,6 +1,7 @@
-package com.ldz.view.UINodes.generic;
+package com.ldz.view.UINodes.generic.node;
 
 import com.ldz.model.generic.IYamlDomain;
+import com.ldz.view.UINodes.generic.IGUIWorkspace;
 import com.ldz.view.UINodes.generic.childrenInterface.IHasChildren;
 import com.ldz.view.UINodes.generic.childrenInterface.IHasOutputAndInputChildren;
 import javafx.scene.Node;
@@ -13,17 +14,18 @@ import java.util.*;
 /**
  * Created by ldalzotto on 25/12/2016.
  */
-public class UINodePoints extends BorderPane implements IHasOutputAndInputChildren<UINodePoint>, IHasChildren<UINodePoint>{
+public class UINodePoints extends BorderPane implements IHasOutputAndInputChildren<UINodePoint>, IHasChildren<UINodePoint>,
+        IGUIWorkspace {
 
     private Map<String, IYamlDomain> _carriedData = new HashMap();
     private Map<String, IYamlDomain> _inputData = new HashMap();
-    private VBox _outputLabelsAndPoints = null;
-    private VBox _inputLabelsAndPoints = null;
+    private UINodeVBox _outputLabelsAndPoints = null;
+    private UINodeVBox _inputLabelsAndPoints = null;
 
     public UINodePoints(double radius, Map<String, IYamlDomain> carriedData){
         super();
         _carriedData = carriedData;
-        _outputLabelsAndPoints = new VBox();
+        _outputLabelsAndPoints = new UINodeVBox();
         _outputLabelsAndPoints.setSpacing(5);
 
         Iterator<Map.Entry<String, IYamlDomain>> carriedDataLabelIterator = _carriedData.entrySet().iterator();
@@ -47,9 +49,9 @@ public class UINodePoints extends BorderPane implements IHasOutputAndInputChildr
         super();
         _carriedData = carriedData;
         _inputData = inputData;
-        _outputLabelsAndPoints = new VBox();
+        _outputLabelsAndPoints = new UINodeVBox();
         _outputLabelsAndPoints.setSpacing(5);
-        _inputLabelsAndPoints = new VBox();
+        _inputLabelsAndPoints = new UINodeVBox();
         _inputLabelsAndPoints.setSpacing(5);
 
         if(_carriedData != null){
@@ -122,15 +124,19 @@ public class UINodePoints extends BorderPane implements IHasOutputAndInputChildr
         return uiNodePoints;
     }
 
-    public VBox get_outputLabelsAndPoints() {
+    public UINodeVBox get_outputLabelsAndPoints() {
         return _outputLabelsAndPoints;
     }
 
-    public void set_outputLabelsAndPoints(VBox _outputLabelsAndPoints) {
+    public void set_outputLabelsAndPoints(UINodeVBox _outputLabelsAndPoints) {
         this._outputLabelsAndPoints = _outputLabelsAndPoints;
     }
 
-    public VBox get_inputLabelsAndPoints() {
+    public UINodeVBox get_inputLabelsAndPoints() {
         return _inputLabelsAndPoints;
     }
+}
+
+class UINodeVBox extends VBox implements IGUIWorkspace {
+
 }

@@ -1,9 +1,10 @@
 package com.ldz.view;
 
 import com.ldz.model.generic.IYamlDomain;
-import com.ldz.view.UINodes.generic.AbstractUiNode;
-import com.ldz.view.UINodes.generic.UINodePoint;
-import com.ldz.view.UINodes.generic.UINodePoints;
+import com.ldz.view.UINodes.generic.node.AbstractUiNode;
+import com.ldz.view.UINodes.generic.IGUIWorkspace;
+import com.ldz.view.UINodes.generic.node.UINodePoint;
+import com.ldz.view.UINodes.generic.node.UINodePoints;
 import javafx.event.EventHandler;
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
@@ -18,7 +19,7 @@ import java.util.Map;
 /**
  * Created by ldalzotto on 25/12/2016.
  */
-public class LinkerEventHandler {
+public class LinkerEventHandler implements IGUIWorkspace{
 
     private YamlToController _yamlToController = YamlToController.getInstance();
     private LinkerEventHandler _instance = null;
