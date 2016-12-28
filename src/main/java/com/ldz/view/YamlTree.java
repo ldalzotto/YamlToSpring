@@ -52,8 +52,7 @@ public class YamlTree extends TreeView<String> {
                 List<Node> nodes = getParent().getChildrenUnmodifiable();
                 for(Node node : nodes){
                     if(node.getId() != null && node.getId().equals("YamlToController")){
-                        Bounds nodeRect = node.localToScreen(node.getBoundsInLocal());
-                        if(nodeRect.contains(event.getScreenX(), event.getScreenY())){
+                        if(event.getPickResult().getIntersectedNode() instanceof YamlToController){
                             YamlToController yamlNode = (YamlToController) node;
                             Point2D nodePoint = node.screenToLocal(event.getScreenX(), event.getSceneY());
                             if(_wsSelected != null){

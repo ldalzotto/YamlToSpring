@@ -79,4 +79,12 @@ public class MainScene extends Scene {
     public void set_yamlFileChooserDialog(YamlFileChooserDialog _yamlFileChooserDialog) {
         this._yamlFileChooserDialog = _yamlFileChooserDialog;
     }
+
+    public MenuBar get_menuBar() {
+        return _menuBar;
+    }
+
+    public Menu get_menuFile() {
+        return _menuFile;
+    }
 }

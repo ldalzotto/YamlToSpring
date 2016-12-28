@@ -3,41 +3,44 @@ package yamlTreeTest;
 import com.google.common.collect.ImmutableList;
 import com.ldz.Main;
 import com.ldz.view.MainScene;
+import com.ldz.view.UINodes.generic.AbstractUiNode;
 import com.ldz.view.YamlFileChooserDialog;
 import com.ldz.view.YamlToController;
 import com.ldz.view.YamlTree;
 import javafx.application.Platform;
-import javafx.concurrent.Task;
 import javafx.geometry.Point3D;
 import javafx.scene.control.TreeItem;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.PickResult;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import org.junit.Assert;
-
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mockito.Mockito;
+
 import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
 
+import java.awt.*;
 import java.io.File;
 import java.lang.reflect.Field;
+import java.util.Random;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
 /**
- * Created by ldalzotto on 28/12/2016.
+ * Created by ldalzotto on 26/12/2016.
  */
-public class Drag_from_yamlTree_to_workspace extends FxRobot {
+public class MainYamlTreeTest extends FxRobot {
 
     private MainScene _mainScene = MainScene.getInstance();
     private static Stage _stage = null;
-
     private YamlToController _yamlToController = YamlToController.getInstance();
+
 
     private static final ImmutableList<String> _fullRessourcesName = ImmutableList.of("/v1/products",
             "/v1/estimates/price",
@@ -45,10 +48,9 @@ public class Drag_from_yamlTree_to_workspace extends FxRobot {
             "/v1/me",
             "/v1/history");
 
-
-
     @BeforeClass
     public static void setupCurrentStage() throws Exception{
+
         System.setProperty("testfx.robot", "glass");
         System.setProperty("testfx.headless", "true");
         System.setProperty("prism.order", "sw");
@@ -68,7 +70,6 @@ public class Drag_from_yamlTree_to_workspace extends FxRobot {
         System.out.println("setting up application");
     }
 
-
     @Test
     public void test(){
         sleep(1, TimeUnit.SECONDS);
@@ -86,6 +87,7 @@ public class Drag_from_yamlTree_to_workspace extends FxRobot {
         });
 
         clickOn(lookup("#yamlTree").query(), MouseButton.PRIMARY);
+        YamlTree.getInstance().getRoot().setExpanded(true);
 
         try {
             Field yamlTreeField = _mainScene.getClass().getDeclaredField("_yamlTree");
@@ -100,25 +102,28 @@ public class Drag_from_yamlTree_to_workspace extends FxRobot {
                 Assert.assertTrue(_fullRessourcesName.contains(stringTreeItem.getValue()));
             }
 
-            clickOn(yamlTree.getRoot().getValue(), MouseButton.PRIMARY);
-            yamlTree.getRoot().setExpanded(true);
-            sleep(500, TimeUnit.MILLISECONDS);
+            clickOn(lookup("#yamlTree").query(), MouseButton.PRIMARY);
+            //Create a YamlToCntrollerNode
+            Random r = new Random();
+
+
+            final int firstNodeIndex = r.nextInt(_fullRessourcesName.size()-1);
+
 
             final CountDownLatch latch = new CountDownLatch(1);
             Platform.runLater(new Runnable() {
                 public void run() {
                     try {
-                        for(int i = 0; i < _fullRessourcesName.size(); i++){
-                            lookup(_fullRessourcesName.get(i)).query().fireEvent(new MouseEvent(MouseEvent.MOUSE_PRESSED,
+                            lookup(_fullRessourcesName.get(firstNodeIndex)).query().fireEvent(new MouseEvent(MouseEvent.MOUSE_PRESSED,
                                     0,0,0,0, MouseButton.PRIMARY, 1, true, true, true, true, true, true, true, true, true, true, null));
-                            yamlTree.getSelectionModel().select(i);
-                            lookup(_fullRessourcesName.get(i)).query().fireEvent(new MouseEvent(MouseEvent.MOUSE_DRAGGED,
+                            yamlTree.getSelectionModel().select(firstNodeIndex);
+                            lookup(_fullRessourcesName.get(firstNodeIndex)).query().fireEvent(new MouseEvent(MouseEvent.MOUSE_DRAGGED,
                                     0,0,0,0, MouseButton.PRIMARY, 1, true, true, true, true, true, true, true, true, true, true, null));
-                            lookup(_fullRessourcesName.get(i)).query().fireEvent(new MouseEvent(MouseEvent.MOUSE_RELEASED,
+                            lookup(_fullRessourcesName.get(firstNodeIndex)).query().fireEvent(new MouseEvent(MouseEvent.MOUSE_RELEASED,
                                     0,0,0,0, MouseButton.PRIMARY, 1, true, true, true, true, true, true, true, true, true, true,
                                     new PickResult(_yamlToController, new Point3D(0,0,0), 0)));
-                        }
                     } catch (Exception e) {
+                        e.printStackTrace();
                         latch.countDown();
                     }
                     latch.countDown();
@@ -126,11 +131,39 @@ public class Drag_from_yamlTree_to_workspace extends FxRobot {
             });
             latch.await();
 
-                YamlToController yamlToController = lookup("#YamlToController").query();
-                Assert.assertTrue(yamlToController != null);
-                Assert.assertTrue(!yamlToController.getChilds().isEmpty());
-                Assert.assertTrue(yamlToController.getChilds().size() == _fullRessourcesName.size());
 
+            YamlToController yamlToController = lookup("#YamlToController").query();
+            Assert.assertTrue(yamlToController != null);
+            Assert.assertTrue(!yamlToController.getChilds().isEmpty());
+            Assert.assertTrue(yamlToController.getChilds().size() == 1);
+
+            //checking node position
+            AbstractUiNode abstractUiNode = yamlToController.getChilds().get(0);
+            abstractUiNode.localToScreen(abstractUiNode.getBoundsInLocal()).contains(
+                    MouseInfo.getPointerInfo().getLocation().getX(),
+                    MouseInfo.getPointerInfo().getLocation().getY()
+            );
+
+            //only one type of node !
+            Platform.runLater(new Runnable() {
+                public void run() {
+                    try {
+                        lookup(_fullRessourcesName.get(firstNodeIndex)).query().fireEvent(new MouseEvent(MouseEvent.MOUSE_PRESSED,
+                                0,0,0,0, MouseButton.PRIMARY, 1, true, true, true, true, true, true, true, true, true, true, null));
+                        yamlTree.getSelectionModel().select(firstNodeIndex);
+                        lookup(_fullRessourcesName.get(firstNodeIndex)).query().fireEvent(new MouseEvent(MouseEvent.MOUSE_DRAGGED,
+                                0,0,0,0, MouseButton.PRIMARY, 1, true, true, true, true, true, true, true, true, true, true, null));
+                        lookup(_fullRessourcesName.get(firstNodeIndex)).query().fireEvent(new MouseEvent(MouseEvent.MOUSE_RELEASED,
+                                0,0,0,0, MouseButton.PRIMARY, 1, true, true, true, true, true, true, true, true, true, true,
+                                new PickResult(_yamlToController, new Point3D(0,0,0), 0)));
+                    } catch (Exception e) {
+                        latch.countDown();
+                    }
+                    latch.countDown();
+                }
+            });
+            latch.await();
+            Assert.assertTrue(yamlToController.getChilds().size() == 1);
 
 
         } catch (Exception e) {
@@ -143,5 +176,11 @@ public class Drag_from_yamlTree_to_workspace extends FxRobot {
                 _yamlToController.getChildren().clear();
             }
         });
+
     }
+
+
+
+
+
 }
