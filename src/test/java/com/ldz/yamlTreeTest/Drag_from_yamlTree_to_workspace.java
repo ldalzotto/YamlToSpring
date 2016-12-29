@@ -1,13 +1,13 @@
-package yamlTreeTest;
+package com.ldz.yamlTreeTest;
 
 import com.google.common.collect.ImmutableList;
 import com.ldz.Main;
+import com.ldz.generic.AbstractGUITask;
 import com.ldz.view.MainScene;
 import com.ldz.view.YamlFileChooserDialog;
 import com.ldz.view.YamlToController;
 import com.ldz.view.YamlTree;
 import javafx.application.Platform;
-import javafx.concurrent.Task;
 import javafx.geometry.Point3D;
 import javafx.scene.control.TreeItem;
 import javafx.scene.input.MouseButton;
@@ -67,19 +67,17 @@ public class Drag_from_yamlTree_to_workspace extends FxRobot {
         Main app = (Main) FxToolkit.setupApplication(Main.class);
         System.out.println("setting up application");
 
-
-        Platform.runLater(new Runnable() {
-            public void run() {
+        new AbstractGUITask(){
+            public void GUITask() {
                 _mainScene = MainScene.getInstance();
                 _yamlToController = YamlToController.getInstance();
             }
-        });
+        };
     }
 
 
     @Test
     public void test(){
-        sleep(1, TimeUnit.SECONDS);
 
         YamlFileChooserDialog fileChooserDialog = Mockito.mock(YamlFileChooserDialog.class);
         Mockito.when(fileChooserDialog.initializeYamlFileChooser())
@@ -112,27 +110,20 @@ public class Drag_from_yamlTree_to_workspace extends FxRobot {
             yamlTree.getRoot().setExpanded(true);
             sleep(500, TimeUnit.MILLISECONDS);
 
-            final CountDownLatch latch = new CountDownLatch(1);
-            Platform.runLater(new Runnable() {
-                public void run() {
-                    try {
-                        for(int i = 0; i < _fullRessourcesName.size(); i++){
-                            lookup(_fullRessourcesName.get(i)).query().fireEvent(new MouseEvent(MouseEvent.MOUSE_PRESSED,
-                                    0,0,0,0, MouseButton.PRIMARY, 1, true, true, true, true, true, true, true, true, true, true, null));
-                            yamlTree.getSelectionModel().select(i);
-                            lookup(_fullRessourcesName.get(i)).query().fireEvent(new MouseEvent(MouseEvent.MOUSE_DRAGGED,
-                                    0,0,0,0, MouseButton.PRIMARY, 1, true, true, true, true, true, true, true, true, true, true, null));
-                            lookup(_fullRessourcesName.get(i)).query().fireEvent(new MouseEvent(MouseEvent.MOUSE_RELEASED,
-                                    0,0,0,0, MouseButton.PRIMARY, 1, true, true, true, true, true, true, true, true, true, true,
-                                    new PickResult(_yamlToController, new Point3D(0,0,0), 0)));
-                        }
-                    } catch (Exception e) {
-                        latch.countDown();
+            new AbstractGUITask(){
+                public void GUITask() {
+                    for(int i = 0; i < _fullRessourcesName.size(); i++) {
+                        lookup(_fullRessourcesName.get(i)).query().fireEvent(new MouseEvent(MouseEvent.MOUSE_PRESSED,
+                                0, 0, 0, 0, MouseButton.PRIMARY, 1, true, true, true, true, true, true, true, true, true, true, null));
+                        yamlTree.getSelectionModel().select(i);
+                        lookup(_fullRessourcesName.get(i)).query().fireEvent(new MouseEvent(MouseEvent.MOUSE_DRAGGED,
+                                0, 0, 0, 0, MouseButton.PRIMARY, 1, true, true, true, true, true, true, true, true, true, true, null));
+                        lookup(_fullRessourcesName.get(i)).query().fireEvent(new MouseEvent(MouseEvent.MOUSE_RELEASED,
+                                0, 0, 0, 0, MouseButton.PRIMARY, 1, true, true, true, true, true, true, true, true, true, true,
+                                new PickResult(_yamlToController, new Point3D(0, 0, 0), 0)));
                     }
-                    latch.countDown();
                 }
-            });
-            latch.await();
+            };
 
                 YamlToController yamlToController = lookup("#YamlToController").query();
                 Assert.assertTrue(yamlToController != null);
@@ -146,10 +137,10 @@ public class Drag_from_yamlTree_to_workspace extends FxRobot {
             Assert.assertFalse(e.getMessage(), true);
         }
 
-        Platform.runLater(new Runnable() {
-            public void run() {
+        new AbstractGUITask(){
+            public void GUITask() {
                 _yamlToController.getChildren().clear();
             }
-        });
+        };
     }
 }

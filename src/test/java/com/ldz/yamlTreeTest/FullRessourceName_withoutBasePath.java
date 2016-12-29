@@ -1,23 +1,19 @@
-package yamlTreeTest;
+package com.ldz.yamlTreeTest;
 
 import com.google.common.collect.ImmutableList;
 import com.ldz.Main;
+import com.ldz.generic.AbstractGUITask;
 import com.ldz.view.MainScene;
 import com.ldz.view.YamlFileChooserDialog;
-import com.ldz.view.YamlToController;
 import com.ldz.view.YamlTree;
-import com.sun.javafx.robot.FXRobot;
 import javafx.application.Platform;
 import javafx.scene.control.TreeItem;
 import javafx.scene.input.MouseButton;
-import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import org.junit.*;
 import org.mockito.Mockito;
 import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
-import org.testfx.framework.junit.ApplicationAdapter;
-import org.testfx.framework.junit.ApplicationTest;
 
 import java.io.File;
 import java.lang.reflect.Field;
@@ -49,11 +45,6 @@ public class FullRessourceName_withoutBasePath extends FxRobot {
         System.setProperty("prism.text", "t2k");
 
         _stage = FxToolkit.registerPrimaryStage();
-        FxToolkit.setupStage(new Consumer<Stage>() {
-            public void accept(Stage stage) {
-                stage.show();
-            }
-        });
     }
 
     @Before
@@ -61,17 +52,15 @@ public class FullRessourceName_withoutBasePath extends FxRobot {
         Main app = (Main) FxToolkit.setupApplication(Main.class);
         System.out.println("setting up application");
 
-
-        Platform.runLater(new Runnable() {
-            public void run() {
+        new AbstractGUITask(){
+            public void GUITask() {
                 _mainScene = MainScene.getInstance();
             }
-        });
+        };
     }
 
     @Test
     public void fullRessourceName_withoutBasePath(){
-        sleep(1, TimeUnit.SECONDS);
 
         YamlFileChooserDialog fileChooserDialog = Mockito.mock(YamlFileChooserDialog.class);
         Mockito.when(fileChooserDialog.initializeYamlFileChooser())
