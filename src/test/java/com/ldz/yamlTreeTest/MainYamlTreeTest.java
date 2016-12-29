@@ -80,11 +80,12 @@ public class MainYamlTreeTest extends FxRobot {
         _mainScene.set_yamlFileChooserDialog(fileChooserDialog);
 
         clickOn(lookup("#fileMenu").query(), MouseButton.PRIMARY);
-        Platform.runLater(new Runnable() {
-            public void run() {
+
+        new AbstractGUITask(){
+            public void GUITask() {
                 _mainScene.get_menuFile().getItems().get(0).fire();
             }
-        });
+        };
 
         clickOn(lookup("#yamlTree").query(), MouseButton.PRIMARY);
         YamlTree.getInstance().getRoot().setExpanded(true);
