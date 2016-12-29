@@ -40,7 +40,6 @@ public class UINodePoints extends BorderPane implements IHasOutputAndInputChildr
         }
 
         setRight(_outputLabelsAndPoints);
-        //BorderPane.setAlignment(_outputLabelsAndPoints, Pos.CENTER_RIGHT);
 
         setVisible(true);
     }
