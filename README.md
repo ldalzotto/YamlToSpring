@@ -1,7 +1,7 @@
 # YamlToSpring
 
 [![Build Status](https://travis-ci.org/ldalzotto/YamlToSpring.png)](https://travis-ci.org/ldalzotto/YamlToSpring)
-[![Coverage Status](https://coveralls.io/repos/ldalzotto/YamlToSpring/badge.png?branch=master)](https://coveralls.io/r/ldalzotto/YamlToSpring?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/ldalzotto/YamlToSpring/badge.svg?branch=master)](https://coveralls.io/github/ldalzotto/YamlToSpring?branch=master)
 
 
 This project aims to transform Swagger YAML file to SpringMVC ready to use project.
