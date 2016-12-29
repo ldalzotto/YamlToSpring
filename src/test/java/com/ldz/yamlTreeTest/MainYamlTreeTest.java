@@ -104,6 +104,7 @@ public class MainYamlTreeTest extends FxRobot {
             }
 
             //clickOn(lookup("#yamlTree").query(), MouseButton.PRIMARY);
+            yamlTree.getRoot().setExpanded(true);
             //Create a YamlToCntrollerNode
             Random r = new Random();
 
