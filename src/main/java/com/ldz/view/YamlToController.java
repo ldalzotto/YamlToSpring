@@ -62,8 +62,10 @@ public class YamlToController extends Pane implements IHasChildren<AbstractUiNod
         addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
             public void handle(MouseEvent event) {
                 if(event.isSecondaryButtonDown()){
-                    System.out.println("Displaying context menu");
-                    _yamlWorkspaceContextMenu.show(_instance, event.getScreenX(), event.getScreenY());
+                    if(event.getPickResult().getIntersectedNode() instanceof YamlToController){
+                        System.out.println("Displaying context menu");
+                        _yamlWorkspaceContextMenu.show(_instance, event.getScreenX(), event.getScreenY());
+                    }
                 }
             }
         });
