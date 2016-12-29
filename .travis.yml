@@ -3,7 +3,7 @@ jdk:
   - oraclejdk8
   
 script: 
- mvn package
+ mvn clean install
   
 before_install:
   - "export DISPLAY=:99.0"
