@@ -34,10 +34,10 @@ import java.util.function.Consumer;
  */
 public class Drag_from_yamlTree_to_workspace extends FxRobot {
 
-    private MainScene _mainScene = MainScene.getInstance();
+    private MainScene _mainScene = null;
     private static Stage _stage = null;
 
-    private YamlToController _yamlToController = YamlToController.getInstance();
+    private YamlToController _yamlToController = null;
 
     private static final ImmutableList<String> _fullRessourcesName = ImmutableList.of("/v1/products",
             "/v1/estimates/price",
@@ -66,6 +66,14 @@ public class Drag_from_yamlTree_to_workspace extends FxRobot {
     public void setup() throws Exception {
         Main app = (Main) FxToolkit.setupApplication(Main.class);
         System.out.println("setting up application");
+
+
+        Platform.runLater(new Runnable() {
+            public void run() {
+                _mainScene = MainScene.getInstance();
+                _yamlToController = YamlToController.getInstance();
+            }
+        });
     }
 
 

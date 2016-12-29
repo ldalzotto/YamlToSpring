@@ -34,7 +34,4 @@ public class SpringNode extends AbstractUiNode {
         System.out.println("Spring node created.");
     }
 
-    public void displayNode() {
-
-    }
 }

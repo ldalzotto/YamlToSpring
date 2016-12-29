@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableList;
 import com.ldz.Main;
 import com.ldz.view.MainScene;
 import com.ldz.view.YamlFileChooserDialog;
+import com.ldz.view.YamlToController;
 import com.ldz.view.YamlTree;
 import com.sun.javafx.robot.FXRobot;
 import javafx.application.Platform;
@@ -28,7 +29,7 @@ import java.util.function.Consumer;
  */
 public class FullRessourceName_withoutBasePath extends FxRobot {
 
-    private MainScene _mainScene = MainScene.getInstance();
+    private MainScene _mainScene = null;
     private static Stage _stage = null;
 
     private static final ImmutableList<String> _fullRessourcesName = ImmutableList.of("/v1/products",
@@ -59,6 +60,13 @@ public class FullRessourceName_withoutBasePath extends FxRobot {
     public void setup() throws Exception {
         Main app = (Main) FxToolkit.setupApplication(Main.class);
         System.out.println("setting up application");
+
+
+        Platform.runLater(new Runnable() {
+            public void run() {
+                _mainScene = MainScene.getInstance();
+            }
+        });
     }
 
     @Test
