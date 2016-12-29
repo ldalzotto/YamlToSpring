@@ -3,6 +3,7 @@ package com.ldz.yamlTreeTest;
 import com.google.common.collect.ImmutableList;
 import com.ldz.Main;
 import com.ldz.generic.AbstractGUITask;
+import com.ldz.generic.AbstractGUITaskWithoutCompletion;
 import com.ldz.view.MainScene;
 import com.ldz.view.UINodes.generic.node.AbstractUiNode;
 import com.ldz.view.YamlFileChooserDialog;
@@ -103,11 +104,11 @@ public class MainYamlTreeTest extends FxRobot {
                 Assert.assertTrue(_fullRessourcesName.contains(stringTreeItem.getValue()));
             }
 
-            //clickOn(lookup("#yamlTree").query(), MouseButton.PRIMARY);
+            clickOn(lookup("#yamlTree").query(), MouseButton.PRIMARY);
+
             yamlTree.getRoot().setExpanded(true);
             //Create a YamlToCntrollerNode
             Random r = new Random();
-
 
             final int firstNodeIndex = r.nextInt(_fullRessourcesName.size()-1);
 

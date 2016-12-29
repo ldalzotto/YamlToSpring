@@ -109,18 +109,23 @@ public class Drag_from_yamlTree_to_workspaceTest extends FxRobot {
 
             //clickOn(yamlTree.getRoot().getValue(), MouseButton.PRIMARY);
             yamlTree.getRoot().setExpanded(true);
+            sleep(200, TimeUnit.MILLISECONDS);
 
             new AbstractGUITask(){
                 public void GUITask() {
                     for(int i = 0; i < _fullRessourcesName.size(); i++) {
-                        lookup(_fullRessourcesName.get(i)).query().fireEvent(new MouseEvent(MouseEvent.MOUSE_PRESSED,
-                                0, 0, 0, 0, MouseButton.PRIMARY, 1, true, true, true, true, true, true, true, true, true, true, null));
-                        yamlTree.getSelectionModel().select(i);
-                        lookup(_fullRessourcesName.get(i)).query().fireEvent(new MouseEvent(MouseEvent.MOUSE_DRAGGED,
-                                0, 0, 0, 0, MouseButton.PRIMARY, 1, true, true, true, true, true, true, true, true, true, true, null));
-                        lookup(_fullRessourcesName.get(i)).query().fireEvent(new MouseEvent(MouseEvent.MOUSE_RELEASED,
-                                0, 0, 0, 0, MouseButton.PRIMARY, 1, true, true, true, true, true, true, true, true, true, true,
-                                new PickResult(_yamlToController, new Point3D(0, 0, 0), 0)));
+                        try {
+                            lookup(_fullRessourcesName.get(i)).query().fireEvent(new MouseEvent(MouseEvent.MOUSE_PRESSED,
+                                    0, 0, 0, 0, MouseButton.PRIMARY, 1, true, true, true, true, true, true, true, true, true, true, null));
+                            yamlTree.getSelectionModel().select(i);
+                            lookup(_fullRessourcesName.get(i)).query().fireEvent(new MouseEvent(MouseEvent.MOUSE_DRAGGED,
+                                    0, 0, 0, 0, MouseButton.PRIMARY, 1, true, true, true, true, true, true, true, true, true, true, null));
+                            lookup(_fullRessourcesName.get(i)).query().fireEvent(new MouseEvent(MouseEvent.MOUSE_RELEASED,
+                                    0, 0, 0, 0, MouseButton.PRIMARY, 1, true, true, true, true, true, true, true, true, true, true,
+                                    new PickResult(_yamlToController, new Point3D(0, 0, 0), 0)));
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
             };

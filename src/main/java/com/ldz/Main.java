@@ -15,9 +15,9 @@ public class Main extends Application{
 
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setScene(mainScene);
-        primaryStage.show();
-
         _SpringNodeCreatorStage.initOwner(primaryStage);
+
+        primaryStage.show();
 
         mainScene.initialize();
     }

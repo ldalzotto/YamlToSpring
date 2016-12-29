@@ -20,6 +20,10 @@ public class SpringNodeCreatorStage extends Stage {
         return _instance;
     }
 
+    public static void refreshInstance(){
+        _instance = null;
+    }
+
     private SpringNodeCreatorStage(){
         super();
         this.initModality(Modality.NONE);

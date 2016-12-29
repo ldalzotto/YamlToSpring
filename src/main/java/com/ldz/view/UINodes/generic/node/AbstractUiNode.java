@@ -174,4 +174,8 @@ public abstract class AbstractUiNode extends StackPane implements IHasChildren<U
     public Point2D get_initialCursorPosition() {
         return _initialCursorPosition;
     }
+
+    public Text get_nodeName() {
+        return _nodeName;
+    }
 }

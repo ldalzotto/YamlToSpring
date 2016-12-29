@@ -20,7 +20,7 @@ public class YamlWorkspaceContextMenu extends ContextMenu {
     private static YamlWorkspaceContextMenu _instance = null;
     private static YamlToController _yamlToController = null;
 
-    private final static String MENU_CREATE_PRING_ID = "createSpringNode";
+    public final static String MENU_CREATE_PRING_ID = "createSpringNode";
 
     private SpringNodeCreatorStage _SpringNodeCreatorStage = SpringNodeCreatorStage.getInstance();
 
@@ -57,13 +57,22 @@ public class YamlWorkspaceContextMenu extends ContextMenu {
                         Point2D point2D = _yamlToController.screenToLocal(event.getScreenX(), event.getScreenY());
                         _SpringNodeCreatorStage.showAndWait();
                         String controllerName = _SpringNodeCreatorStage.get_SpringNodeCreatorScene().get_yamlControllerName().getText();
-                        _yamlToController.createSpringNode(point2D.getX(), point2D.getY(), controllerName);
+
+                        if(_SpringNodeCreatorStage.get_SpringNodeCreatorScene().get_yamlControllerName().getText() != null
+                                && !_SpringNodeCreatorStage.get_SpringNodeCreatorScene().get_yamlControllerName().getText().isEmpty()){
+                            _yamlToController.createSpringNode(point2D.getX(), point2D.getY(), controllerName);
+                        } else {
+                            System.out.println("Spring node not created");
+                        }
+
                         System.out.println("Hiding context menu");
                         _instance.hide();
                     }
                 }
             }
         });
+
+
 
 
     }

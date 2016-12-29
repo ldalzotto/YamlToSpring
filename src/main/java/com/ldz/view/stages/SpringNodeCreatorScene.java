@@ -1,17 +1,12 @@
 package com.ldz.view.stages;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
-import javafx.stage.WindowEvent;
 
 /**
  * Created by ldalzotto on 29/12/2016.
@@ -42,10 +37,12 @@ public class SpringNodeCreatorScene extends Scene {
 
         _yamlNameOkButton.setOnMousePressed(new EventHandler<MouseEvent>() {
             public void handle(MouseEvent event) {
-                if(_yamlControllerName.getText() == null || _yamlControllerName.getText().isEmpty()){
-                    System.out.println("Wrong name entered !");
-                } else {
-                    event.getPickResult().getIntersectedNode().getScene().getWindow().hide();
+                if(event.isPrimaryButtonDown()){
+                    if(_yamlControllerName.getText() == null || _yamlControllerName.getText().isEmpty()){
+                        System.out.println("Wrong name entered !");
+                    } else {
+                        event.getPickResult().getIntersectedNode().getScene().getWindow().hide();
+                    }
                 }
             }
         });
@@ -55,4 +52,7 @@ public class SpringNodeCreatorScene extends Scene {
         return _yamlControllerName;
     }
 
+    public Button get_yamlNameOkButton() {
+        return _yamlNameOkButton;
+    }
 }

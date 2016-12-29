@@ -81,7 +81,7 @@ public class MainDragAndDropTest extends FxRobot {
         _mainScene.set_yamlFileChooserDialog(fileChooserDialog);
 
 
-        clickOn(lookup("#fileMenu").query(), MouseButton.PRIMARY);
+        //clickOn(lookup("#fileMenu").query(), MouseButton.PRIMARY);
 
         final int xCoord = ThreadLocalRandom.current().nextInt(-300, 300);
         final int yCoord = ThreadLocalRandom.current().nextInt(-300, 300);

@@ -93,8 +93,10 @@ public class YamlToController extends Pane implements IHasChildren<AbstractUiNod
     private boolean isAbstractNodeAlreadyPresent(YamlNode yamlNode) {
         boolean isAlreadyPresent = false;
         for(AbstractUiNode abstractUiNode : getChilds()){
-            if(abstractUiNode.getId().equals(yamlNode.getId())){
-                isAlreadyPresent = true;
+            if(abstractUiNode.getId() != null){
+                if(abstractUiNode.getId().equals(yamlNode.getId())){
+                    isAlreadyPresent = true;
+                }
             }
         }
         return isAlreadyPresent;
