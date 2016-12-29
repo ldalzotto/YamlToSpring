@@ -23,7 +23,7 @@ import java.util.function.Consumer;
 /**
  * Created by ldalzotto on 27/12/2016.
  */
-public class FullRessourceName_withoutBasePath extends FxRobot {
+public class FullRessourceName_withoutBasePathTest extends FxRobot {
 
     private MainScene _mainScene = null;
     private static Stage _stage = null;
@@ -67,14 +67,14 @@ public class FullRessourceName_withoutBasePath extends FxRobot {
                 .thenReturn(new File("src/test/uber.yaml"));
         _mainScene.set_yamlFileChooserDialog(fileChooserDialog);
 
-        clickOn(lookup("#fileMenu").query(), MouseButton.PRIMARY);
-        Platform.runLater(new Runnable() {
-            public void run() {
+        //clickOn(lookup("#fileMenu").query(), MouseButton.PRIMARY);
+        new AbstractGUITask(){
+            public void GUITask() {
                 _mainScene.get_menuFile().getItems().get(0).fire();
             }
-        });
+        };
 
-        clickOn(lookup("#yamlTree").query(), MouseButton.PRIMARY);
+        //clickOn(lookup("#yamlTree").query(), MouseButton.PRIMARY);
 
         try {
             Field yamlTreeField = _mainScene.getClass().getDeclaredField("_yamlTree");

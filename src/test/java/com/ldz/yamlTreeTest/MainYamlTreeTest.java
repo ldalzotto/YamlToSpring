@@ -79,7 +79,7 @@ public class MainYamlTreeTest extends FxRobot {
                 .thenReturn(new File("src/test/uber.yaml"));
         _mainScene.set_yamlFileChooserDialog(fileChooserDialog);
 
-        clickOn(lookup("#fileMenu").query(), MouseButton.PRIMARY);
+        //clickOn(lookup("#fileMenu").query(), MouseButton.PRIMARY);
 
         new AbstractGUITask(){
             public void GUITask() {
@@ -87,7 +87,7 @@ public class MainYamlTreeTest extends FxRobot {
             }
         };
 
-        clickOn(lookup("#yamlTree").query(), MouseButton.PRIMARY);
+        //clickOn(lookup("#yamlTree").query(), MouseButton.PRIMARY);
         YamlTree.getInstance().getRoot().setExpanded(true);
 
         try {
@@ -103,7 +103,7 @@ public class MainYamlTreeTest extends FxRobot {
                 Assert.assertTrue(_fullRessourcesName.contains(stringTreeItem.getValue()));
             }
 
-            clickOn(lookup("#yamlTree").query(), MouseButton.PRIMARY);
+            //clickOn(lookup("#yamlTree").query(), MouseButton.PRIMARY);
             //Create a YamlToCntrollerNode
             Random r = new Random();
 

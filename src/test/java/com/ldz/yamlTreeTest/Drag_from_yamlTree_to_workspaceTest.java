@@ -32,7 +32,7 @@ import java.util.function.Consumer;
 /**
  * Created by ldalzotto on 28/12/2016.
  */
-public class Drag_from_yamlTree_to_workspace extends FxRobot {
+public class Drag_from_yamlTree_to_workspaceTest extends FxRobot {
 
     private MainScene _mainScene = null;
     private static Stage _stage = null;
@@ -84,14 +84,15 @@ public class Drag_from_yamlTree_to_workspace extends FxRobot {
                 .thenReturn(new File("src/test/uber.yaml"));
         _mainScene.set_yamlFileChooserDialog(fileChooserDialog);
 
-        clickOn(lookup("#fileMenu").query(), MouseButton.PRIMARY);
-        Platform.runLater(new Runnable() {
-            public void run() {
+        //clickOn(lookup("#fileMenu").query(), MouseButton.PRIMARY);
+        new AbstractGUITask(){
+            public void GUITask() {
                 _mainScene.get_menuFile().getItems().get(0).fire();
             }
-        });
+        };
 
-        clickOn(lookup("#yamlTree").query(), MouseButton.PRIMARY);
+        //clickOn(lookup("#yamlTree").query(), MouseButton.PRIMARY);
+
 
         try {
             Field yamlTreeField = _mainScene.getClass().getDeclaredField("_yamlTree");
@@ -106,9 +107,8 @@ public class Drag_from_yamlTree_to_workspace extends FxRobot {
                 Assert.assertTrue(_fullRessourcesName.contains(stringTreeItem.getValue()));
             }
 
-            clickOn(yamlTree.getRoot().getValue(), MouseButton.PRIMARY);
+            //clickOn(yamlTree.getRoot().getValue(), MouseButton.PRIMARY);
             yamlTree.getRoot().setExpanded(true);
-            sleep(500, TimeUnit.MILLISECONDS);
 
             new AbstractGUITask(){
                 public void GUITask() {
