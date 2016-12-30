@@ -86,17 +86,18 @@ public abstract class AbstractUiNode extends StackPane implements IHasChildren<U
 
         addEventFilter(MouseEvent.MOUSE_DRAGGED, new EventHandler<MouseEvent>() {
             public void handle(MouseEvent event) {
-                if((event.getPickResult().getIntersectedNode() instanceof IGUIWorkspace)){
-                    if(event.isSecondaryButtonDown()){
-                        if(_initialCursorPosition != null){
-                            setTranslateX(event.getScreenX() - _initialCursorPosition.getX());
-                            setTranslateY(event.getScreenY() - _initialCursorPosition.getY());
+                if(event.isSecondaryButtonDown()){
+                    if((event.getPickResult().getIntersectedNode() instanceof IGUIWorkspace)){
+                        if(event.isSecondaryButtonDown()){
+                            if(_initialCursorPosition != null){
+                                setTranslateX(event.getScreenX() - _initialCursorPosition.getX());
+                                setTranslateY(event.getScreenY() - _initialCursorPosition.getY());
+                            }
                         }
+                    } else {
+                        System.out.println("Node move not tolerated here");
                     }
-                } else {
-                    System.out.println("Node move not tolerated here");
                 }
-
             }
         });
 

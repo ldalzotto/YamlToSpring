@@ -39,6 +39,7 @@ public class LinkerEventHandler implements IGUIWorkspace{
 
         _startNode.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
             public void handle(MouseEvent event) {
+                System.out.println("Start dragging a linking line");
                 Bounds screenBound = _startNode.localToScreen(_startNode.getBoundsInLocal());
                 Bounds pointLocal = _line.screenToLocal(screenBound);
                 _line.setStartX(pointLocal.getMaxX());
@@ -58,7 +59,6 @@ public class LinkerEventHandler implements IGUIWorkspace{
 
         /**
          * Make the information transit
-         * //TODO make sure that type are compatibles
          */
         _startNode.addEventFilter(MouseEvent.MOUSE_RELEASED, new EventHandler<MouseEvent>() {
             public void handle(MouseEvent event) {
@@ -90,6 +90,7 @@ public class LinkerEventHandler implements IGUIWorkspace{
                     Bounds vBoxChildNodeScreen = uiNodePoint.localToScreen(uiNodePoint.getBoundsInLocal());
                     if (vBoxChildNodeScreen.contains(event.getScreenX(), event.getScreenY())) {
                         UINodePoint uiNodePointStart = (UINodePoint) _startNode;
+                        //TODO make sure that type are compatibles (lists attribute with new enum ?)
                         Map<String, IYamlDomain> inputMapData = uiNodePointStart.get_carriedData();
                         (uiNodePoint).set_carriedData(inputMapData);
                         System.out.println("Linking data : " + inputMapData.toString() + " from " + uiNodePointStart.toString() + " to "
@@ -130,5 +131,9 @@ public class LinkerEventHandler implements IGUIWorkspace{
 
     public void set_endNode(Node _endNode) {
         this._endNode = _endNode;
+    }
+
+    public Line get_line() {
+        return _line;
     }
 }

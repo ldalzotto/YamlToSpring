@@ -14,15 +14,18 @@ import com.ldz.view.UINodes.generic.node.AbstractUiNode;
 import com.ldz.view.UINodes.generic.node.UINodePoint;
 import com.ldz.view.YamlToController;
 import com.ldz.view.stages.SpringNodeCreatorScene;
+import javafx.geometry.Bounds;
+import javafx.scene.Node;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.input.PickResult;
 import javafx.stage.Stage;
 import org.junit.*;
 import org.mockito.Mockito;
 import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
@@ -34,7 +37,7 @@ import java.util.concurrent.ThreadLocalRandom;
  *     -> data is correctly passed
  *     -> only 1 data per Spring nodes nodes
  */
-public class LinkerEventTest extends FxRobot {
+public class LinkerEventMainTest extends FxRobot {
 
 
     private MainScene _mainScene = null;
@@ -150,8 +153,68 @@ public class LinkerEventTest extends FxRobot {
         Assert.assertTrue(springNode.getChilds().get(0).getInputChildrens().size() == 1);
 
 
-
         //create link between nodes
+        List<Node> yamlStartNodes = new ArrayList<Node>();
+        //get the two start nodes
+        Iterator<LinkerEventHandler> linkerEventHandlerIterator1 = _yamlToController.get_nodeLinkerEventHandlerMap().keySet().iterator();
+        LinkerEventHandler linkerEventHandler1 = null;
+        LinkerEventHandler linkerEventHandler2 = null;
+
+        while (linkerEventHandlerIterator1.hasNext()){
+            LinkerEventHandler linkerEventHandler = linkerEventHandlerIterator1.next();
+            if(linkerEventHandler1 == null){
+                linkerEventHandler1 = linkerEventHandler;
+            } else if(linkerEventHandler2 == null){
+                linkerEventHandler2 = linkerEventHandler;
+            }
+            Map<Node, Node> link = _yamlToController.get_nodeLinkerEventHandlerMap().get(linkerEventHandler);
+            Assert.assertTrue(link.keySet().size() == 1);
+            Iterator<Node> nodeIterator = link.keySet().iterator();
+            yamlStartNodes.add(nodeIterator.next());
+        }
+
+        //the end node is the spring one
+        final Node yamlStartNode1 = yamlStartNodes.get(0);
+        UINodePoint springEndNode =  springNode.getChilds().get(0).getChilds().get(0);
+
+        new AbstractGUITask(){
+            public void GUITask() {
+                yamlStartNode1.fireEvent(new MouseEvent(MouseEvent.MOUSE_PRESSED, 0,0,0,0, MouseButton.PRIMARY, 0, false, false
+                , false, false, true, false, false, false, false, false, null));
+            }
+        };
+
+        Assert.assertTrue(linkerEventHandler1.get_line().isVisible());
+        Bounds pointLocal = linkerEventHandler1.get_line().screenToLocal(yamlStartNode1.localToScreen(yamlStartNode1.getBoundsInLocal()));
+        Assert.assertTrue(linkerEventHandler1.get_line().getStartX() == pointLocal.getMaxX());
+        Assert.assertTrue(linkerEventHandler1.get_line().getStartY() == (pointLocal.getMaxY()+pointLocal.getMinY())/2);
+
+        //draggin mous
+        new AbstractGUITask(){
+            public void GUITask() {
+                yamlStartNode1.fireEvent(new MouseEvent(MouseEvent.MOUSE_DRAGGED, 100, 100, 100, 100, MouseButton.PRIMARY,
+                        0, false,false,false,false,false,false,false,false,false,false,null));
+            }
+        };
+
+        Assert.assertTrue(linkerEventHandler1.get_line().getEndX() != 0);
+        Assert.assertTrue(linkerEventHandler1.get_line().getEndY() != 0);
+
+
+        UINodePoint springInputUiNodePoint = springNode.getChilds().get(0).getChilds().get(0);
+        Bounds releaseBound = springInputUiNodePoint.localToScreen(springInputUiNodePoint.getBoundsInLocal());
+        final double releaseX = releaseBound.getMinX() + ((releaseBound.getMaxX()-releaseBound.getMinX())/2);
+        final double releaseY = releaseBound.getMinY() + ((releaseBound.getMaxY()-releaseBound.getMinY())/2);
+
+        new AbstractGUITask(){
+            public void GUITask() {
+                yamlStartNode1.fireEvent(new MouseEvent(MouseEvent.MOUSE_RELEASED, releaseX, releaseY, releaseX, releaseY, MouseButton.PRIMARY,
+                        0, false,false,false,false,false,false,false,false,false,false,null));
+            }
+        };
+
+        Assert.assertTrue(linkerEventHandler1.get_line().isVisible());
+        Assert.assertTrue(springEndNode.get_carriedData().equals(((UINodePoint)yamlStartNode1).get_carriedData()));
 
         new AbstractGUITask(){
             public void GUITask() {
