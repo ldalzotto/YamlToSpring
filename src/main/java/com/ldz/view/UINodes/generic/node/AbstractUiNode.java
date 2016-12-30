@@ -31,6 +31,11 @@ public abstract class AbstractUiNode extends StackPane implements IHasChildren<U
     private UINodePoints _output = null;
     private YamlToController _yamlToController = YamlToController.getInstance();
 
+    /**
+     *
+     * @param posX the local X position
+     * @param posY the local Y position
+     */
     public AbstractUiNode(double posX, double posY, String nodeName, Map<String, IYamlDomain> outputData,
                           Map<String, IYamlDomain> inputData, Color color){
         super();

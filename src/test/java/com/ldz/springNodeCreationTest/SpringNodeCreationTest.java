@@ -11,23 +11,19 @@ import com.ldz.view.menu.YamlWorkspaceContextMenu;
 import com.ldz.view.stages.SpringNodeCreatorScene;
 import com.ldz.view.stages.SpringNodeCreatorStage;
 import com.sun.javafx.scene.control.skin.ContextMenuContent;
-import javafx.application.Platform;
 import javafx.geometry.Point3D;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.TextField;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.PickResult;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import org.junit.*;
-import org.mockito.Mockito;
-import org.mockito.Spy;
 import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
 
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Created by ldalzotto on 29/12/2016.
@@ -144,9 +140,15 @@ public class SpringNodeCreationTest extends FxRobot{
         //popUp window must not be diplayed because of exit event
         Assert.assertTrue(!_springNodeCreatorStage.isShowing());
 
+
+        //random node coordinates
+        final int firstNodeScreenX = ThreadLocalRandom.current().nextInt(-100, 100);
+        final int firstNodeScreenY = ThreadLocalRandom.current().nextInt(-100, 100);
+
         new AbstractGUITaskWithoutCompletion(250){
             public void GUITask() {
-                _yamlWorkspaceContextMenu.fireEvent(new MouseEvent(MouseEvent.MOUSE_PRESSED, 0,0,0,0, MouseButton.SECONDARY, 0,
+                _yamlWorkspaceContextMenu.fireEvent(new MouseEvent(MouseEvent.MOUSE_PRESSED,
+                        firstNodeScreenX,firstNodeScreenY,firstNodeScreenX,firstNodeScreenY, MouseButton.SECONDARY, 0,
                         false, false, false, false, true, false, false, false, false, false, new PickResult(new ContextMenuContent(_yamlWorkspaceContextMenu).new MenuItemContainer(_yamlWorkspaceContextMenu.getItems().get(0)), new Point3D(0,0,0), 0)));
             }
         };
@@ -178,7 +180,10 @@ public class SpringNodeCreationTest extends FxRobot{
         Assert.assertTrue(_yamlToController.getChilds().size() == 1);
         Assert.assertTrue(_yamlToController.getChilds().get(0) instanceof SpringNode);
         Assert.assertTrue(((SpringNode)_yamlToController.getChilds().get(0)).get_nodeName().getText().equals("controllerTest"));
-        //assert about a position
+
+        //Check node position
+        Assert.assertTrue(((SpringNode)_yamlToController.getChilds().get(0)).getLayoutX() == _yamlToController.screenToLocal(firstNodeScreenX,firstNodeScreenY).getX());
+        Assert.assertTrue(((SpringNode)_yamlToController.getChilds().get(0)).getLayoutY() == _yamlToController.screenToLocal(firstNodeScreenX,firstNodeScreenY).getY());
 
 
         //controller name is resetted

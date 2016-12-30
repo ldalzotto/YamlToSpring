@@ -1,6 +1,5 @@
 package com.ldz.view;
 
-import com.ldz.Main;
 import com.ldz.controller.YamlLoadingController;
 import com.ldz.model.Path;
 import com.ldz.model.generic.IYamlDomain;
@@ -11,18 +10,12 @@ import com.ldz.view.UINodes.generic.IGUIWorkspace;
 import com.ldz.view.UINodes.generic.node.UINodePoints;
 import com.ldz.view.UINodes.generic.childrenInterface.IHasChildren;
 import com.ldz.view.menu.YamlWorkspaceContextMenu;
-import com.ldz.view.stages.SpringNodeCreatorScene;
-import com.ldz.view.stages.SpringNodeCreatorStage;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 
 import java.util.*;
 
