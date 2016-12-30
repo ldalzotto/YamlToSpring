@@ -18,12 +18,15 @@ import org.testfx.api.FxToolkit;
  * Created by ldalzotto on 30/12/2016.
  * Workflow -> creation of 1 Yaml Node and 1 Spring Node
  *     -> The yaml node contains multiple output
- *     -> Create nodes inside Spring node as much as necessary
- *     -> create link between them
+ *     -> Spring node got only one input node
+ *     -> create link first to first
  *     -> data is correctly passed
- *     -> only 1 data per Spring nodes nodes
+ *     -> create link second to first
+ *     -> data is correctly passed
+ *     -> old data is no more available from Spring node point of view
  */
-public class LinkerEventTest extends FxRobot {
+public class LinkerEventManyToOneTest extends FxRobot
+{
 
 
     private MainScene _mainScene = null;

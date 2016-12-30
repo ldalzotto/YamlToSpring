@@ -16,14 +16,15 @@ import org.testfx.api.FxToolkit;
 
 /**
  * Created by ldalzotto on 30/12/2016.
- * Workflow -> creation of 1 Yaml Node and 1 Spring Node
- *     -> The yaml node contains multiple output
- *     -> Create nodes inside Spring node as much as necessary
- *     -> create link between them
- *     -> data is correctly passed
- *     -> only 1 data per Spring nodes nodes
+ *  Workflow -> creation of 1 Yaml Node and 2 Spring Node
+ *     -> All srping nodes got 1 input
+ *     -> Yaml node got 2 outputs
+ *     -> create link between 1->1 and 1->2
+ *     -> links are correctly created (check position)
+ *     -> move yaml node
+ *     -> lanks are correctly moves (check position)
  */
-public class LinkerEventTest extends FxRobot {
+public class LinkerEventMovingTest extends FxRobot{
 
 
     private MainScene _mainScene = null;
