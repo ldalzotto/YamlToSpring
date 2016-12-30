@@ -13,9 +13,7 @@ import com.ldz.view.UINodes.YamlNode;
 import com.ldz.view.UINodes.generic.node.AbstractUiNode;
 import com.ldz.view.UINodes.generic.node.UINodePoint;
 import com.ldz.view.YamlToController;
-import com.ldz.view.menu.YamlWorkspaceContextMenu;
 import com.ldz.view.stages.SpringNodeCreatorScene;
-import com.ldz.view.stages.SpringNodeCreatorStage;
 import javafx.stage.Stage;
 import org.junit.*;
 import org.mockito.Mockito;
@@ -43,7 +41,6 @@ public class LinkerEventTest extends FxRobot {
     private YamlToController _yamlToController = null;
     private YamlLoadingController _yamlLoadingController = YamlLoadingController.getInstance();
     private YamlLoadingController _yamlLoadingControllerSpy = null;
-    private SpringNodeCreatorStage _springNodeCreatorStage = null;
     private Map<String, IYamlDomain> _mockedCarriedData = null;
     private static Stage _stage = null;
 
@@ -72,7 +69,6 @@ public class LinkerEventTest extends FxRobot {
                 _mainScene = MainScene.getInstance();
                 _yamlToController = YamlToController.getInstance();
                 _yamlLoadingController = YamlLoadingController.getInstance();
-                _springNodeCreatorStage = SpringNodeCreatorStage.getInstance();
             }
         };
 
@@ -160,8 +156,6 @@ public class LinkerEventTest extends FxRobot {
         new AbstractGUITask(){
             public void GUITask() {
                 _yamlToController.getChildren().clear();
-                _springNodeCreatorStage.close();
-                _springNodeCreatorStage.refreshInstance();
                 SpringNodeCreatorScene springNodeCreatorScene = SpringNodeCreatorScene.getInstance();
                 springNodeCreatorScene.getWindow().hide();
             }
