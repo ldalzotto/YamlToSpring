@@ -66,6 +66,7 @@ public class LinkerEventHandler implements IGUIWorkspace{
                 if(uiNodePoint == null){
                     _line.setVisible(false);
                     _endNode = null;
+                    System.out.println("The link has not been created");
                 } else {
                     _line.setVisible(true);
                     _endNode = uiNodePoint;
