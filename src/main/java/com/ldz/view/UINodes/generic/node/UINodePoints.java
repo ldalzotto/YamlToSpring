@@ -1,5 +1,6 @@
 package com.ldz.view.UINodes.generic.node;
 
+import com.ldz.constants.UINodePointType;
 import com.ldz.model.generic.IYamlDomain;
 import com.ldz.view.UINodes.generic.IGUIWorkspace;
 import com.ldz.view.UINodes.generic.childrenInterface.IHasChildren;
@@ -35,8 +36,16 @@ public class UINodePoints extends BorderPane implements IHasOutputAndInputChildr
             HashMap<String, IYamlDomain> entryMap = new HashMap();
             entryMap.put(entry.getKey(), entry.getValue());
 
-            HBox labelAndPoint = new UINodePoint(entryMap, radius);
+            UINodePointType uiNodePointType;
+            if(entry.getValue() == null){
+                uiNodePointType = UINodePointType.DEFAULT;
+            } else {
+                uiNodePointType = UINodePointType.getValueFromClass(entry.getValue().getClass());
+            }
+
+            HBox labelAndPoint = new UINodePoint(entryMap, radius, uiNodePointType);
             _outputLabelsAndPoints.getChildren().add(labelAndPoint);
+            System.out.println("Creation of output node " + labelAndPoint.getClass().getSimpleName() + labelAndPoint);
         }
 
         setRight(_outputLabelsAndPoints);
@@ -61,8 +70,16 @@ public class UINodePoints extends BorderPane implements IHasOutputAndInputChildr
                 HashMap<String, IYamlDomain> entryMap = new HashMap();
                 entryMap.put(entry.getKey(), entry.getValue());
 
-                HBox labelAndPoint = new UINodePoint(entryMap, radius);
+                UINodePointType uiNodePointType;
+                if(entry.getValue() == null){
+                    uiNodePointType = UINodePointType.DEFAULT;
+                } else {
+                    uiNodePointType = UINodePointType.getValueFromClass(entry.getValue().getClass());
+                }
+
+                HBox labelAndPoint = new UINodePoint(entryMap, radius, uiNodePointType);
                 _outputLabelsAndPoints.getChildren().add(labelAndPoint);
+                System.out.println("Creation of output node " + labelAndPoint.getClass().getSimpleName() + labelAndPoint);
             }
         }
 
@@ -76,8 +93,16 @@ public class UINodePoints extends BorderPane implements IHasOutputAndInputChildr
                 HashMap<String, IYamlDomain> entryMap = new HashMap();
                 entryMap.put(entry.getKey(), entry.getValue());
 
-                HBox labelAndPoint = new UINodePoint(entryMap, radius);
+                UINodePointType uiNodePointType;
+                if(entry.getValue() == null){
+                    uiNodePointType = UINodePointType.DEFAULT;
+                } else {
+                    uiNodePointType = UINodePointType.getValueFromClass(entry.getValue().getClass());
+                }
+
+                HBox labelAndPoint = new UINodePoint(entryMap, radius, uiNodePointType);
                 _inputLabelsAndPoints.getChildren().add(labelAndPoint);
+                System.out.println("Creation of input node " + labelAndPoint.getClass().getSimpleName() + labelAndPoint);
             }
         }
 
@@ -86,14 +111,6 @@ public class UINodePoints extends BorderPane implements IHasOutputAndInputChildr
         //BorderPane.setAlignment(_outputLabelsAndPoints, Pos.CENTER_RIGHT);
 
         setVisible(true);
-    }
-
-    public void addInputData(Map<String, IYamlDomain> inputData){
-        Iterator<Map.Entry<String, IYamlDomain>> inputDataIterator = inputData.entrySet().iterator();
-        while (inputDataIterator.hasNext()){
-            Map.Entry<String, IYamlDomain> entry = inputDataIterator.next();
-            _inputData.put(entry.getKey(), entry.getValue());
-        }
     }
 
     public List<UINodePoint> getInputChildrens() {

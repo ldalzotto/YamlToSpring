@@ -58,6 +58,7 @@ public class LinkerEventHandler implements IGUIWorkspace{
 
         /**
          * Make the information transit
+         * //TODO make sure that type are compatibles
          */
         _startNode.addEventFilter(MouseEvent.MOUSE_RELEASED, new EventHandler<MouseEvent>() {
             public void handle(MouseEvent event) {

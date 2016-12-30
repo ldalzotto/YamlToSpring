@@ -69,17 +69,22 @@ public class YamlLoadingController {
     public Map<String, IYamlDomain> getOperationsFromPath(Path path){
         Map<String, IYamlDomain> stringOperationMap = new HashMap<String, IYamlDomain>();
         try {
-            for(Field field : path.getClass().getDeclaredFields()){
-                field.setAccessible(true);
-                if(field.get(path)!=null &&
-                        (field.get(path) instanceof Operation)){
-                    stringOperationMap.put(field.getName(),  (Operation)field.get(path));
+            if(path != null){
+                for(Field field : path.getClass().getDeclaredFields()){
+                    field.setAccessible(true);
+                    if(field.get(path)!=null &&
+                            (field.get(path) instanceof Operation)){
+                        stringOperationMap.put(field.getName(),  (Operation)field.get(path));
+                    }
                 }
             }
             return stringOperationMap;
         } catch (IllegalAccessException e) {
             e.printStackTrace();
-            return null;
+            return stringOperationMap;
+        } catch (NullPointerException e){
+            e.printStackTrace();
+            return stringOperationMap;
         }
     }
 

@@ -1,5 +1,6 @@
 package com.ldz.view.UINodes.generic.node;
 
+import com.ldz.constants.UINodePointType;
 import com.ldz.model.generic.IYamlDomain;
 import com.ldz.view.UINodes.generic.IGUIWorkspace;
 import com.ldz.view.UINodes.generic.childrenInterface.IHasChildren;
@@ -18,7 +19,7 @@ public class UINodePoint extends HBox implements IHasChildren<HBox>, IGUIWorkspa
 
     private Map<String, IYamlDomain> _carriedData = new HashMap<String, IYamlDomain>();
 
-    public UINodePoint(Map<String, IYamlDomain> carriedData, double radius){
+    public UINodePoint(Map<String, IYamlDomain> carriedData, double radius, UINodePointType uiNodePointType){
         super();
         _carriedData = carriedData;
 
@@ -28,7 +29,7 @@ public class UINodePoint extends HBox implements IHasChildren<HBox>, IGUIWorkspa
         getChildren().add(new UINodeText(entry.getKey()));
 
         Circle point = new UINodeCircle(radius);
-        point.setFill(Color.BLACK);
+        point.setFill(uiNodePointType.get_color());
         getChildren().add(point);
     }
 
