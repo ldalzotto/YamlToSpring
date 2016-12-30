@@ -92,6 +92,16 @@ public class LinkerEventHandler implements IGUIWorkspace{
                         UINodePoint uiNodePointStart = (UINodePoint) _startNode;
                         //TODO make sure that type are compatibles (lists attribute with new enum ?)
                         Map<String, IYamlDomain> inputMapData = uiNodePointStart.get_carriedData();
+
+                        //if the targeted point is not empty, then reset the linker
+                        if(uiNodePoint.get_carriedData().keySet().size() != 0){
+                            LinkerEventHandler linkerEventHandler = _yamlToController.getLinkEventHandlerFromAssociatedPoint(uiNodePoint);
+                            if(linkerEventHandler != null){
+                                linkerEventHandler.resetLinker();
+                                System.out.println("Safely resetting " + linkerEventHandler);
+                                _yamlToController.resetLinker(linkerEventHandler);
+                            }
+                        }
                         (uiNodePoint).set_carriedData(inputMapData);
                         System.out.println("Linking data : " + inputMapData.toString() + " from " + uiNodePointStart.toString() + " to "
                                 + uiNodePoint.toString());
@@ -115,6 +125,16 @@ public class LinkerEventHandler implements IGUIWorkspace{
         Bounds pointLocal = _line.screenToLocal(screenBound);
         _line.setEndX(pointLocal.getMaxX());
         _line.setEndY((pointLocal.getMaxY()+pointLocal.getMinY())/2);
+    }
+
+    public void resetLinker(){
+        System.out.println("Resetting " + this + " from " + _yamlToController);
+        _line.setVisible(false);
+        _yamlToController.getChildren().remove(_line);
+        _line = new Line(0,0,0,0);
+        _line.setVisible(false);
+        _yamlToController.getChildren().add(_line);
+        _endNode = null;
     }
 
     public Node get_startNode() {

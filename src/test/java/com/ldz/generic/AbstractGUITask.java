@@ -23,6 +23,7 @@ public abstract class AbstractGUITask {
                 latch.countDown();
             }
         });
+
         try {
             latch.await();
         } catch (InterruptedException e) {

@@ -8,6 +8,7 @@ import com.ldz.view.UINodes.SpringNode;
 import com.ldz.view.UINodes.YamlNode;
 import com.ldz.view.UINodes.generic.node.AbstractUiNode;
 import com.ldz.view.UINodes.generic.IGUIWorkspace;
+import com.ldz.view.UINodes.generic.node.UINodePoint;
 import com.ldz.view.UINodes.generic.node.UINodePoints;
 import com.ldz.view.UINodes.generic.childrenInterface.IHasChildren;
 import com.ldz.view.menu.YamlWorkspaceContextMenu;
@@ -112,6 +113,41 @@ public class YamlToController extends Pane implements IHasChildren<AbstractUiNod
             }
         }
         return abstractUiNodes;
+    }
+
+    public LinkerEventHandler getLinkEventHandlerFromAssociatedPoint(UINodePoint uiNodePoint){
+        Iterator<Map.Entry<LinkerEventHandler, Map<Node, Node>>> entryIterator = _nodeLinkerEventHandlerMap.entrySet().iterator();
+        while (entryIterator.hasNext()){
+            Map.Entry<LinkerEventHandler, Map<Node, Node>> linkerEventHandlerMapEntry = entryIterator.next();
+            Iterator<Map.Entry<Node, Node>> entryIterator1 = linkerEventHandlerMapEntry.getValue().entrySet().iterator();
+            while (entryIterator1.hasNext()){
+                Map.Entry<Node, Node> nodeNodeEntry = entryIterator1.next();
+                if(nodeNodeEntry.getValue() != null &&
+                        nodeNodeEntry.getValue().equals(uiNodePoint)){
+                    return linkerEventHandlerMapEntry.getKey();
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Reset the linker inside _nodeLinkerEventHandlerMap
+     * @param linkerEventHandler the linker to reset
+     */
+    public void resetLinker(LinkerEventHandler linkerEventHandler){
+        Iterator<Map.Entry<LinkerEventHandler, Map<Node, Node>>> entryIterator = _nodeLinkerEventHandlerMap.entrySet().iterator();
+        while (entryIterator.hasNext()) {
+            Map.Entry<LinkerEventHandler, Map<Node, Node>> linkerEventHandlerMapEntry = entryIterator.next();
+            if(linkerEventHandlerMapEntry.getKey().equals(linkerEventHandler)){
+                Iterator<Map.Entry<Node, Node>> entryIterator1 = _nodeLinkerEventHandlerMap.get(linkerEventHandler).entrySet().iterator();
+                while (entryIterator1.hasNext()){
+                    Map.Entry<Node, Node> nodeNodeEntry = entryIterator1.next();
+                    nodeNodeEntry.setValue(null);
+                }
+                return;
+            }
+        }
     }
 
     public Map<LinkerEventHandler, Map<Node, Node>> get_nodeLinkerEventHandlerMap() {
