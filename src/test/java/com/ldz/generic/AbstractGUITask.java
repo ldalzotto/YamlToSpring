@@ -18,9 +18,9 @@ public abstract class AbstractGUITask {
                     GUITask();
                 } catch (Exception e) {
                     e.printStackTrace();
+                } finally {
                     latch.countDown();
                 }
-                latch.countDown();
             }
         });
 

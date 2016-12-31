@@ -123,7 +123,7 @@ public class LinkerEventManyToOneTest extends FxRobot
 
         //create link between nodes
         List<Node> yamlStartNodes = new ArrayList<Node>();
-        //get the two start points
+        //get the two start nodes
         Iterator<LinkerEventHandler> linkerEventHandlerIterator1 = _yamlToController.get_nodeLinkerEventHandlerMap().keySet().iterator();
         LinkerEventHandler linkerEventHandler1 = null;
         LinkerEventHandler linkerEventHandler2 = null;
@@ -143,7 +143,23 @@ public class LinkerEventManyToOneTest extends FxRobot
 
         //the end node is the spring one
         final Node yamlStartNode1 = yamlStartNodes.get(0);
+        final Node yamlStartNode2 = yamlStartNodes.get(1);
         UINodePoint springEndNode =  springNode.getChilds().get(0).getChilds().get(0);
+
+        new AbstractGUITask(){
+            public void GUITask() {
+                yamlStartNode1.fireEvent(new MouseEvent(MouseEvent.MOUSE_PRESSED, 0,0,0,0, MouseButton.PRIMARY, 0, false, false
+                        , false, false, true, false, false, false, false, false, null));
+            }
+        };
+
+        //draggin mouse
+        new AbstractGUITask(){
+            public void GUITask() {
+                yamlStartNode1.fireEvent(new MouseEvent(MouseEvent.MOUSE_DRAGGED, 100, 100, 100, 100, MouseButton.PRIMARY,
+                        0, false,false,false,false,false,false,false,false,false,false,null));
+            }
+        };
 
 
         UINodePoint springInputUiNodePoint = springNode.getChilds().get(0).getChilds().get(0);
@@ -153,38 +169,44 @@ public class LinkerEventManyToOneTest extends FxRobot
 
         new AbstractGUITask(){
             public void GUITask() {
-                yamlStartNode1.fireEvent(new MouseEvent(MouseEvent.MOUSE_PRESSED, 0,0,0,0, MouseButton.PRIMARY, 0, false, false
-                        , false, false, true, false, false, false, false, false, null));
-                yamlStartNode1.fireEvent(new MouseEvent(MouseEvent.MOUSE_DRAGGED, 100, 100, 100, 100, MouseButton.PRIMARY,
-                        0, false,false,false,false,false,false,false,false,false,false,null));
                 yamlStartNode1.fireEvent(new MouseEvent(MouseEvent.MOUSE_RELEASED, releaseX, releaseY, releaseX, releaseY, MouseButton.PRIMARY,
                         0, false,false,false,false,false,false,false,false,false,false,null));
-                sleep(100, TimeUnit.MILLISECONDS);
             }
         };
 
         Assert.assertTrue(linkerEventHandler1.get_line().isVisible());
         Assert.assertTrue(springEndNode.get_carriedData().equals(((UINodePoint)yamlStartNode1).get_carriedData()));
 
-        final Node yamlStartNode2 = yamlStartNodes.get(1);
 
         new AbstractGUITask(){
             public void GUITask() {
                 yamlStartNode2.fireEvent(new MouseEvent(MouseEvent.MOUSE_PRESSED, 0,0,0,0, MouseButton.PRIMARY, 0, false, false
                         , false, false, true, false, false, false, false, false, null));
-                yamlStartNode2.fireEvent(new MouseEvent(MouseEvent.MOUSE_DRAGGED, 100, 100, 100, 100, MouseButton.PRIMARY,
-                        0, false,false,false,false,false,false,false,false,false,false,null));
-                yamlStartNode2.fireEvent(new MouseEvent(MouseEvent.MOUSE_RELEASED, releaseX, releaseY, releaseX, releaseY, MouseButton.PRIMARY,
-                        0, false,false,false,false,false,false,false,false,false,false,null));
-                sleep(100, TimeUnit.MILLISECONDS);
             }
         };
 
-        Assert.assertTrue(linkerEventHandler2.get_line().isVisible());
-        Assert.assertTrue(springEndNode.get_carriedData().equals(((UINodePoint)yamlStartNode2).get_carriedData()));
-        Assert.assertTrue(!linkerEventHandler1.get_line().isVisible());
+        //draggin mouse
+        new AbstractGUITask(){
+            public void GUITask() {
+                yamlStartNode2.fireEvent(new MouseEvent(MouseEvent.MOUSE_DRAGGED, 100, 100, 100, 100, MouseButton.PRIMARY,
+                        0, false,false,false,false,false,false,false,false,false,false,null));
+            }
+        };
 
-        //See if the first Linker has correctly been reseted
+        new AbstractGUITask(){
+            public void GUITask() {
+                yamlStartNode2.fireEvent(new MouseEvent(MouseEvent.MOUSE_RELEASED, releaseX, releaseY, releaseX, releaseY, MouseButton.PRIMARY,
+                        0, false,false,false,false,false,false,false,false,false,false,null));
+            }
+        };
+
+        Assert.assertTrue(!linkerEventHandler1.get_line().isVisible());
+        Assert.assertTrue(linkerEventHandler2.get_line().isVisible());
+        Assert.assertTrue(linkerEventHandler2.get_endNode().equals(springEndNode));
+        Assert.assertTrue(springEndNode.get_carriedData().equals(((UINodePoint)yamlStartNode2).get_carriedData()));
+
+        Assert.assertTrue(linkerEventHandler1.get_endNode() == null);
+        Assert.assertTrue(linkerEventHandler1.get_startNode().equals(yamlStartNode1));
 
         new AbstractGUITask(){
             public void GUITask() {
