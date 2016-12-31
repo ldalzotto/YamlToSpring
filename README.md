@@ -1,8 +1,5 @@
 # YamlToSpring
 
-[![Build Status](https://travis-ci.org/ldalzotto/YamlToSpring.png)](https://travis-ci.org/ldalzotto/YamlToSpring)
-[![Coverage Status](https://coveralls.io/repos/github/ldalzotto/YamlToSpring/badge.svg?branch=master)](https://coveralls.io/github/ldalzotto/YamlToSpring?branch=master)
-
 
 This project aims to transform Swagger YAML file to SpringMVC ready to use project.
 
@@ -22,7 +19,6 @@ To try the app, you simply have to build it via Maven : mvn package.
 Then, move to the folder target/jfx/native/node-yaml-to-spring/ and run the .exe file.
 
 #Things TO DO :
-* Creations of Spring controller nodes
 * Manage input of nodes
 * All Spring code generation
 
@@ -30,3 +26,4 @@ Then, move to the folder target/jfx/native/node-yaml-to-spring/ and run the .exe
 * Load of Swagger YAML file
 * Drag & Drop ressources name to main workspace
 * Link between AbstractNodes
+* Creations of Spring controller nodes
