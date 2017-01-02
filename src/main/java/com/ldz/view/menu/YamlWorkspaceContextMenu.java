@@ -1,5 +1,6 @@
 package com.ldz.view.menu;
 
+import com.ldz.view.UINodes.toListNode.UIListNode;
 import com.ldz.view.YamlToController;
 import com.ldz.view.stages.SpringNodeCreatorStage;
 import javafx.event.EventHandler;
@@ -17,11 +18,13 @@ public class YamlWorkspaceContextMenu extends ContextMenu {
     private static YamlToController _yamlToController = null;
 
     public final static String MENU_CREATE_PRING_ID = "createSpringNode";
+    public final static String TO_LIST_NODE_ID = "createToListNode";
 
     private final SpringNodeCreatorStage _SpringNodeCreatorStage = SpringNodeCreatorStage.getInstance();
 
 
     private MenuItem _createSpringNode = null;
+    private MenuItem _createToListNode = null;
 
     public static YamlWorkspaceContextMenu getInstance(YamlToController yamlToController){
         _yamlToController = yamlToController;
@@ -35,9 +38,12 @@ public class YamlWorkspaceContextMenu extends ContextMenu {
         _createSpringNode = new MenuItem("Create Spring node");
         _createSpringNode.setId(MENU_CREATE_PRING_ID);
 
-        getItems().add(_createSpringNode);
+        _createToListNode = new MenuItem("Create to list node");
+        _createToListNode.setId(TO_LIST_NODE_ID);
 
-        addEventFilter(MouseEvent.MOUSE_EXITED_TARGET, new EventHandler<MouseEvent>() {
+        getItems().addAll(_createSpringNode, _createToListNode);
+
+        addEventFilter(MouseEvent.MOUSE_EXITED, new EventHandler<MouseEvent>() {
             public void handle(MouseEvent event) {
                 System.out.println("Hiding context menu");
                 _instance.hide();
@@ -48,21 +54,32 @@ public class YamlWorkspaceContextMenu extends ContextMenu {
             public void handle(MouseEvent event) {
                 if(event.isPrimaryButtonDown()){
                     if(event.getPickResult() != null && event.getPickResult().getIntersectedNode() != null &&
-                            event.getPickResult().getIntersectedNode().getId() != null &&
-                            event.getPickResult().getIntersectedNode().getId().equals(MENU_CREATE_PRING_ID)){
-                        Point2D point2D = _yamlToController.screenToLocal(event.getScreenX(), event.getScreenY());
-                        _SpringNodeCreatorStage.showAndWait();
-                        String controllerName = _SpringNodeCreatorStage.get_SpringNodeCreatorScene().get_yamlControllerName().getText();
+                            event.getPickResult().getIntersectedNode().getId() != null){
+                        if(event.getPickResult().getIntersectedNode().getId().equals(MENU_CREATE_PRING_ID)){
 
-                        if(_SpringNodeCreatorStage.get_SpringNodeCreatorScene().get_yamlControllerName().getText() != null
-                                && !_SpringNodeCreatorStage.get_SpringNodeCreatorScene().get_yamlControllerName().getText().isEmpty()){
-                            _yamlToController.createSpringNode(point2D.getX(), point2D.getY(), controllerName);
-                        } else {
-                            System.out.println("Spring node not created");
+                                Point2D point2D = _yamlToController.screenToLocal(event.getScreenX(), event.getScreenY());
+                                _SpringNodeCreatorStage.showAndWait();
+                                String controllerName = _SpringNodeCreatorStage.get_SpringNodeCreatorScene().get_yamlControllerName().getText();
+
+                                if(_SpringNodeCreatorStage.get_SpringNodeCreatorScene().get_yamlControllerName().getText() != null
+                                        && !_SpringNodeCreatorStage.get_SpringNodeCreatorScene().get_yamlControllerName().getText().isEmpty()){
+                                    _yamlToController.createSpringNode(point2D.getX(), point2D.getY(), controllerName);
+                                } else {
+                                    System.out.println("Spring node not created");
+                                }
+
+                                System.out.println("Hiding context menu");
+                                _instance.hide();
+                        } else if(event.getPickResult().getIntersectedNode().getId().equals(TO_LIST_NODE_ID)){
+                            Point2D point2D = _yamlToController.screenToLocal(event.getScreenX(), event.getScreenY());
+
+                            //UIListNode uiListNode = new UIListNode();
+                            _yamlToController.createUIListnode(point2D.getX(), point2D.getY(), "LISTLISTLISTLISTLISTLISTLIST");
+
+                            System.out.println("To List node created ");
+                            System.out.println("Hiding context menu");
+                            _instance.hide();
                         }
-
-                        System.out.println("Hiding context menu");
-                        _instance.hide();
                     }
                 }
             }

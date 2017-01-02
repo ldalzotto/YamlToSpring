@@ -1,6 +1,7 @@
 package com.ldz.view;
 
 import com.ldz.controller.YamlLoadingController;
+import com.ldz.model.Operation;
 import com.ldz.model.Operations;
 import com.ldz.model.Path;
 import com.ldz.model.generic.IYamlDomain;
@@ -11,6 +12,7 @@ import com.ldz.view.UINodes.generic.IGUIWorkspace;
 import com.ldz.view.UINodes.UINodePoint;
 import com.ldz.view.UINodes.UINodePoints;
 import com.ldz.view.UINodes.generic.childrenInterface.IHasChildren;
+import com.ldz.view.UINodes.toListNode.UIListNode;
 import com.ldz.view.menu.YamlWorkspaceContextMenu;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -156,5 +158,16 @@ public class YamlToController extends Pane implements IHasChildren<AbstractUiNod
 
     public void set_yamlLoadingController(YamlLoadingController _yamlLoadingController) {
         this._yamlLoadingController = _yamlLoadingController;
+    }
+
+    public void createUIListnode(double mouseX, double mouseY, String nodeName){
+        Map<String, IYamlDomain> inputData = new HashMap<String, IYamlDomain>();
+        inputData.put("", new Operation());
+        Map<String, IYamlDomain> outputData = new HashMap<String, IYamlDomain>();
+        outputData.put("", new Operations());
+
+        UIListNode uiListNode = new UIListNode(mouseX, mouseY, nodeName, outputData, inputData, Color.YELLOW);
+        _nodeLinkerEventHandlerMap.putAll(uiListNode.addLinkerEventHandlerToNode());
+        getChildren().add(uiListNode);
     }
 }
