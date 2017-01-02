@@ -99,9 +99,12 @@ public class LinkerEventHandler implements IGUIWorkspace{
                         if(uiNodePoint.get_carriedData().keySet().size() != 0){
                             LinkerEventHandler linkerEventHandler = _yamlToController.getLinkEventHandlerFromAssociatedPoint(uiNodePoint);
                             if(linkerEventHandler != null){
-                                linkerEventHandler.resetLinkerFromLinkerEventHandler();
-                                System.out.println("Safely resetting " + linkerEventHandler);
-                                _yamlToController.resetLinkerFromMainWorkspace(linkerEventHandler);
+                                if(!uiNodePoint.equals(_endNode)){
+                                    linkerEventHandler.resetLinkerFromLinkerEventHandler();
+                                    System.out.println("Safely resetting " + linkerEventHandler);
+                                    _yamlToController.resetLinkerFromMainWorkspace(linkerEventHandler);
+                                }
+
                             }
                         }
 
