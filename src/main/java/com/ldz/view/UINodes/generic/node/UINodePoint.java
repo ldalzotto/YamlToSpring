@@ -14,16 +14,16 @@ import java.util.*;
 /**
  * Created by ldalzotto on 26/12/2016.
  */
-public class UINodePoint extends HBox implements IHasChildren<HBox>, IGUIWorkspace {
+public class UINodePoint<T> extends HBox implements IHasChildren<HBox>, IGUIWorkspace {
 
-    private Map<String, IYamlDomain> _carriedData = new HashMap<String, IYamlDomain>();
+    private Map<String, T> _carriedData = new HashMap<String, T>();
 
-    public UINodePoint(Map<String, IYamlDomain> carriedData, double radius, UINodePointType uiNodePointType){
+    public UINodePoint(Map<String, T> carriedData, double radius, UINodePointType uiNodePointType){
         super();
         _carriedData = carriedData;
 
-        Iterator<Map.Entry<String, IYamlDomain>> iterator = carriedData.entrySet().iterator();
-        Map.Entry<String, IYamlDomain> entry = iterator.next();
+        Iterator<Map.Entry<String, T>> iterator = carriedData.entrySet().iterator();
+        Map.Entry<String, T> entry = iterator.next();
 
         getChildren().add(new UINodeText(entry.getKey()));
 
@@ -42,11 +42,19 @@ public class UINodePoint extends HBox implements IHasChildren<HBox>, IGUIWorkspa
         return hBoxes;
     }
 
-    public Map<String, IYamlDomain> get_carriedData() {
+    public List<HBox> getInputChildrens() {
+        return getChilds();
+    }
+
+    public List<HBox> getOutputChildren() {
+        return getChilds();
+    }
+
+    public Map<String, T> get_carriedData() {
         return _carriedData;
     }
 
-    public void set_carriedData(Map<String, IYamlDomain> _carriedData) {
+    public void set_carriedData(Map<String, T> _carriedData) {
         this._carriedData = _carriedData;
     }
 }

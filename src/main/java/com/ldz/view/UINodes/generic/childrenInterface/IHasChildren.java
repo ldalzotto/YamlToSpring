@@ -7,4 +7,6 @@ import java.util.List;
  */
 public interface IHasChildren<T> {
     List<T> getChilds();
+    List<T> getInputChildrens();
+    List<T> getOutputChildren();
 }

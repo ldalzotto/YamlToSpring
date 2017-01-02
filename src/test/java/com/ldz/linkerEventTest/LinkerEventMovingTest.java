@@ -57,7 +57,6 @@ public class LinkerEventMovingTest extends FxRobot{
     @BeforeClass
     public static void setupCurrentStage() throws Exception{
 
-
         System.setProperty("testfx.robot", "glass");
         System.setProperty("testfx.headless", "true");
         System.setProperty("prism.order", "sw");

@@ -2,6 +2,7 @@ package com.ldz.view.UINodes.generic.node;
 
 import com.ldz.model.generic.IYamlDomain;
 import com.ldz.view.LinkerEventHandler;
+import com.ldz.view.UINodes.YamlNode;
 import com.ldz.view.UINodes.generic.IGUIWorkspace;
 import com.ldz.view.UINodes.generic.childrenInterface.IHasChildren;
 import com.ldz.view.YamlToController;
@@ -24,6 +25,7 @@ import java.util.*;
  */
 public abstract class AbstractUiNode extends StackPane implements IHasChildren<UINodePoints>, IGUIWorkspace {
 
+    private AbstractUiNode _instance = null;
     private Rectangle _rectangle = null;
     private final double MIN_HEIGHT = 100;
     private Point2D _initialCursorPosition = null;
@@ -40,31 +42,7 @@ public abstract class AbstractUiNode extends StackPane implements IHasChildren<U
                              Map<String, IYamlDomain> inputData, Color color){
         super();
 
-        setLayoutX(posX);
-        setLayoutY(posY);
-
-        _rectangle = new Rectangle();
-        _rectangle.setVisible(true);
-        _rectangle.setFill(color);
-
-
-        _nodeName = new Text(nodeName);
-
-        Bounds nameBound = _nodeName.getBoundsInLocal();
-
-        _rectangle.setWidth(nameBound.getWidth());
-        if(nameBound.getHeight() < MIN_HEIGHT){
-            _rectangle.setHeight(MIN_HEIGHT);
-        } else {
-            _rectangle.setHeight(nameBound.getHeight());
-        }
-
-
-        _output = new UINodePoints(outputData, inputData);
-        _output.setVisible(true);
-        _output.setOpacity(0.3);
-
-
+        initiateAbstractUINode(posX, posY, nodeName, outputData, inputData, color);
 
         addEventFilter(MouseEvent.MOUSE_ENTERED, new EventHandler<MouseEvent>() {
             public void handle(MouseEvent event) {
@@ -87,6 +65,10 @@ public abstract class AbstractUiNode extends StackPane implements IHasChildren<U
         addEventFilter(MouseEvent.MOUSE_DRAGGED, new EventHandler<MouseEvent>() {
             public void handle(MouseEvent event) {
                 if(event.isSecondaryButtonDown()){
+
+                    System.out.println("The linker events associated to " + this + " are moving");
+                    updateLinksPosition(_instance);
+
                     if((event.getPickResult().getIntersectedNode() instanceof IGUIWorkspace)){
                         if(event.isSecondaryButtonDown()){
                             if(_initialCursorPosition != null){
@@ -115,6 +97,34 @@ public abstract class AbstractUiNode extends StackPane implements IHasChildren<U
         });
     }
 
+    private void initiateAbstractUINode(double posX, double posY, String nodeName, Map<String, IYamlDomain> outputData, Map<String, IYamlDomain> inputData, Color color) {
+        _instance = this;
+
+        setLayoutX(posX);
+        setLayoutY(posY);
+
+        _rectangle = new Rectangle();
+        _rectangle.setVisible(true);
+        _rectangle.setFill(color);
+
+
+        _nodeName = new Text(nodeName);
+
+        Bounds nameBound = _nodeName.getBoundsInLocal();
+
+        _rectangle.setWidth(nameBound.getWidth());
+        if(nameBound.getHeight() < MIN_HEIGHT){
+            _rectangle.setHeight(MIN_HEIGHT);
+        } else {
+            _rectangle.setHeight(nameBound.getHeight());
+        }
+
+
+        _output = new UINodePoints(outputData, inputData);
+        _output.setVisible(true);
+        _output.setOpacity(0.3);
+    }
+
     protected void displayAbstractNode(){
         if(_rectangle != null){
             getChildren().add(_rectangle);
@@ -140,6 +150,15 @@ public abstract class AbstractUiNode extends StackPane implements IHasChildren<U
             }
         }
         return uiNodePointses;
+    }
+
+
+    public List<UINodePoints> getInputChildrens() {
+        return getChilds();
+    }
+
+    public List<UINodePoints> getOutputChildren() {
+        return getChilds();
     }
 
     public Map<LinkerEventHandler, Map<Node, Node>> addLinkerEventHandlerToNode(){

@@ -115,6 +115,14 @@ public class YamlToController extends Pane implements IHasChildren<AbstractUiNod
         return abstractUiNodes;
     }
 
+    public List<AbstractUiNode> getInputChildrens() {
+        return getChilds();
+    }
+
+    public List<AbstractUiNode> getOutputChildren() {
+        return getChilds();
+    }
+
     public LinkerEventHandler getLinkEventHandlerFromAssociatedPoint(UINodePoint uiNodePoint){
         for (Map.Entry<LinkerEventHandler, Map<Node, Node>> linkerEventHandlerMapEntry : _nodeLinkerEventHandlerMap.entrySet()) {
             for (Map.Entry<Node, Node> nodeNodeEntry : linkerEventHandlerMapEntry.getValue().entrySet()) {
