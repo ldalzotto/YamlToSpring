@@ -19,7 +19,7 @@ To try the app, you simply have to build it via Maven : mvn package.
 Then, move to the folder target/jfx/native/node-yaml-to-spring/ and run the .exe file.
 
 #Things TO DO :
-* Manage input of nodes
+* Create a data to list node -> add execution to workflow
 * All Spring code generation
 
 #Things done :
@@ -27,3 +27,4 @@ Then, move to the folder target/jfx/native/node-yaml-to-spring/ and run the .exe
 * Drag & Drop ressources name to main workspace
 * Link between AbstractNodes
 * Creations of Spring controller nodes
+* Manage input of nodes
