@@ -27,6 +27,7 @@ public class YamlNode extends AbstractUiNode {
         addEventFilter(MouseEvent.MOUSE_DRAGGED, new EventHandler<MouseEvent>() {
             public void handle(MouseEvent event) {
                 if(event.isSecondaryButtonDown()){
+                    System.out.println("The linker events associated to " + this + " are moving");
                     updateLinksPosition(_instance);
                 }
             }

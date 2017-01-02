@@ -162,11 +162,13 @@ public abstract class AbstractUiNode extends StackPane implements IHasChildren<U
                 for(UINodePoint uiNodePoint : uiNodePoints.getChilds()){
 
                     //startKey
+                    //updateing the starts node
                     if(linkerEventHandlerMapEntry.getValue().containsKey(uiNodePoint)){
                         linkerEventHandlerMapEntry.getKey().set_startNode(uiNodePoint);
                         linkerEventHandlerMapEntry.getKey().updateStartPosition();
-                        //endKey
                     }
+                    //endKey
+                    //updating the end nodes
                     if (linkerEventHandlerMapEntry.getValue().containsValue(uiNodePoint)) {
                         linkerEventHandlerMapEntry.getKey().set_endNode(uiNodePoint);
                         linkerEventHandlerMapEntry.getKey().updateEndPosition();
