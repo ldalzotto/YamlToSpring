@@ -32,6 +32,7 @@ public abstract class AbstractUiNode extends StackPane implements IHasChildren<U
     private Point2D _initialCursorPosition = null;
     private Text _nodeName = null;
     private UINodePoints _output = null;
+    private Map<LinkerEventHandler, Map<Node, Node>> _linkerEventHandlerMap = null;
     private final YamlToController _yamlToController = YamlToController.getInstance();
 
     /**
@@ -139,6 +140,7 @@ public abstract class AbstractUiNode extends StackPane implements IHasChildren<U
             StackPane.setAlignment(_output, Pos.CENTER_LEFT);
         }
 
+        addLinkerEventHandlerToNode();
         setVisible(true);
     }
 
@@ -161,14 +163,13 @@ public abstract class AbstractUiNode extends StackPane implements IHasChildren<U
         return getChilds();
     }
 
-    public Map<LinkerEventHandler, Map<Node, Node>> addLinkerEventHandlerToNode(){
-        Map<LinkerEventHandler, Map<Node, Node>> linkEvents = new HashMap<LinkerEventHandler, Map<Node, Node>>();
+    public void addLinkerEventHandlerToNode(){
+        _linkerEventHandlerMap = new HashMap<LinkerEventHandler, Map<Node, Node>>();
         for(Node node : _output.getOutputChildren()){
             Map<Node, Node> nodeNodeMap = new HashMap<Node, Node>();
             nodeNodeMap.put(node, null);
-            linkEvents.put(new LinkerEventHandler(node), nodeNodeMap);
+            _linkerEventHandlerMap.put(new LinkerEventHandler(node), nodeNodeMap);
         }
-        return linkEvents;
     }
 
     protected void updateLinksPosition(AbstractUiNode abstractUiNode){
@@ -201,5 +202,9 @@ public abstract class AbstractUiNode extends StackPane implements IHasChildren<U
 
     public Text get_nodeName() {
         return _nodeName;
+    }
+
+    public Map<LinkerEventHandler, Map<Node, Node>> get_linkerEventHandlerMap() {
+        return _linkerEventHandlerMap;
     }
 }

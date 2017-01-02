@@ -1,6 +1,7 @@
 package com.ldz.view;
 
 import com.ldz.model.SwaggerYamlFile;
+import com.ldz.view.UINodes.factory.NodeFactory;
 import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
@@ -53,7 +54,7 @@ public class YamlTree extends TreeView<String> {
                         if(event.getPickResult().getIntersectedNode() instanceof YamlToController){
                             Point2D nodePoint = _yamlToController.screenToLocal(event.getScreenX(), event.getScreenY());
                             if(_wsSelected != null){
-                                _yamlToController.createYamlNode(nodePoint.getX(), nodePoint.getY(), _wsSelected.getValue());
+                                _yamlToController.createUINode(NodeFactory.NodeType.YAML, nodePoint.getX(), nodePoint.getY(), _wsSelected.getValue());
                             }
                         }
                     }

@@ -1,5 +1,6 @@
 package com.ldz.view.menu;
 
+import com.ldz.view.UINodes.factory.NodeFactory;
 import com.ldz.view.UINodes.toListNode.UIListNode;
 import com.ldz.view.YamlToController;
 import com.ldz.view.stages.SpringNodeCreatorStage;
@@ -63,7 +64,7 @@ public class YamlWorkspaceContextMenu extends ContextMenu {
 
                                 if(_SpringNodeCreatorStage.get_SpringNodeCreatorScene().get_yamlControllerName().getText() != null
                                         && !_SpringNodeCreatorStage.get_SpringNodeCreatorScene().get_yamlControllerName().getText().isEmpty()){
-                                    _yamlToController.createSpringNode(point2D.getX(), point2D.getY(), controllerName);
+                                    _yamlToController.createUINode(NodeFactory.NodeType.SPRING, point2D.getX(), point2D.getY(), controllerName);
                                 } else {
                                     System.out.println("Spring node not created");
                                 }
@@ -74,7 +75,7 @@ public class YamlWorkspaceContextMenu extends ContextMenu {
                             Point2D point2D = _yamlToController.screenToLocal(event.getScreenX(), event.getScreenY());
 
                             //UIListNode uiListNode = new UIListNode();
-                            _yamlToController.createUIListnode(point2D.getX(), point2D.getY(), "LISTLISTLISTLISTLISTLISTLIST");
+                            _yamlToController.createUINode(NodeFactory.NodeType.LIST, point2D.getX(), point2D.getY(), "LISTLISTLISTLISTLISTLISTLIST");
 
                             System.out.println("To List node created ");
                             System.out.println("Hiding context menu");

@@ -10,6 +10,7 @@ import com.ldz.view.LinkerEventHandler;
 import com.ldz.view.MainScene;
 import com.ldz.view.UINodes.SpringNode;
 import com.ldz.view.UINodes.YamlNode;
+import com.ldz.view.UINodes.factory.NodeFactory;
 import com.ldz.view.UINodes.generic.node.AbstractUiNode;
 import com.ldz.view.UINodes.UINodePoint;
 import com.ldz.view.YamlToController;
@@ -47,6 +48,7 @@ public class LinkerEventManyToOneTest extends FxRobot
     private YamlLoadingController _yamlLoadingController = YamlLoadingController.getInstance();
     private YamlLoadingController _yamlLoadingControllerSpy = null;
     private Map<String, IYamlDomain> _mockedCarriedData = null;
+    private NodeFactory _nodeFactory = NodeFactory.getInstance();
     private static Stage _stage = null;
 
     @BeforeClass
@@ -84,7 +86,7 @@ public class LinkerEventManyToOneTest extends FxRobot
         _yamlLoadingControllerSpy = Mockito.spy(_yamlLoadingController);
         Mockito.when(_yamlLoadingControllerSpy.getOperationsFromPath(Mockito.any(Path.class))).thenReturn(_mockedCarriedData);
         Mockito.when(_yamlLoadingControllerSpy.getPathFromRessourceName(Mockito.anyString())).thenReturn(new Path());
-        _yamlToController.set_yamlLoadingController(_yamlLoadingControllerSpy);
+        _nodeFactory.set_yamlLoadingController(_yamlLoadingControllerSpy);
     }
 
     @Test
@@ -100,8 +102,10 @@ public class LinkerEventManyToOneTest extends FxRobot
         //Creation of nodes
         new AbstractGUITask(){
             public void GUITask() {
-                _yamlToController.createYamlNode(yamlNode1X, yamlNode1Y, "api/v1/test");
-                _yamlToController.createSpringNode(springNode1X, springNode1Y, "spring1");
+                _yamlToController.createUINode(NodeFactory.NodeType.YAML, yamlNode1X, yamlNode1Y, "api/v1/test");
+                _yamlToController.createUINode(NodeFactory.NodeType.SPRING, springNode1X, springNode1Y, "spring1");
+               // _yamlToController.createYamlNode(yamlNode1X, yamlNode1Y, "api/v1/test");
+                //_yamlToController.createSpringNode(springNode1X, springNode1Y, "spring1");
             }
         };
 

@@ -15,8 +15,10 @@ public class SpringNode extends AbstractUiNode {
                       Map<String, IYamlDomain> inputData, Color color){
         super(posX, posY, nodeName, outputData, inputData, color);
 
+        setId(nodeName);
         displayAbstractNode();
 
         System.out.println("Spring node created.");
     }
+
 }

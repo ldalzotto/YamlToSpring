@@ -13,7 +13,7 @@ import java.util.Map;
  */
 public class YamlNode extends AbstractUiNode {
 
-    public YamlNode(double posX, double posY, String nodeName, Map<String, IYamlDomain> outputData){
+    public YamlNode(double posX, double posY, String nodeName, Map<String, IYamlDomain> outputData, Map<String, IYamlDomain> inputData, Color color){
         super(posX, posY, nodeName, outputData, null, Color.RED);
 
         setId(nodeName);
@@ -22,5 +22,6 @@ public class YamlNode extends AbstractUiNode {
 
         System.out.println("Yaml node created.");
     }
+
 
 }

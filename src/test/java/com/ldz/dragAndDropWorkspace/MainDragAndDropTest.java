@@ -5,6 +5,7 @@ import com.ldz.Main;
 import com.ldz.generic.AbstractGUITask;
 import com.ldz.view.MainScene;
 import com.ldz.view.UINodes.YamlNode;
+import com.ldz.view.UINodes.factory.NodeFactory;
 import com.ldz.view.YamlFileChooserDialog;
 import com.ldz.view.YamlToController;
 import com.ldz.view.YamlTree;
@@ -89,7 +90,8 @@ public class MainDragAndDropTest extends FxRobot {
         new AbstractGUITask(){
             public void GUITask() {
                 _mainScene.get_menuFile().getItems().get(0).fire();
-                _yamlToController.createYamlNode(xCoord,yCoord,"node1");
+                _yamlToController.createUINode(NodeFactory.NodeType.YAML, xCoord,yCoord,"node1");
+                //_yamlToController.createYamlNode(xCoord,yCoord,"node1");
             }
         };
 

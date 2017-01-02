@@ -5,12 +5,10 @@ import com.ldz.model.Operation;
 import com.ldz.model.Operations;
 import com.ldz.model.Path;
 import com.ldz.model.generic.IYamlDomain;
-import com.ldz.view.UINodes.SpringNode;
-import com.ldz.view.UINodes.YamlNode;
+import com.ldz.view.UINodes.*;
+import com.ldz.view.UINodes.factory.NodeFactory;
 import com.ldz.view.UINodes.generic.node.AbstractUiNode;
 import com.ldz.view.UINodes.generic.IGUIWorkspace;
-import com.ldz.view.UINodes.UINodePoint;
-import com.ldz.view.UINodes.UINodePoints;
 import com.ldz.view.UINodes.generic.childrenInterface.IHasChildren;
 import com.ldz.view.UINodes.toListNode.UIListNode;
 import com.ldz.view.menu.YamlWorkspaceContextMenu;
@@ -30,6 +28,7 @@ public class YamlToController extends Pane implements IHasChildren<AbstractUiNod
 
     private YamlLoadingController _yamlLoadingController = YamlLoadingController.getInstance();
     private final YamlWorkspaceContextMenu _yamlWorkspaceContextMenu = YamlWorkspaceContextMenu.getInstance(this);
+    private NodeFactory _NodeFactory = NodeFactory.getInstance();
 
     /**
      * This attribute represents all {@link LinkerEventHandler} and their start and end node
@@ -69,26 +68,7 @@ public class YamlToController extends Pane implements IHasChildren<AbstractUiNod
 
     }
 
-    public AbstractUiNode createYamlNode(double mouseX, double mouseY, String nodeName){
-        System.out.println("Start creating a YAML node...");
-        Path nodePath = _yamlLoadingController.getPathFromRessourceName(nodeName);
-        Map<String, IYamlDomain> outputData = new HashMap<String, IYamlDomain>();
-        if(nodePath != null){
-            outputData = _yamlLoadingController.getOperationsFromPath(nodePath);
-        }
-
-        YamlNode yamlNode = new YamlNode(mouseX, mouseY, nodeName, outputData);
-
-        if(!isAbstractNodeAlreadyPresent(yamlNode)){
-            getChildren().add(yamlNode);
-            System.out.println("YAML node created with carried information of : " + outputData);
-        }
-
-        _nodeLinkerEventHandlerMap.putAll(yamlNode.addLinkerEventHandlerToNode());
-        return yamlNode;
-    }
-
-    private boolean isAbstractNodeAlreadyPresent(YamlNode yamlNode) {
+    private boolean isAbstractNodeAlreadyPresent(AbstractUiNode yamlNode) {
         boolean isAlreadyPresent = false;
         for(AbstractUiNode abstractUiNode : getChilds()){
             if(abstractUiNode.getId() != null){
@@ -100,11 +80,15 @@ public class YamlToController extends Pane implements IHasChildren<AbstractUiNod
         return isAlreadyPresent;
     }
 
-    public void createSpringNode(double mouseX, double mouseY, String nodeName){
-        Map<String, IYamlDomain> inputData = new HashMap<String, IYamlDomain>();
-        inputData.put(nodeName, new Operations());
-        SpringNode springNode = new SpringNode(mouseX, mouseY, nodeName, null, inputData, Color.GREEN);
-        getChildren().add(springNode);
+    public void createUINode(NodeFactory.NodeType type, double mouseX, double mouseY, String nodeName){
+        AbstractUiNode abstractUiNode = _NodeFactory.createNode(type, mouseX, mouseY, nodeName);
+
+        if(!isAbstractNodeAlreadyPresent(abstractUiNode)){
+            _nodeLinkerEventHandlerMap.putAll(abstractUiNode.get_linkerEventHandlerMap());
+            getChildren().add(abstractUiNode);
+            System.out.println( type.getName() + " node created : " + abstractUiNode);
+        }
+
     }
 
     public List<AbstractUiNode> getChilds() {
@@ -160,14 +144,5 @@ public class YamlToController extends Pane implements IHasChildren<AbstractUiNod
         this._yamlLoadingController = _yamlLoadingController;
     }
 
-    public void createUIListnode(double mouseX, double mouseY, String nodeName){
-        Map<String, IYamlDomain> inputData = new HashMap<String, IYamlDomain>();
-        inputData.put("", new Operation());
-        Map<String, IYamlDomain> outputData = new HashMap<String, IYamlDomain>();
-        outputData.put("", new Operations());
 
-        UIListNode uiListNode = new UIListNode(mouseX, mouseY, nodeName, outputData, inputData, Color.YELLOW);
-        _nodeLinkerEventHandlerMap.putAll(uiListNode.addLinkerEventHandlerToNode());
-        getChildren().add(uiListNode);
-    }
 }
