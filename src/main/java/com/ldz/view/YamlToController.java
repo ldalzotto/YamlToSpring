@@ -8,8 +8,8 @@ import com.ldz.view.UINodes.SpringNode;
 import com.ldz.view.UINodes.YamlNode;
 import com.ldz.view.UINodes.generic.node.AbstractUiNode;
 import com.ldz.view.UINodes.generic.IGUIWorkspace;
-import com.ldz.view.UINodes.generic.node.UINodePoint;
-import com.ldz.view.UINodes.generic.node.UINodePoints;
+import com.ldz.view.UINodes.UINodePoint;
+import com.ldz.view.UINodes.UINodePoints;
 import com.ldz.view.UINodes.generic.childrenInterface.IHasChildren;
 import com.ldz.view.menu.YamlWorkspaceContextMenu;
 import javafx.event.EventHandler;
@@ -139,7 +139,7 @@ public class YamlToController extends Pane implements IHasChildren<AbstractUiNod
      * Reset the linker inside _nodeLinkerEventHandlerMap
      * @param linkerEventHandler the linker to reset
      */
-    public void resetLinker(LinkerEventHandler linkerEventHandler){
+    public void resetLinkerFromMainWorkspace(LinkerEventHandler linkerEventHandler){
         for (Map.Entry<LinkerEventHandler, Map<Node, Node>> linkerEventHandlerMapEntry : _nodeLinkerEventHandlerMap.entrySet()) {
             if (linkerEventHandlerMapEntry.getKey().equals(linkerEventHandler)) {
                 for (Map.Entry<Node, Node> nodeNodeEntry : _nodeLinkerEventHandlerMap.get(linkerEventHandler).entrySet()) {

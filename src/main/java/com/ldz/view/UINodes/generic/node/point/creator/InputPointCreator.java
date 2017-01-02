@@ -1,7 +1,7 @@
 package com.ldz.view.UINodes.generic.node.point.creator;
 
 import com.ldz.constants.UINodePointType;
-import com.ldz.view.UINodes.generic.node.UINodePoint;
+import com.ldz.view.UINodes.UINodePoint;
 import javafx.scene.layout.HBox;
 
 import java.util.ArrayList;

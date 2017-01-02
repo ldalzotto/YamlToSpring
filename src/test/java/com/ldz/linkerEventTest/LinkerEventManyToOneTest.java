@@ -3,7 +3,6 @@ package com.ldz.linkerEventTest;
 import com.ldz.Main;
 import com.ldz.controller.YamlLoadingController;
 import com.ldz.generic.AbstractGUITask;
-import com.ldz.generic.AbstractGUITaskWithoutCompletion;
 import com.ldz.model.Operation;
 import com.ldz.model.Path;
 import com.ldz.model.generic.IYamlDomain;
@@ -12,11 +11,9 @@ import com.ldz.view.MainScene;
 import com.ldz.view.UINodes.SpringNode;
 import com.ldz.view.UINodes.YamlNode;
 import com.ldz.view.UINodes.generic.node.AbstractUiNode;
-import com.ldz.view.UINodes.generic.node.UINodePoint;
+import com.ldz.view.UINodes.UINodePoint;
 import com.ldz.view.YamlToController;
-import com.ldz.view.menu.YamlWorkspaceContextMenu;
 import com.ldz.view.stages.SpringNodeCreatorScene;
-import com.ldz.view.stages.SpringNodeCreatorStage;
 import javafx.geometry.Bounds;
 import javafx.scene.Node;
 import javafx.scene.input.MouseButton;
@@ -29,7 +26,6 @@ import org.testfx.api.FxToolkit;
 
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created by ldalzotto on 30/12/2016.

@@ -2,7 +2,8 @@ package com.ldz.view.UINodes.generic.node;
 
 import com.ldz.model.generic.IYamlDomain;
 import com.ldz.view.LinkerEventHandler;
-import com.ldz.view.UINodes.YamlNode;
+import com.ldz.view.UINodes.UINodePoint;
+import com.ldz.view.UINodes.UINodePoints;
 import com.ldz.view.UINodes.generic.IGUIWorkspace;
 import com.ldz.view.UINodes.generic.childrenInterface.IHasChildren;
 import com.ldz.view.YamlToController;

@@ -3,8 +3,8 @@ package com.ldz.view;
 import com.ldz.model.generic.IYamlDomain;
 import com.ldz.view.UINodes.generic.node.AbstractUiNode;
 import com.ldz.view.UINodes.generic.IGUIWorkspace;
-import com.ldz.view.UINodes.generic.node.UINodePoint;
-import com.ldz.view.UINodes.generic.node.UINodePoints;
+import com.ldz.view.UINodes.UINodePoint;
+import com.ldz.view.UINodes.UINodePoints;
 import javafx.event.EventHandler;
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
@@ -13,6 +13,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -80,6 +81,8 @@ public class LinkerEventHandler implements IGUIWorkspace{
 
     private UINodePoint isMouseReleasedOnInputUINode(MouseEvent event) {
         List<AbstractUiNode> abstractUiNodes = _yamlToController.getChilds();
+
+        //For all AbstractUiNode
         for(AbstractUiNode abstractUiNode : abstractUiNodes){
             List<UINodePoints> uiNodePointses = abstractUiNode.getChilds();
 
@@ -91,19 +94,26 @@ public class LinkerEventHandler implements IGUIWorkspace{
                     Bounds vBoxChildNodeScreen = uiNodePoint.localToScreen(uiNodePoint.getBoundsInLocal());
                     if (vBoxChildNodeScreen.contains(event.getScreenX(), event.getScreenY())) {
                         UINodePoint uiNodePointStart = (UINodePoint) _startNode;
-                        //TODO make sure that type are compatibles (lists attribute with new enum ?)
-                        Map<String, IYamlDomain> inputMapData = uiNodePointStart.get_carriedData();
 
                         //if the targeted point is not empty, then reset the linker
                         if(uiNodePoint.get_carriedData().keySet().size() != 0){
                             LinkerEventHandler linkerEventHandler = _yamlToController.getLinkEventHandlerFromAssociatedPoint(uiNodePoint);
                             if(linkerEventHandler != null){
-                                linkerEventHandler.resetLinker();
+                                linkerEventHandler.resetLinkerFromLinkerEventHandler();
                                 System.out.println("Safely resetting " + linkerEventHandler);
-                                _yamlToController.resetLinker(linkerEventHandler);
+                                _yamlToController.resetLinkerFromMainWorkspace(linkerEventHandler);
                             }
                         }
-                        (uiNodePoint).set_carriedData(inputMapData);
+
+                        //TODO make sure that type are compatibles (lists attribute with new enum ?)
+                        Map<String, IYamlDomain> inputMapData = new HashMap<String, IYamlDomain>();
+                        //if(uiNodePointStart.get_type().equals(uiNodePoint.get_type())){
+                        inputMapData = uiNodePointStart.get_carriedData();
+                        uiNodePoint.set_carriedData(inputMapData);
+                        //} else {
+                         //   System.out.println("Incompatible types");
+                        //}
+
                         System.out.println("Linking data : " + inputMapData.toString() + " from " + uiNodePointStart.toString() + " to "
                                 + uiNodePoint.toString());
                         return uiNodePoint;
@@ -128,7 +138,7 @@ public class LinkerEventHandler implements IGUIWorkspace{
         _line.setEndY((pointLocal.getMaxY()+pointLocal.getMinY())/2);
     }
 
-    private void resetLinker(){
+    private void resetLinkerFromLinkerEventHandler(){
         System.out.println("Resetting " + this + " from " + _yamlToController);
         _line.setVisible(false);
         _yamlToController.getChildren().remove(_line);

@@ -1,4 +1,4 @@
-package com.ldz.view.UINodes.generic.node;
+package com.ldz.view.UINodes;
 
 import com.ldz.constants.UINodePointType;
 import com.ldz.model.generic.IYamlDomain;
@@ -9,6 +9,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.*;
 
 /**
@@ -57,20 +59,26 @@ public class UINodePoint<T> extends HBox implements IHasChildren<HBox>, IGUIWork
     public void set_carriedData(Map<String, T> _carriedData) {
         this._carriedData = _carriedData;
     }
-}
 
-class UINodeText extends Text implements IGUIWorkspace{
-
-    public UINodeText(String text){
-        super(text);
+    public Class get_type() {
+        if(!_carriedData.entrySet().isEmpty()){
+            return _carriedData.entrySet().iterator().next().getValue().getClass();
+        }
+        return null;
     }
 
-}
+    class UINodeText extends Text implements IGUIWorkspace{
 
-class UINodeCircle extends Circle implements IGUIWorkspace{
-
-    public UINodeCircle(double radius){
-        super(radius);
+        public UINodeText(String text){
+            super(text);
+        }
     }
 
+    class UINodeCircle extends Circle implements IGUIWorkspace{
+
+        public UINodeCircle(double radius){
+            super(radius);
+        }
+    }
 }
+

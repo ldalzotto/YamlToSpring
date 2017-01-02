@@ -1,13 +1,13 @@
-package com.ldz.view.UINodes.generic.node;
+package com.ldz.view.UINodes;
 
-import com.ldz.constants.UINodePointType;
 import com.ldz.model.generic.IYamlDomain;
+import com.ldz.view.UINodes.UINodePoint;
 import com.ldz.view.UINodes.generic.IGUIWorkspace;
 import com.ldz.view.UINodes.generic.childrenInterface.IHasChildren;
+import com.ldz.view.UINodes.generic.node.AbstractUINodePoints;
 import com.ldz.view.UINodes.generic.node.point.creator.InputPointCreator;
 import com.ldz.view.UINodes.generic.node.point.creator.OutputPointCreator;
 import javafx.scene.Node;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
