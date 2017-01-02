@@ -3,7 +3,6 @@ package com.ldz.view.UINodes;
 import com.ldz.model.generic.IYamlDomain;
 import com.ldz.view.UINodes.generic.node.AbstractUiNode;
 import javafx.event.EventHandler;
-import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 

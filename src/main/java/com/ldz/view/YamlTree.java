@@ -1,16 +1,12 @@
 package com.ldz.view;
 
 import com.ldz.model.SwaggerYamlFile;
-import com.sun.javafx.scene.control.skin.LabeledText;
-import com.sun.javafx.scene.control.skin.TreeViewSkin;
 import javafx.event.EventHandler;
-import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.shape.Rectangle;
 
 import java.util.Iterator;
 import java.util.List;
@@ -23,7 +19,7 @@ public class YamlTree extends TreeView<String> {
     private static YamlTree _instance = null;
     private TreeItem<String> rootTreeItem = null;
 
-    private YamlToController _yamlToController = YamlToController.getInstance();
+    private final YamlToController _yamlToController = YamlToController.getInstance();
 
     private TreeItem<String> _wsSelected = null;
 
@@ -71,11 +67,9 @@ public class YamlTree extends TreeView<String> {
         final String basePath = swaggerYamlFile.getBasePath();
         TreeItem<String> rootTreeItem = new TreeItem<String>("YAML");
 
-        Iterator<String> pathIterator = swaggerYamlFile.getPaths().keySet().iterator();
-        while (pathIterator.hasNext()){
-            String path = pathIterator.next();
+        for (String path : swaggerYamlFile.getPaths().keySet()) {
             StringBuilder pathStringBuilder = new StringBuilder(path);
-            if(basePath!=null){
+            if (basePath != null) {
                 pathStringBuilder.insert(0, basePath);
             }
             rootTreeItem.getChildren().add(new TreeItem<String>(pathStringBuilder.toString()));

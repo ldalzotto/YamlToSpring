@@ -21,7 +21,7 @@ public class SpringNodeCreatorScene extends Scene {
         return _instance;
     }
 
-    private static HBox _enterYamlNameHBox = new HBox();
+    private static final HBox _enterYamlNameHBox = new HBox();
 
     private TextField _yamlControllerName = null;
     private Button _yamlNameOkButton = null;

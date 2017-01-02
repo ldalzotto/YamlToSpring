@@ -21,7 +21,7 @@ import java.util.Map;
  */
 public class LinkerEventHandler implements IGUIWorkspace{
 
-    private YamlToController _yamlToController = YamlToController.getInstance();
+    private final YamlToController _yamlToController = YamlToController.getInstance();
     private LinkerEventHandler _instance = null;
 
     private Node _startNode = null;
@@ -72,7 +72,7 @@ public class LinkerEventHandler implements IGUIWorkspace{
                     _endNode = uiNodePoint;
                     _yamlToController.get_nodeLinkerEventHandlerMap().get(_instance)
                             .put(_startNode, _endNode);
-                };
+                }
 
             }
         });
@@ -128,7 +128,7 @@ public class LinkerEventHandler implements IGUIWorkspace{
         _line.setEndY((pointLocal.getMaxY()+pointLocal.getMinY())/2);
     }
 
-    public void resetLinker(){
+    private void resetLinker(){
         System.out.println("Resetting " + this + " from " + _yamlToController);
         _line.setVisible(false);
         _yamlToController.getChildren().remove(_line);

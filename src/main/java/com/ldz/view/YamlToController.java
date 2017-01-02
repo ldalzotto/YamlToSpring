@@ -27,7 +27,7 @@ import java.util.*;
 public class YamlToController extends Pane implements IHasChildren<AbstractUiNode>, IGUIWorkspace{
 
     private YamlLoadingController _yamlLoadingController = YamlLoadingController.getInstance();
-    private YamlWorkspaceContextMenu _yamlWorkspaceContextMenu = YamlWorkspaceContextMenu.getInstance(this);
+    private final YamlWorkspaceContextMenu _yamlWorkspaceContextMenu = YamlWorkspaceContextMenu.getInstance(this);
 
     /**
      * This attribute represents all {@link LinkerEventHandler} and their start and end node
@@ -35,7 +35,7 @@ public class YamlToController extends Pane implements IHasChildren<AbstractUiNod
      *     endNode may be null
      *  One {@link LinkerEventHandler} is added for every {@link UINodePoints} output nodes.
      */
-    private Map<LinkerEventHandler, Map<Node, Node>> _nodeLinkerEventHandlerMap = new HashMap<LinkerEventHandler, Map<Node, Node>>();
+    private final Map<LinkerEventHandler, Map<Node, Node>> _nodeLinkerEventHandlerMap = new HashMap<LinkerEventHandler, Map<Node, Node>>();
 
     private static YamlToController _instance = null;
 
@@ -75,7 +75,7 @@ public class YamlToController extends Pane implements IHasChildren<AbstractUiNod
             outputData = _yamlLoadingController.getOperationsFromPath(nodePath);
         }
 
-        YamlNode yamlNode = new YamlNode(mouseX, mouseY, nodeName, outputData, null, Color.RED);
+        YamlNode yamlNode = new YamlNode(mouseX, mouseY, nodeName, outputData);
 
         if(!isAbstractNodeAlreadyPresent(yamlNode)){
             getChildren().add(yamlNode);
@@ -116,14 +116,10 @@ public class YamlToController extends Pane implements IHasChildren<AbstractUiNod
     }
 
     public LinkerEventHandler getLinkEventHandlerFromAssociatedPoint(UINodePoint uiNodePoint){
-        Iterator<Map.Entry<LinkerEventHandler, Map<Node, Node>>> entryIterator = _nodeLinkerEventHandlerMap.entrySet().iterator();
-        while (entryIterator.hasNext()){
-            Map.Entry<LinkerEventHandler, Map<Node, Node>> linkerEventHandlerMapEntry = entryIterator.next();
-            Iterator<Map.Entry<Node, Node>> entryIterator1 = linkerEventHandlerMapEntry.getValue().entrySet().iterator();
-            while (entryIterator1.hasNext()){
-                Map.Entry<Node, Node> nodeNodeEntry = entryIterator1.next();
-                if(nodeNodeEntry.getValue() != null &&
-                        nodeNodeEntry.getValue().equals(uiNodePoint)){
+        for (Map.Entry<LinkerEventHandler, Map<Node, Node>> linkerEventHandlerMapEntry : _nodeLinkerEventHandlerMap.entrySet()) {
+            for (Map.Entry<Node, Node> nodeNodeEntry : linkerEventHandlerMapEntry.getValue().entrySet()) {
+                if (nodeNodeEntry.getValue() != null &&
+                        nodeNodeEntry.getValue().equals(uiNodePoint)) {
                     return linkerEventHandlerMapEntry.getKey();
                 }
             }
@@ -136,13 +132,9 @@ public class YamlToController extends Pane implements IHasChildren<AbstractUiNod
      * @param linkerEventHandler the linker to reset
      */
     public void resetLinker(LinkerEventHandler linkerEventHandler){
-        Iterator<Map.Entry<LinkerEventHandler, Map<Node, Node>>> entryIterator = _nodeLinkerEventHandlerMap.entrySet().iterator();
-        while (entryIterator.hasNext()) {
-            Map.Entry<LinkerEventHandler, Map<Node, Node>> linkerEventHandlerMapEntry = entryIterator.next();
-            if(linkerEventHandlerMapEntry.getKey().equals(linkerEventHandler)){
-                Iterator<Map.Entry<Node, Node>> entryIterator1 = _nodeLinkerEventHandlerMap.get(linkerEventHandler).entrySet().iterator();
-                while (entryIterator1.hasNext()){
-                    Map.Entry<Node, Node> nodeNodeEntry = entryIterator1.next();
+        for (Map.Entry<LinkerEventHandler, Map<Node, Node>> linkerEventHandlerMapEntry : _nodeLinkerEventHandlerMap.entrySet()) {
+            if (linkerEventHandlerMapEntry.getKey().equals(linkerEventHandler)) {
+                for (Map.Entry<Node, Node> nodeNodeEntry : _nodeLinkerEventHandlerMap.get(linkerEventHandler).entrySet()) {
                     nodeNodeEntry.setValue(null);
                 }
                 return;

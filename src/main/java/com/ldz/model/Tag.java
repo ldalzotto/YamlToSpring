@@ -6,7 +6,7 @@ import com.ldz.model.generic.IYamlDomain;
 /**
  * Created by ldalzotto on 24/12/2016.
  */
-public class Tag implements IYamlDomain {
+class Tag implements IYamlDomain {
     private String name;
     private String description;
     private ExternalDocumentation externalDocs;

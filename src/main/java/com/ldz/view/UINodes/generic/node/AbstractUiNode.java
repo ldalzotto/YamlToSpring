@@ -29,15 +29,15 @@ public abstract class AbstractUiNode extends StackPane implements IHasChildren<U
     private Point2D _initialCursorPosition = null;
     private Text _nodeName = null;
     private UINodePoints _output = null;
-    private YamlToController _yamlToController = YamlToController.getInstance();
+    private final YamlToController _yamlToController = YamlToController.getInstance();
 
     /**
      *
      * @param posX the local X position
      * @param posY the local Y position
      */
-    public AbstractUiNode(double posX, double posY, String nodeName, Map<String, IYamlDomain> outputData,
-                          Map<String, IYamlDomain> inputData, Color color){
+    protected AbstractUiNode(double posX, double posY, String nodeName, Map<String, IYamlDomain> outputData,
+                             Map<String, IYamlDomain> inputData, Color color){
         super();
 
         setLayoutX(posX);
@@ -60,7 +60,7 @@ public abstract class AbstractUiNode extends StackPane implements IHasChildren<U
         }
 
 
-        _output = new UINodePoints(10.0, outputData, inputData);
+        _output = new UINodePoints(outputData, inputData);
         _output.setVisible(true);
         _output.setOpacity(0.3);
 
@@ -115,7 +115,7 @@ public abstract class AbstractUiNode extends StackPane implements IHasChildren<U
         });
     }
 
-    public void displayAbstractNode(){
+    protected void displayAbstractNode(){
         if(_rectangle != null){
             getChildren().add(_rectangle);
         }
@@ -152,18 +152,15 @@ public abstract class AbstractUiNode extends StackPane implements IHasChildren<U
         return linkEvents;
     }
 
-    public void updateLinksPosition(AbstractUiNode abstractUiNode){
+    protected void updateLinksPosition(AbstractUiNode abstractUiNode){
 
-        Iterator<Map.Entry<LinkerEventHandler, Map<Node, Node>>> entryIterator = _yamlToController.get_nodeLinkerEventHandlerMap().entrySet().iterator();
-
-        while (entryIterator.hasNext()){
-            Map.Entry<LinkerEventHandler, Map<Node, Node>> linkerEventHandlerMapEntry = entryIterator.next();
-            for(UINodePoints uiNodePoints : abstractUiNode.getChilds()){
-                for(UINodePoint uiNodePoint : uiNodePoints.getChilds()){
+        for (Map.Entry<LinkerEventHandler, Map<Node, Node>> linkerEventHandlerMapEntry : _yamlToController.get_nodeLinkerEventHandlerMap().entrySet()) {
+            for (UINodePoints uiNodePoints : abstractUiNode.getChilds()) {
+                for (UINodePoint uiNodePoint : uiNodePoints.getChilds()) {
 
                     //startKey
                     //updateing the starts node
-                    if(linkerEventHandlerMapEntry.getValue().containsKey(uiNodePoint)){
+                    if (linkerEventHandlerMapEntry.getValue().containsKey(uiNodePoint)) {
                         linkerEventHandlerMapEntry.getKey().set_startNode(uiNodePoint);
                         linkerEventHandlerMapEntry.getKey().updateStartPosition();
                     }

@@ -10,8 +10,8 @@ import javafx.stage.Stage;
  */
 public class Main extends Application{
 
-    private MainScene mainScene = MainScene.getInstance();
-    private SpringNodeCreatorStage _SpringNodeCreatorStage = SpringNodeCreatorStage.getInstance();
+    private final MainScene mainScene = MainScene.getInstance();
+    private final SpringNodeCreatorStage _SpringNodeCreatorStage = SpringNodeCreatorStage.getInstance();
 
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setScene(mainScene);

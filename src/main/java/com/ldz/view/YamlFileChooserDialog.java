@@ -1,8 +1,6 @@
 package com.ldz.view;
 
-import javafx.scene.Scene;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 
 import java.io.File;
 
@@ -12,7 +10,7 @@ import java.io.File;
 public class YamlFileChooserDialog {
 
     private static YamlFileChooserDialog _instance = null;
-    private FileChooser _yamlChooser = new FileChooser();
+    private final FileChooser _yamlChooser = new FileChooser();
 
     public static YamlFileChooserDialog getInstance(){
         if(_instance == null){

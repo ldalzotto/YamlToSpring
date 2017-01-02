@@ -15,9 +15,8 @@ public class YamlNode extends AbstractUiNode {
 
     private YamlNode _instance = null;
 
-    public YamlNode(double posX, double posY, String nodeName, Map<String, IYamlDomain> outputData,
-                    Map<String, IYamlDomain> inputData, Color color){
-        super(posX, posY, nodeName, outputData, inputData, color);
+    public YamlNode(double posX, double posY, String nodeName, Map<String, IYamlDomain> outputData){
+        super(posX, posY, nodeName, outputData, null, Color.RED);
 
         setId(nodeName);
         _instance = this;

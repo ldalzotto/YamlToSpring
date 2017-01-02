@@ -2,8 +2,6 @@ package com.ldz.constants;
 
 import com.ldz.model.Operation;
 import com.ldz.model.Operations;
-import com.ldz.model.generic.IYamlDomain;
-import com.ldz.view.UINodes.generic.node.UINodePoints;
 import javafx.scene.paint.Color;
 
 /**
@@ -15,15 +13,15 @@ public enum UINodePointType {
     OPERATIONS(Operations.class, Color.CADETBLUE),
     DEFAULT(Object.class, Color.BLACK);
 
-    private Class _class;
-    private Color _color;
+    private final Class _class;
+    private final Color _color;
 
-    private UINodePointType(Class classs, Color color){
+    UINodePointType(Class classs, Color color){
         _class = classs;
         _color = color;
     }
 
-    public Class get_class() {
+    private Class get_class() {
         return _class;
     }
 

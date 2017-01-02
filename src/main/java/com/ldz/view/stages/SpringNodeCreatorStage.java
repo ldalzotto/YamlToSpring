@@ -11,7 +11,7 @@ import javafx.stage.WindowEvent;
 public class SpringNodeCreatorStage extends Stage {
 
     private static SpringNodeCreatorStage _instance = null;
-    private SpringNodeCreatorScene _SpringNodeCreatorScene = SpringNodeCreatorScene.getInstance();
+    private final SpringNodeCreatorScene _SpringNodeCreatorScene = SpringNodeCreatorScene.getInstance();
 
     public static SpringNodeCreatorStage getInstance(){
         if(_instance == null){

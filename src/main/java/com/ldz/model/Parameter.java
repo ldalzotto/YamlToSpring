@@ -2,12 +2,11 @@ package com.ldz.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ldz.model.generic.IYamlDomain;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 
 /**
  * Created by ldalzotto on 24/12/2016.
  */
-public class Parameter implements IYamlDomain {
+class Parameter implements IYamlDomain {
     private String name;
     private String in;
     private String description;

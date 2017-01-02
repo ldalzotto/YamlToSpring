@@ -6,5 +6,5 @@ import java.util.List;
  * Created by ldalzotto on 26/12/2016.
  */
 public interface IHasChildren<T> {
-    public List<T> getChilds();
+    List<T> getChilds();
 }

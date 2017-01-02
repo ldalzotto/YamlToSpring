@@ -5,7 +5,7 @@ import com.ldz.model.generic.IYamlDomain;
 /**
  * Created by ldalzotto on 24/12/2016.
  */
-public class Header implements IYamlDomain {
+class Header implements IYamlDomain {
     private String type;
     private String format;
     private Item items;

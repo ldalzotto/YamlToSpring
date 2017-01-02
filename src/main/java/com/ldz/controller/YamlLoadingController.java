@@ -1,16 +1,10 @@
 package com.ldz.controller;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.ldz.exception.YamlProcessingException;
 import com.ldz.model.*;
 import com.ldz.model.generic.IYamlDomain;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.scene.text.Text;
 
 import java.io.File;
 import java.io.IOException;
@@ -55,10 +49,8 @@ public class YamlLoadingController {
             if(ressourceName.contains(_swaggerYamlFile.getBasePath())){
                 ressourceNameTemp = ressourceName.replace(_swaggerYamlFile.getBasePath(), "");
             }
-            Iterator<String> ressourceNameIteratore = _swaggerYamlFile.getPaths().keySet().iterator();
-            while (ressourceNameIteratore.hasNext()){
-                String pathName = ressourceNameIteratore.next();
-                if(pathName.equals(ressourceNameTemp)){
+            for (String pathName : _swaggerYamlFile.getPaths().keySet()) {
+                if (pathName.equals(ressourceNameTemp)) {
                     return _swaggerYamlFile.getPaths().get(ressourceNameTemp);
                 }
             }

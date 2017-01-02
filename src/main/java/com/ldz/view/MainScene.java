@@ -2,7 +2,6 @@ package com.ldz.view;
 
 import com.ldz.controller.YamlLoadingController;
 import com.ldz.exception.YamlProcessingException;
-import com.ldz.view.stages.SpringNodeCreatorScene;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -19,16 +18,16 @@ import java.io.File;
 public class MainScene extends Scene {
 
     private static MainScene _instance = null;
-    private static BorderPane root = new BorderPane();
-    private YamlLoadingController _yamlLoadingController = YamlLoadingController.getInstance();
+    private static final BorderPane root = new BorderPane();
+    private final YamlLoadingController _yamlLoadingController = YamlLoadingController.getInstance();
     private YamlFileChooserDialog _yamlFileChooserDialog = YamlFileChooserDialog.getInstance();
-    private YamlToController _yamlToController = YamlToController.getInstance();
-    private YamlTree _yamlTree = YamlTree.getInstance();
+    private final YamlToController _yamlToController = YamlToController.getInstance();
+    private final YamlTree _yamlTree = YamlTree.getInstance();
 
     private MenuBar _menuBar = null;
     private Menu _menuFile = null;
 
-    public MainScene(){
+    private MainScene(){
         super(root, 800, 600);
     }
 
