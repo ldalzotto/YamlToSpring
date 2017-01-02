@@ -23,6 +23,8 @@ public class YamlTree extends TreeView<String> {
     private static YamlTree _instance = null;
     private TreeItem<String> rootTreeItem = null;
 
+    private YamlToController _yamlToController = YamlToController.getInstance();
+
     private TreeItem<String> _wsSelected = null;
 
     public static YamlTree getInstance(){
@@ -53,10 +55,9 @@ public class YamlTree extends TreeView<String> {
                 for(Node node : nodes){
                     if(node.getId() != null && node.getId().equals("YamlToController")){
                         if(event.getPickResult().getIntersectedNode() instanceof YamlToController){
-                            YamlToController yamlNode = (YamlToController) node;
-                            Point2D nodePoint = node.screenToLocal(event.getScreenX(), event.getSceneY());
+                            Point2D nodePoint = _yamlToController.screenToLocal(event.getScreenX(), event.getScreenY());
                             if(_wsSelected != null){
-                                yamlNode.createYamlNode(nodePoint.getX(), nodePoint.getY(), _wsSelected.getValue());
+                                _yamlToController.createYamlNode(nodePoint.getX(), nodePoint.getY(), _wsSelected.getValue());
                             }
                         }
                     }
