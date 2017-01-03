@@ -44,17 +44,22 @@ public class WorkflowManager {
     private void evaluateAllSources(AbstractUiNode targetNode){
             //has source ? if yes, evaluate sources first
             Iterator<Map.Entry<AbstractUiNode, List<AbstractUiNode>>> entryIterator = _linkAbstractUiNodeMap.entrySet().iterator();
+
+            List<AbstractUiNode> dataTransferNodes = new ArrayList<AbstractUiNode>();
             while (entryIterator.hasNext()){
                 Map.Entry<AbstractUiNode, List<AbstractUiNode>> entry = entryIterator.next();
                 if(entry.getValue().contains(targetNode)){
                     evaluateAllSources(entry.getKey());
+                }
 
+                //get node to transfer data
+                if(entry.getKey().equals(targetNode)){
+                    dataTransferNodes.addAll(entry.getValue());
                 }
             }
             if(targetNode instanceof IWorkflowExecution){
-                ((IWorkflowExecution) targetNode).executeFromInput(targetNode.getChilds().get(0).getInputChildrens());
-                //entryIterator.remove();
-                //_linkAbstractUiNodeMap.remove(targetNode);
+                ((IWorkflowExecution) targetNode).executeFromInput(targetNode.getChilds().get(0).getInputChildrens(), dataTransferNodes);
+                //set data to output
             }
 
     }

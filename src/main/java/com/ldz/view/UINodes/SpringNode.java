@@ -25,7 +25,7 @@ public class SpringNode extends AbstractUiNode implements IWorkflowExecution<Ope
         System.out.println("Spring node created.");
     }
 
-    public File executeFromInput(List<UINodePoint<Operations>> intputPoints) {
+    public File executeFromInput(List<UINodePoint<Operations>> intputPoints, List<AbstractUiNode> nodeToTransferData) {
         //generate file
         System.out.println("Generating file");
         return null;
