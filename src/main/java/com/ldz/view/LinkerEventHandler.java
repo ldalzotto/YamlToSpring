@@ -1,6 +1,7 @@
 package com.ldz.view;
 
 import com.ldz.model.generic.IYamlDomain;
+import com.ldz.view.UINodes.generic.IWorkflowExecution;
 import com.ldz.view.UINodes.generic.node.AbstractUiNode;
 import com.ldz.view.UINodes.generic.IGUIWorkspace;
 import com.ldz.view.UINodes.UINodePoint;
