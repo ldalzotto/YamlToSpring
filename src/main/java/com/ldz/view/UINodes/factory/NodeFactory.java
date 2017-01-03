@@ -67,7 +67,7 @@ public class NodeFactory {
                 inputData.put("", new Operation());
                 outputData.put("", new Operations());
                 //TODO remove the weird name generation
-                return new UIListNode(posX, posY, nodeName + ThreadLocalRandom.current().nextInt(0, 999), outputData, inputData, Color.YELLOW);
+                return new UIListNode(posX, posY, nodeName + ThreadLocalRandom.current().nextInt(0, 999), outputData, null, Color.YELLOW);
             default:
                 return null;
         }

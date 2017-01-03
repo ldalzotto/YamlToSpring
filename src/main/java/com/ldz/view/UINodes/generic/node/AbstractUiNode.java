@@ -1,7 +1,10 @@
 package com.ldz.view.UINodes.generic.node;
 
+import com.ldz.model.Operation;
 import com.ldz.model.generic.IYamlDomain;
-import com.ldz.view.UINodes.IInputPointAddable;
+import com.ldz.view.UINodes.addInputHandler.GenericInputAddableManager;
+import com.ldz.view.UINodes.addInputHandler.IGenericInputPointAddableManager;
+import com.ldz.view.UINodes.addInputHandler.IIsInputAddable;
 import com.ldz.view.linker.LinkerEventHandler;
 import com.ldz.view.UINodes.UINodePoint;
 import com.ldz.view.UINodes.UINodePoints;
@@ -35,6 +38,8 @@ public abstract class AbstractUiNode extends StackPane implements IHasChildren<U
     private UINodePoints _dataPoints = null;
     private Map<LinkerEventHandler, Map<Node, Node>> _linkerEventHandlerMap = null;
     private final LinkerEventManager _linkerEventManager = LinkerEventManager.getInstance();
+
+    public IGenericInputPointAddableManager _IInputPointAddable = null;
 
     /**
      *
@@ -125,6 +130,9 @@ public abstract class AbstractUiNode extends StackPane implements IHasChildren<U
         _dataPoints.setVisible(true);
         _dataPoints.setOpacity(0.3);
 
+        if(this instanceof IIsInputAddable){
+            _IInputPointAddable = ((IIsInputAddable)this).returnInputManager();
+        }
 
     }
 
@@ -142,8 +150,8 @@ public abstract class AbstractUiNode extends StackPane implements IHasChildren<U
             StackPane.setAlignment(_dataPoints, Pos.CENTER_LEFT);
         }
 
-        if(this instanceof IInputPointAddable){
-            ((IInputPointAddable) this).manageInputPointCreation();
+        if(_IInputPointAddable != null){
+            _IInputPointAddable.manageInputPointCreation();
         }
 
         addLinkerEventHandlerToNode();

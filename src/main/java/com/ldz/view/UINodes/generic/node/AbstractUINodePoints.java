@@ -30,6 +30,13 @@ public abstract class AbstractUINodePoints  extends BorderPane implements IHasCh
         _outputData = carriedData;
         _inputData = inputData;
 
+        if(_outputData == null){
+            _outputData = new HashMap<String, IYamlDomain>();
+        }
+        if(_inputData == null){
+            _inputData = new HashMap<String, IYamlDomain>();
+        }
+
         _outputLabelsAndPoints = new UINodeVBox();
         _outputLabelsAndPoints.setSpacing(5);
         _inputLabelsAndPoints = new UINodeVBox();
@@ -38,14 +45,18 @@ public abstract class AbstractUINodePoints  extends BorderPane implements IHasCh
         List<HBox> outputPointsAndLabels = createPoints(new OutputPointCreator<IYamlDomain>(), _outputData);
         if(!outputPointsAndLabels.isEmpty()){
             _outputLabelsAndPoints.getChildren().addAll(outputPointsAndLabels);
-            setRight(_outputLabelsAndPoints);
         }
+        setRight(_outputLabelsAndPoints);
+        _outputLabelsAndPoints.setVisible(true);
 
         List<HBox> inputPointsAndLabels = createPoints(new InputPointCreator<IYamlDomain>(), _inputData);
         if(!inputPointsAndLabels.isEmpty()){
             _inputLabelsAndPoints.getChildren().addAll(inputPointsAndLabels);
-            setLeft(_inputLabelsAndPoints);
         }
+        setLeft(_inputLabelsAndPoints);
+        _inputLabelsAndPoints.setVisible(true);
+
+
         setVisible(true);
 
     }
@@ -55,7 +66,6 @@ public abstract class AbstractUINodePoints  extends BorderPane implements IHasCh
     }
 
     public void addInputData(Map<String, IYamlDomain> inputData){
-
         Iterator<Map.Entry<String, IYamlDomain>> entryIterator = inputData.entrySet().iterator();
         while (entryIterator.hasNext()){
             Map.Entry<String, IYamlDomain> stringIYamlDomainEntry = entryIterator.next();
