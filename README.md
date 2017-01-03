@@ -19,10 +19,11 @@ To try the app, you simply have to build it via Maven : mvn package.
 Then, move to the folder target/jfx/native/node-yaml-to-spring/ and run the .exe file.
 
 #Things TO DO :
-* Create a data to list node -> add execution to workflow
+* During workflow, make output transit through nodes
 * All Spring code generation
 
 #Refactoring TO DO :
+* Make UINodePoints & AbstractUINodePoints more readable and understandable
 
 #Things done :
 * Load of Swagger YAML file
@@ -30,3 +31,5 @@ Then, move to the folder target/jfx/native/node-yaml-to-spring/ and run the .exe
 * Link between AbstractNodes
 * Creations of Spring controller nodes
 * Manage input of nodes
+* Create a data to list node -> add execution to workflow
+* Added add input button for list node

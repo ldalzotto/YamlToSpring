@@ -48,12 +48,13 @@ public class WorkflowManager {
                 Map.Entry<AbstractUiNode, List<AbstractUiNode>> entry = entryIterator.next();
                 if(entry.getValue().contains(targetNode)){
                     evaluateAllSources(entry.getKey());
-                    if(targetNode instanceof IWorkflowExecution){
-                        ((IWorkflowExecution) targetNode).executeFromInput(targetNode.getChilds().get(0).getInputChildrens());
-                        //entryIterator.remove();
-                        //_linkAbstractUiNodeMap.remove(targetNode);
-                    }
+
                 }
+            }
+            if(targetNode instanceof IWorkflowExecution){
+                ((IWorkflowExecution) targetNode).executeFromInput(targetNode.getChilds().get(0).getInputChildrens());
+                //entryIterator.remove();
+                //_linkAbstractUiNodeMap.remove(targetNode);
             }
 
     }

@@ -7,7 +7,6 @@ import com.ldz.view.UINodes.UINodePoints;
 import com.ldz.view.UINodes.generic.IGUIWorkspace;
 import com.ldz.view.UINodes.generic.childrenInterface.IHasChildren;
 import com.ldz.view.linker.LinkerEventManager;
-import com.ldz.view.YamlToController;
 import javafx.event.EventHandler;
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
@@ -32,9 +31,8 @@ public abstract class AbstractUiNode extends StackPane implements IHasChildren<U
     private final double MIN_HEIGHT = 100;
     private Point2D _initialCursorPosition = null;
     private Text _nodeName = null;
-    private UINodePoints _output = null;
+    private UINodePoints _dataPoints = null;
     private Map<LinkerEventHandler, Map<Node, Node>> _linkerEventHandlerMap = null;
-    private final YamlToController _yamlToController = YamlToController.getInstance();
     private final LinkerEventManager _linkerEventManager = LinkerEventManager.getInstance();
 
     /**
@@ -123,9 +121,9 @@ public abstract class AbstractUiNode extends StackPane implements IHasChildren<U
         }
 
 
-        _output = new UINodePoints(outputData, inputData);
-        _output.setVisible(true);
-        _output.setOpacity(0.3);
+        _dataPoints = new UINodePoints(outputData, inputData);
+        _dataPoints.setVisible(true);
+        _dataPoints.setOpacity(0.3);
     }
 
     protected void displayAbstractNode(){
@@ -137,9 +135,9 @@ public abstract class AbstractUiNode extends StackPane implements IHasChildren<U
             StackPane.setAlignment(_nodeName, Pos.TOP_CENTER);
         }
 
-        if(_output != null){
-            getChildren().add(_output);
-            StackPane.setAlignment(_output, Pos.CENTER_LEFT);
+        if(_dataPoints != null){
+            getChildren().add(_dataPoints);
+            StackPane.setAlignment(_dataPoints, Pos.CENTER_LEFT);
         }
 
         addLinkerEventHandlerToNode();
@@ -167,7 +165,7 @@ public abstract class AbstractUiNode extends StackPane implements IHasChildren<U
 
     public void addLinkerEventHandlerToNode(){
         _linkerEventHandlerMap = new HashMap<LinkerEventHandler, Map<Node, Node>>();
-        for(Node node : _output.getOutputChildren()){
+        for(Node node : _dataPoints.getOutputChildren()){
             Map<Node, Node> nodeNodeMap = new HashMap<Node, Node>();
             nodeNodeMap.put(node, null);
             _linkerEventHandlerMap.put(new LinkerEventHandler(node), nodeNodeMap);
@@ -195,6 +193,10 @@ public abstract class AbstractUiNode extends StackPane implements IHasChildren<U
                 }
             }
         }
+
+    }
+
+    public void addInputNode(IYamlDomain data){
 
     }
 

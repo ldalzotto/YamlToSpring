@@ -6,9 +6,15 @@ import com.ldz.model.generic.IYamlDomain;
 import com.ldz.view.UINodes.UINodePoint;
 import com.ldz.view.workflow.IWorkflowExecution;
 import com.ldz.view.UINodes.generic.node.AbstractUiNode;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.geometry.Pos;
+import javafx.scene.control.Button;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -20,9 +26,23 @@ public class UIListNode extends AbstractUiNode implements IWorkflowExecution<Ope
     public UIListNode(double posX, double posY, String nodeName, Map<String, IYamlDomain> outputData,
                       Map<String, IYamlDomain> inputData, Color color) {
         super(posX, posY, nodeName, outputData, inputData, color);
-
         setId(nodeName);
+
+        //add + button to add additional input node for forming list
+        Button addInputButton = new Button();
+        addInputButton.setId("addInputListButton");
+
+        addInputButton.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                Map<String, IYamlDomain> newMap = new HashMap<String, IYamlDomain>();
+                newMap.put("TEST", new Operation());
+                getChilds().get(0).addInputData(newMap);
+            }
+        });
+
         displayAbstractNode();
+        getChildren().add(addInputButton);
+        StackPane.setAlignment(addInputButton, Pos.BOTTOM_LEFT);
 
         System.out.println("to List node created.");
     }
