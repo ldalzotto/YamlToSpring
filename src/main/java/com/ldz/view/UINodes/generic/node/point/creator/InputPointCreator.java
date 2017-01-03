@@ -28,7 +28,7 @@ public class InputPointCreator<T> implements IPointCreator<T>{
                     uiNodePointType = UINodePointType.getValueFromClass(entry.getValue().getClass());
                 }
 
-                HBox labelAndPoint = new UINodePoint<T>(entryMap, 10.0, uiNodePointType);
+                HBox labelAndPoint = new UINodePoint<T>(entryMap, 10.0, uiNodePointType, false);
                 labelAndPoints.add(labelAndPoint);
                 System.out.println("Creation of input node " + labelAndPoint.getClass().getSimpleName() + labelAndPoint);
             }

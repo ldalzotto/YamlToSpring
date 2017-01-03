@@ -23,18 +23,25 @@ public class UINodePoint<T> extends HBox implements IHasChildren<HBox>, IGUIWork
 
     private Map<String, T> _carriedData = new HashMap<String, T>();
 
-    public UINodePoint(Map<String, T> carriedData, double radius, UINodePointType uiNodePointType){
+    public UINodePoint(Map<String, T> carriedData, double radius, UINodePointType uiNodePointType, boolean isOutput){
         super();
         _carriedData = carriedData;
 
         Iterator<Map.Entry<String, T>> iterator = carriedData.entrySet().iterator();
         Map.Entry<String, T> entry = iterator.next();
 
-        getChildren().add(new UINodeText(entry.getKey()));
+        if(isOutput){
+            getChildren().add(new UINodeText(entry.getKey()));
+            Circle point = new UINodeCircle(radius);
+            point.setFill(uiNodePointType.get_color());
+            getChildren().add(point);
+        } else {
+            Circle point = new UINodeCircle(radius);
+            point.setFill(uiNodePointType.get_color());
+            getChildren().add(point);
+            getChildren().add(new UINodeText(entry.getKey()));
+        }
 
-        Circle point = new UINodeCircle(radius);
-        point.setFill(uiNodePointType.get_color());
-        getChildren().add(point);
     }
 
     public List<HBox> getChilds() {

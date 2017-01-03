@@ -27,7 +27,7 @@ public class SpringNodeCreatorScene extends Scene {
     private Button _yamlNameOkButton = null;
 
     private SpringNodeCreatorScene(){
-        super(_enterYamlNameHBox, 100, 100);
+        super(_enterYamlNameHBox);
         _yamlControllerName = new TextField();
         _yamlControllerName.setId("yamlControllerName");
         _yamlNameOkButton = new Button("OK");

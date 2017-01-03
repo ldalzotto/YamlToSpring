@@ -13,6 +13,7 @@ import com.ldz.view.UINodes.generic.childrenInterface.IHasChildren;
 import com.ldz.view.linker.LinkerEventManager;
 import javafx.event.EventHandler;
 import javafx.geometry.Bounds;
+import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
@@ -120,6 +121,7 @@ public abstract class AbstractUiNode extends StackPane implements IHasChildren<U
         Bounds nameBound = _nodeName.getBoundsInLocal();
 
         _rectangle.setWidth(nameBound.getWidth());
+
         if(nameBound.getHeight() < MIN_HEIGHT){
             _rectangle.setHeight(MIN_HEIGHT);
         } else {
@@ -147,7 +149,8 @@ public abstract class AbstractUiNode extends StackPane implements IHasChildren<U
 
         if(_dataPoints != null){
             getChildren().add(_dataPoints);
-            StackPane.setAlignment(_dataPoints, Pos.CENTER_LEFT);
+            StackPane.setAlignment(_dataPoints, Pos.TOP_CENTER);
+            StackPane.setMargin(_dataPoints, new Insets(_nodeName.getBoundsInLocal().getHeight(), 0, 0, 0));
         }
 
         if(_IInputPointAddable != null){
