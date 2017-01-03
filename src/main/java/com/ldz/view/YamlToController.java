@@ -1,13 +1,11 @@
 package com.ldz.view;
 
 import com.ldz.controller.YamlLoadingController;
-import com.ldz.view.UINodes.*;
 import com.ldz.view.UINodes.factory.NodeFactory;
 import com.ldz.view.UINodes.generic.node.AbstractUiNode;
 import com.ldz.view.UINodes.generic.IGUIWorkspace;
 import com.ldz.view.UINodes.generic.childrenInterface.IHasChildren;
-import com.ldz.view.UINodes.linker.LinkerEventHandler;
-import com.ldz.view.UINodes.linker.LinkerEventManager;
+import com.ldz.view.linker.LinkerEventManager;
 import com.ldz.view.menu.YamlWorkspaceContextMenu;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;

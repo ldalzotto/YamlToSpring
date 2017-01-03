@@ -4,7 +4,10 @@ import com.ldz.constants.UINodePointType;
 import com.ldz.model.generic.IYamlDomain;
 import com.ldz.view.UINodes.generic.IGUIWorkspace;
 import com.ldz.view.UINodes.generic.childrenInterface.IHasChildren;
+import com.ldz.view.UINodes.generic.node.AbstractUiNode;
+import com.ldz.view.YamlToController;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.layout.HBox;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
@@ -42,6 +45,20 @@ public class UINodePoint<T> extends HBox implements IHasChildren<HBox>, IGUIWork
             }
         }
         return hBoxes;
+    }
+
+    public AbstractUiNode retrieveMainNodeParent(){
+        Parent currentParent = getParent();
+        while (!(currentParent instanceof YamlToController) && !(currentParent instanceof AbstractUiNode)){
+            currentParent = currentParent.getParent();
+        }
+        if(currentParent instanceof YamlToController){
+            return null;
+        } else if(currentParent instanceof AbstractUiNode){
+            return (AbstractUiNode) currentParent;
+        } else {
+            return null;
+        }
     }
 
     public List<HBox> getInputChildrens() {

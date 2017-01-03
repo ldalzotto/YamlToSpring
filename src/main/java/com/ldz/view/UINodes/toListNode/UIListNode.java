@@ -4,7 +4,7 @@ import com.ldz.model.Operation;
 import com.ldz.model.Operations;
 import com.ldz.model.generic.IYamlDomain;
 import com.ldz.view.UINodes.UINodePoint;
-import com.ldz.view.UINodes.generic.IWorkflowExecution;
+import com.ldz.view.workflow.IWorkflowExecution;
 import com.ldz.view.UINodes.generic.node.AbstractUiNode;
 import javafx.scene.paint.Color;
 
@@ -28,6 +28,7 @@ public class UIListNode extends AbstractUiNode implements IWorkflowExecution<Ope
     }
 
     public Operations executeFromInput(List<UINodePoint<Operation>> intputPoints) {
+        System.out.println("Computing list");
         Operations operations = new Operations();
         List<Operation> operationList = new ArrayList<Operation>();
         for(UINodePoint<Operation> operationUINodePoint : intputPoints){

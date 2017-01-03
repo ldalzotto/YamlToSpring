@@ -1,4 +1,4 @@
-package com.ldz.view.UINodes.linker;
+package com.ldz.view.linker;
 
 import com.ldz.model.generic.IYamlDomain;
 import com.ldz.view.UINodes.generic.node.AbstractUiNode;

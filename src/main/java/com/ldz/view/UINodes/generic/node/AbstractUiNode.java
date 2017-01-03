@@ -1,12 +1,12 @@
 package com.ldz.view.UINodes.generic.node;
 
 import com.ldz.model.generic.IYamlDomain;
-import com.ldz.view.UINodes.linker.LinkerEventHandler;
+import com.ldz.view.linker.LinkerEventHandler;
 import com.ldz.view.UINodes.UINodePoint;
 import com.ldz.view.UINodes.UINodePoints;
 import com.ldz.view.UINodes.generic.IGUIWorkspace;
 import com.ldz.view.UINodes.generic.childrenInterface.IHasChildren;
-import com.ldz.view.UINodes.linker.LinkerEventManager;
+import com.ldz.view.linker.LinkerEventManager;
 import com.ldz.view.YamlToController;
 import javafx.event.EventHandler;
 import javafx.geometry.Bounds;

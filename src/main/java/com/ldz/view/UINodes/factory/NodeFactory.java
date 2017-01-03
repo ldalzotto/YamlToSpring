@@ -13,6 +13,7 @@ import javafx.scene.paint.Color;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Created by loicd on 02/01/2017.
@@ -65,7 +66,8 @@ public class NodeFactory {
                 inputData = new HashMap<String, IYamlDomain>();
                 inputData.put("", new Operation());
                 outputData.put("", new Operations());
-                return new UIListNode(posX, posY, nodeName, outputData, inputData, Color.YELLOW);
+                //TODO remove the weird name generation
+                return new UIListNode(posX, posY, nodeName + ThreadLocalRandom.current().nextInt(0, 999), outputData, inputData, Color.YELLOW);
             default:
                 return null;
         }

@@ -2,12 +2,14 @@ package com.ldz.view;
 
 import com.ldz.controller.YamlLoadingController;
 import com.ldz.exception.YamlProcessingException;
+import com.ldz.view.workflow.WorflowButton;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.ToolBar;
 import javafx.scene.layout.BorderPane;
 
 import java.io.File;
@@ -23,6 +25,7 @@ public class MainScene extends Scene {
     private YamlFileChooserDialog _yamlFileChooserDialog = YamlFileChooserDialog.getInstance();
     private final YamlToController _yamlToController = YamlToController.getInstance();
     private final YamlTree _yamlTree = YamlTree.getInstance();
+    private final WorflowButton _worflowButton = WorflowButton.getInstance();
 
     private MenuBar _menuBar = null;
     private Menu _menuFile = null;
@@ -63,6 +66,15 @@ public class MainScene extends Scene {
         _menuBar.getMenus().addAll(_menuFile);
 
         root.setTop(_menuBar);
+
+
+        ToolBar workflowToolBar = new ToolBar();
+        workflowToolBar.setId("workflowToolbar");
+        workflowToolBar.getItems().add(_worflowButton);
+        workflowToolBar.setVisible(true);
+
+        root.setBottom(workflowToolBar);
+
 
         root.setLeft(_yamlTree);
         _yamlTree.setVisible(false);
