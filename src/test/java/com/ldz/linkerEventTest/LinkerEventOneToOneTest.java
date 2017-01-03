@@ -6,13 +6,14 @@ import com.ldz.generic.AbstractGUITask;
 import com.ldz.model.Operation;
 import com.ldz.model.Path;
 import com.ldz.model.generic.IYamlDomain;
-import com.ldz.view.LinkerEventHandler;
+import com.ldz.view.UINodes.linker.LinkerEventHandler;
 import com.ldz.view.MainScene;
 import com.ldz.view.UINodes.SpringNode;
 import com.ldz.view.UINodes.UINodePoint;
 import com.ldz.view.UINodes.YamlNode;
 import com.ldz.view.UINodes.factory.NodeFactory;
 import com.ldz.view.UINodes.generic.node.AbstractUiNode;
+import com.ldz.view.UINodes.linker.LinkerEventManager;
 import com.ldz.view.YamlToController;
 import com.ldz.view.stages.SpringNodeCreatorScene;
 import javafx.geometry.Bounds;
@@ -47,6 +48,7 @@ public class LinkerEventOneToOneTest extends FxRobot{
     private MainScene _mainScene = null;
     private YamlToController _yamlToController = null;
     private YamlLoadingController _yamlLoadingController = YamlLoadingController.getInstance();
+    private final LinkerEventManager _linkerEventManager = LinkerEventManager.getInstance();
     private YamlLoadingController _yamlLoadingControllerSpy = null;
     private Map<String, IYamlDomain> _mockedCarriedData = null;
     private NodeFactory _nodeFactory = NodeFactory.getInstance();
@@ -124,7 +126,7 @@ public class LinkerEventOneToOneTest extends FxRobot{
         //create link between nodes
         List<Node> yamlStartNodes = new ArrayList<Node>();
         //get the two start nodes
-        Iterator<LinkerEventHandler> linkerEventHandlerIterator1 = _yamlToController.get_nodeLinkerEventHandlerMap().keySet().iterator();
+        Iterator<LinkerEventHandler> linkerEventHandlerIterator1 = _linkerEventManager.get_nodeLinkerEventHandlerMap().keySet().iterator();
         LinkerEventHandler linkerEventHandler1 = null;
 
         while (linkerEventHandlerIterator1.hasNext()){
@@ -133,7 +135,7 @@ public class LinkerEventOneToOneTest extends FxRobot{
                 linkerEventHandler1 = linkerEventHandler;
             }
 
-            Map<Node, Node> link = _yamlToController.get_nodeLinkerEventHandlerMap().get(linkerEventHandler);
+            Map<Node, Node> link = _linkerEventManager.get_nodeLinkerEventHandlerMap().get(linkerEventHandler);
             Assert.assertTrue(link.keySet().size() == 1);
             Iterator<Node> nodeIterator = link.keySet().iterator();
             yamlStartNodes.add(nodeIterator.next());

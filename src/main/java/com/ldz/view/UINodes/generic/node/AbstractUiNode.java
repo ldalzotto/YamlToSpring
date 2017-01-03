@@ -1,11 +1,12 @@
 package com.ldz.view.UINodes.generic.node;
 
 import com.ldz.model.generic.IYamlDomain;
-import com.ldz.view.LinkerEventHandler;
+import com.ldz.view.UINodes.linker.LinkerEventHandler;
 import com.ldz.view.UINodes.UINodePoint;
 import com.ldz.view.UINodes.UINodePoints;
 import com.ldz.view.UINodes.generic.IGUIWorkspace;
 import com.ldz.view.UINodes.generic.childrenInterface.IHasChildren;
+import com.ldz.view.UINodes.linker.LinkerEventManager;
 import com.ldz.view.YamlToController;
 import javafx.event.EventHandler;
 import javafx.geometry.Bounds;
@@ -34,6 +35,7 @@ public abstract class AbstractUiNode extends StackPane implements IHasChildren<U
     private UINodePoints _output = null;
     private Map<LinkerEventHandler, Map<Node, Node>> _linkerEventHandlerMap = null;
     private final YamlToController _yamlToController = YamlToController.getInstance();
+    private final LinkerEventManager _linkerEventManager = LinkerEventManager.getInstance();
 
     /**
      *
@@ -174,7 +176,7 @@ public abstract class AbstractUiNode extends StackPane implements IHasChildren<U
 
     protected void updateLinksPosition(AbstractUiNode abstractUiNode){
 
-        for (Map.Entry<LinkerEventHandler, Map<Node, Node>> linkerEventHandlerMapEntry : _yamlToController.get_nodeLinkerEventHandlerMap().entrySet()) {
+        for (Map.Entry<LinkerEventHandler, Map<Node, Node>> linkerEventHandlerMapEntry : _linkerEventManager.get_nodeLinkerEventHandlerMap().entrySet()) {
             for (UINodePoints uiNodePoints : abstractUiNode.getChilds()) {
                 for (UINodePoint uiNodePoint : uiNodePoints.getChilds()) {
 

@@ -1,11 +1,11 @@
-package com.ldz.view;
+package com.ldz.view.UINodes.linker;
 
 import com.ldz.model.generic.IYamlDomain;
-import com.ldz.view.UINodes.generic.IWorkflowExecution;
 import com.ldz.view.UINodes.generic.node.AbstractUiNode;
 import com.ldz.view.UINodes.generic.IGUIWorkspace;
 import com.ldz.view.UINodes.UINodePoint;
 import com.ldz.view.UINodes.UINodePoints;
+import com.ldz.view.YamlToController;
 import javafx.event.EventHandler;
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
@@ -24,6 +24,7 @@ import java.util.Map;
 public class LinkerEventHandler implements IGUIWorkspace{
 
     private final YamlToController _yamlToController = YamlToController.getInstance();
+    private final LinkerEventManager _linkerEventManager = LinkerEventManager.getInstance();
     private LinkerEventHandler _instance = null;
 
     private Node _startNode = null;
@@ -72,7 +73,7 @@ public class LinkerEventHandler implements IGUIWorkspace{
                 } else {
                     _line.setVisible(true);
                     _endNode = uiNodePoint;
-                    _yamlToController.get_nodeLinkerEventHandlerMap().get(_instance)
+                    _linkerEventManager.get_nodeLinkerEventHandlerMap().get(_instance)
                             .put(_startNode, _endNode);
                 }
 
@@ -98,14 +99,13 @@ public class LinkerEventHandler implements IGUIWorkspace{
 
                         //if the targeted point is not empty, then reset the linker
                         if(uiNodePoint.get_carriedData().keySet().size() != 0){
-                            LinkerEventHandler linkerEventHandler = _yamlToController.getLinkEventHandlerFromAssociatedPoint(uiNodePoint);
+                            LinkerEventHandler linkerEventHandler = _linkerEventManager.getLinkEventHandlerFromAssociatedPoint(uiNodePoint);
                             if(linkerEventHandler != null){
                                 if(!uiNodePoint.equals(_endNode)){
                                     linkerEventHandler.resetLinkerFromLinkerEventHandler();
                                     System.out.println("Safely resetting " + linkerEventHandler);
-                                    _yamlToController.resetLinkerFromMainWorkspace(linkerEventHandler);
+                                    _linkerEventManager.resetLinkerFromMainWorkspace(linkerEventHandler);
                                 }
-
                             }
                         }
 

@@ -23,7 +23,6 @@ Then, move to the folder target/jfx/native/node-yaml-to-spring/ and run the .exe
 * All Spring code generation
 
 #Refactoring TO DO :
-* Extract logic of linker map from yamlToController
 
 #Things done :
 * Load of Swagger YAML file

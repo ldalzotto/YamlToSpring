@@ -6,13 +6,14 @@ import com.ldz.generic.AbstractGUITask;
 import com.ldz.model.Operation;
 import com.ldz.model.Path;
 import com.ldz.model.generic.IYamlDomain;
-import com.ldz.view.LinkerEventHandler;
+import com.ldz.view.UINodes.linker.LinkerEventHandler;
 import com.ldz.view.MainScene;
 import com.ldz.view.UINodes.SpringNode;
 import com.ldz.view.UINodes.YamlNode;
 import com.ldz.view.UINodes.factory.NodeFactory;
 import com.ldz.view.UINodes.generic.node.AbstractUiNode;
 import com.ldz.view.UINodes.UINodePoint;
+import com.ldz.view.UINodes.linker.LinkerEventManager;
 import com.ldz.view.YamlToController;
 import com.ldz.view.stages.SpringNodeCreatorScene;
 import javafx.geometry.Bounds;
@@ -45,6 +46,7 @@ public class LinkerEventMainTest extends FxRobot {
     private YamlLoadingController _yamlLoadingController = YamlLoadingController.getInstance();
     private YamlLoadingController _yamlLoadingControllerSpy = null;
     private Map<String, IYamlDomain> _mockedCarriedData = null;
+    private final LinkerEventManager _linkerEventManager = LinkerEventManager.getInstance();
     private NodeFactory _nodeFactory = NodeFactory.getInstance();
     private static Stage _stage = null;
 
@@ -138,14 +140,14 @@ public class LinkerEventMainTest extends FxRobot {
 
         //ensure that yaml nodes posses Linker
         //Two input points
-        Assert.assertTrue(_yamlToController.get_nodeLinkerEventHandlerMap().keySet().size() == 2);
-        Iterator<LinkerEventHandler> linkerEventHandlerIterator = _yamlToController.get_nodeLinkerEventHandlerMap().keySet().iterator();
+        Assert.assertTrue(_linkerEventManager.get_nodeLinkerEventHandlerMap().keySet().size() == 2);
+        Iterator<LinkerEventHandler> linkerEventHandlerIterator = _linkerEventManager.get_nodeLinkerEventHandlerMap().keySet().iterator();
         while (linkerEventHandlerIterator.hasNext()){
             LinkerEventHandler linkerEventHandler = linkerEventHandlerIterator.next();
 
             //Identity of two input points
-            Assert.assertTrue(_yamlToController.get_nodeLinkerEventHandlerMap().get(linkerEventHandler).containsKey(yamlNode.getChilds().get(0).getChilds().get(0))
-                    || _yamlToController.get_nodeLinkerEventHandlerMap().get(linkerEventHandler).containsKey(yamlNode.getChilds().get(0).getChilds().get(1)));
+            Assert.assertTrue(_linkerEventManager.get_nodeLinkerEventHandlerMap().get(linkerEventHandler).containsKey(yamlNode.getChilds().get(0).getChilds().get(0))
+                    || _linkerEventManager.get_nodeLinkerEventHandlerMap().get(linkerEventHandler).containsKey(yamlNode.getChilds().get(0).getChilds().get(1)));
 
         }
 
@@ -159,7 +161,7 @@ public class LinkerEventMainTest extends FxRobot {
         //create link between nodes
         List<Node> yamlStartNodes = new ArrayList<Node>();
         //get the two start nodes
-        Iterator<LinkerEventHandler> linkerEventHandlerIterator1 = _yamlToController.get_nodeLinkerEventHandlerMap().keySet().iterator();
+        Iterator<LinkerEventHandler> linkerEventHandlerIterator1 = _linkerEventManager.get_nodeLinkerEventHandlerMap().keySet().iterator();
         LinkerEventHandler linkerEventHandler1 = null;
         LinkerEventHandler linkerEventHandler2 = null;
 
@@ -170,7 +172,7 @@ public class LinkerEventMainTest extends FxRobot {
             } else if(linkerEventHandler2 == null){
                 linkerEventHandler2 = linkerEventHandler;
             }
-            Map<Node, Node> link = _yamlToController.get_nodeLinkerEventHandlerMap().get(linkerEventHandler);
+            Map<Node, Node> link = _linkerEventManager.get_nodeLinkerEventHandlerMap().get(linkerEventHandler);
             Assert.assertTrue(link.keySet().size() == 1);
             Iterator<Node> nodeIterator = link.keySet().iterator();
             yamlStartNodes.add(nodeIterator.next());

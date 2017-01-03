@@ -6,6 +6,8 @@ import com.ldz.view.UINodes.factory.NodeFactory;
 import com.ldz.view.UINodes.generic.node.AbstractUiNode;
 import com.ldz.view.UINodes.generic.IGUIWorkspace;
 import com.ldz.view.UINodes.generic.childrenInterface.IHasChildren;
+import com.ldz.view.UINodes.linker.LinkerEventHandler;
+import com.ldz.view.UINodes.linker.LinkerEventManager;
 import com.ldz.view.menu.YamlWorkspaceContextMenu;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -24,14 +26,7 @@ public class YamlToController extends Pane implements IHasChildren<AbstractUiNod
     private YamlLoadingController _yamlLoadingController = YamlLoadingController.getInstance();
     private final YamlWorkspaceContextMenu _yamlWorkspaceContextMenu = YamlWorkspaceContextMenu.getInstance(this);
     private NodeFactory _NodeFactory = NodeFactory.getInstance();
-
-    /**
-     * This attribute represents all {@link LinkerEventHandler} and their start and end node
-     * The order is : Map<{@link LinkerEventHandler}, Map<beginNode, endNode>>
-     *     endNode may be null
-     *  One {@link LinkerEventHandler} is added for every {@link UINodePoints} output nodes.
-     */
-    private final Map<LinkerEventHandler, Map<Node, Node>> _nodeLinkerEventHandlerMap = new HashMap<LinkerEventHandler, Map<Node, Node>>();
+    private final LinkerEventManager _linkerEventManager = LinkerEventManager.getInstance();
 
     private static YamlToController _instance = null;
 
@@ -79,7 +74,7 @@ public class YamlToController extends Pane implements IHasChildren<AbstractUiNod
         AbstractUiNode abstractUiNode = _NodeFactory.createNode(type, mouseX, mouseY, nodeName);
 
         if(!isAbstractNodeAlreadyPresent(abstractUiNode)){
-            _nodeLinkerEventHandlerMap.putAll(abstractUiNode.get_linkerEventHandlerMap());
+            _linkerEventManager.putLinkers(abstractUiNode.get_linkerEventHandlerMap());
             getChildren().add(abstractUiNode);
             System.out.println( type.getName() + " node created : " + abstractUiNode);
         }
@@ -102,37 +97,6 @@ public class YamlToController extends Pane implements IHasChildren<AbstractUiNod
 
     public List<AbstractUiNode> getOutputChildren() {
         return getChilds();
-    }
-
-    public LinkerEventHandler getLinkEventHandlerFromAssociatedPoint(UINodePoint uiNodePoint){
-        for (Map.Entry<LinkerEventHandler, Map<Node, Node>> linkerEventHandlerMapEntry : _nodeLinkerEventHandlerMap.entrySet()) {
-            for (Map.Entry<Node, Node> nodeNodeEntry : linkerEventHandlerMapEntry.getValue().entrySet()) {
-                if (nodeNodeEntry.getValue() != null &&
-                        nodeNodeEntry.getValue().equals(uiNodePoint)) {
-                    return linkerEventHandlerMapEntry.getKey();
-                }
-            }
-        }
-        return null;
-    }
-
-    /**
-     * Reset the linker inside _nodeLinkerEventHandlerMap
-     * @param linkerEventHandler the linker to reset
-     */
-    public void resetLinkerFromMainWorkspace(LinkerEventHandler linkerEventHandler){
-        for (Map.Entry<LinkerEventHandler, Map<Node, Node>> linkerEventHandlerMapEntry : _nodeLinkerEventHandlerMap.entrySet()) {
-            if (linkerEventHandlerMapEntry.getKey().equals(linkerEventHandler)) {
-                for (Map.Entry<Node, Node> nodeNodeEntry : _nodeLinkerEventHandlerMap.get(linkerEventHandler).entrySet()) {
-                    nodeNodeEntry.setValue(null);
-                }
-                return;
-            }
-        }
-    }
-
-    public Map<LinkerEventHandler, Map<Node, Node>> get_nodeLinkerEventHandlerMap() {
-        return _nodeLinkerEventHandlerMap;
     }
 
     public void set_yamlLoadingController(YamlLoadingController _yamlLoadingController) {
