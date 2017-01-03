@@ -8,7 +8,7 @@ import com.ldz.model.generic.IYamlDomain;
 import com.ldz.view.UINodes.SpringNode;
 import com.ldz.view.UINodes.YamlNode;
 import com.ldz.view.UINodes.generic.node.AbstractUiNode;
-import com.ldz.view.UINodes.toListNode.UIListNode;
+import com.ldz.view.UINodes.UIListNode;
 import javafx.scene.paint.Color;
 
 import java.util.HashMap;

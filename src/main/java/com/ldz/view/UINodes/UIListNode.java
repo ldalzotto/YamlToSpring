@@ -1,9 +1,8 @@
-package com.ldz.view.UINodes.toListNode;
+package com.ldz.view.UINodes;
 
 import com.ldz.model.Operation;
 import com.ldz.model.Operations;
 import com.ldz.model.generic.IYamlDomain;
-import com.ldz.view.UINodes.UINodePoint;
 import com.ldz.view.workflow.IWorkflowExecution;
 import com.ldz.view.UINodes.generic.node.AbstractUiNode;
 import javafx.event.ActionEvent;
@@ -21,28 +20,14 @@ import java.util.Map;
 /**
  * Created by loicd on 02/01/2017.
  */
-public class UIListNode extends AbstractUiNode implements IWorkflowExecution<Operation, Operations>{
+public class UIListNode extends AbstractUiNode implements IWorkflowExecution<Operation, Operations>, IInputPointAddable<Operation>{
 
     public UIListNode(double posX, double posY, String nodeName, Map<String, IYamlDomain> outputData,
                       Map<String, IYamlDomain> inputData, Color color) {
         super(posX, posY, nodeName, outputData, inputData, color);
         setId(nodeName);
 
-        //add + button to add additional input node for forming list
-        Button addInputButton = new Button();
-        addInputButton.setId("addInputListButton");
-
-        addInputButton.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                Map<String, IYamlDomain> newMap = new HashMap<String, IYamlDomain>();
-                newMap.put("TEST", new Operation());
-                getChilds().get(0).addInputData(newMap);
-            }
-        });
-
         displayAbstractNode();
-        getChildren().add(addInputButton);
-        StackPane.setAlignment(addInputButton, Pos.BOTTOM_LEFT);
 
         System.out.println("to List node created.");
     }
@@ -56,5 +41,31 @@ public class UIListNode extends AbstractUiNode implements IWorkflowExecution<Ope
         }
         operations.set_operations(operationList);
         return operations;
+    }
+
+    public void manageInputPointCreation() {
+        //add + button to add additional input node for forming list
+        Button addInputButton = new Button();
+        addInputButton.setId("addInputListButton");
+
+        addInputButton.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                try {
+                    Map<String, IYamlDomain> newMap = new HashMap<String, IYamlDomain>();
+                    newMap.put("TEST", getIInputPointAddableGenericType().newInstance());
+                    getChilds().get(0).addInputData(newMap);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        getChildren().add(addInputButton);
+        addInputButton.setVisible(true);
+        StackPane.setAlignment(addInputButton, Pos.BOTTOM_LEFT);
+    }
+
+    public Class<Operation> getIInputPointAddableGenericType() {
+        return Operation.class;
     }
 }

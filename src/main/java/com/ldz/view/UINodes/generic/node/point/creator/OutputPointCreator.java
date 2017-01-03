@@ -30,7 +30,7 @@ public class OutputPointCreator<T> implements IPointCreator<T>{
 
                 HBox labelAndPoint = new UINodePoint<T>(entryMap, 10.0, uiNodePointType);
                 labelAndPoints.add(labelAndPoint);
-                System.out.println("Creation of input node " + labelAndPoint.getClass().getSimpleName() + labelAndPoint);
+                System.out.println("Creation of output node " + labelAndPoint.getClass().getSimpleName() + labelAndPoint);
             }
         }
         return labelAndPoints;

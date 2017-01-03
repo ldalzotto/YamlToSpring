@@ -1,6 +1,7 @@
 package com.ldz.view.UINodes.generic.node;
 
 import com.ldz.model.generic.IYamlDomain;
+import com.ldz.view.UINodes.IInputPointAddable;
 import com.ldz.view.linker.LinkerEventHandler;
 import com.ldz.view.UINodes.UINodePoint;
 import com.ldz.view.UINodes.UINodePoints;
@@ -120,10 +121,11 @@ public abstract class AbstractUiNode extends StackPane implements IHasChildren<U
             _rectangle.setHeight(nameBound.getHeight());
         }
 
-
         _dataPoints = new UINodePoints(outputData, inputData);
         _dataPoints.setVisible(true);
         _dataPoints.setOpacity(0.3);
+
+
     }
 
     protected void displayAbstractNode(){
@@ -138,6 +140,10 @@ public abstract class AbstractUiNode extends StackPane implements IHasChildren<U
         if(_dataPoints != null){
             getChildren().add(_dataPoints);
             StackPane.setAlignment(_dataPoints, Pos.CENTER_LEFT);
+        }
+
+        if(this instanceof IInputPointAddable){
+            ((IInputPointAddable) this).manageInputPointCreation();
         }
 
         addLinkerEventHandlerToNode();
