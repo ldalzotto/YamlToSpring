@@ -224,8 +224,6 @@ public class LinkerEventMainTest extends FxRobot {
         new AbstractGUITask(){
             public void GUITask() {
                 _yamlToController.getChildren().clear();
-                SpringNodeCreatorScene springNodeCreatorScene = SpringNodeCreatorScene.getInstance();
-                springNodeCreatorScene.getWindow().hide();
             }
         };
 
