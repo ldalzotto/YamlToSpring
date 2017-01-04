@@ -7,6 +7,7 @@ import com.ldz.view.UINodes.generic.childrenInterface.IHasChildren;
 import com.ldz.view.UINodes.generic.node.point.creator.IPointCreator;
 import com.ldz.view.UINodes.generic.node.point.creator.InputPointCreator;
 import com.ldz.view.UINodes.generic.node.point.creator.OutputPointCreator;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;

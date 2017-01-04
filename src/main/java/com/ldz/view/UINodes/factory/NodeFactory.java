@@ -1,7 +1,6 @@
 package com.ldz.view.UINodes.factory;
 
 import com.ldz.controller.YamlLoadingController;
-import com.ldz.model.Operation;
 import com.ldz.model.Operations;
 import com.ldz.model.Path;
 import com.ldz.model.generic.IYamlDomain;
@@ -13,7 +12,6 @@ import javafx.scene.paint.Color;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Created by loicd on 02/01/2017.
@@ -22,6 +20,8 @@ public class NodeFactory {
 
     private static NodeFactory _instance = null;
     private YamlLoadingController _yamlLoadingController = YamlLoadingController.getInstance();
+
+    private int _nodeListCounter = 0;
 
     public static NodeFactory getInstance(){
         if(_instance == null){
@@ -63,11 +63,9 @@ public class NodeFactory {
                 return new SpringNode(posX, posY, nodeName, null, inputData, Color.GREEN);
             case LIST:
                 outputData = new HashMap<String, IYamlDomain>();
-                inputData = new HashMap<String, IYamlDomain>();
-                inputData.put("", new Operation());
-                outputData.put("", new Operations());
-                //TODO remove the weird name generation
-                return new UIListNode(posX, posY, nodeName + ThreadLocalRandom.current().nextInt(0, 999), outputData, null, Color.YELLOW);
+                outputData.put("Web Services", new Operations());
+                _nodeListCounter++;
+                return new UIListNode(posX, posY, nodeName + _nodeListCounter, outputData, null, Color.YELLOW);
             default:
                 return null;
         }

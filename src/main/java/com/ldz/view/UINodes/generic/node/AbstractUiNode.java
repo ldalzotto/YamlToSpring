@@ -11,6 +11,7 @@ import com.ldz.view.UINodes.UINodePoints;
 import com.ldz.view.UINodes.generic.IGUIWorkspace;
 import com.ldz.view.UINodes.generic.childrenInterface.IHasChildren;
 import com.ldz.view.linker.LinkerEventManager;
+import com.ldz.view.style.StyleSheetManager;
 import javafx.event.EventHandler;
 import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
@@ -21,6 +22,7 @@ import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
@@ -39,6 +41,7 @@ public abstract class AbstractUiNode extends StackPane implements IHasChildren<U
     private UINodePoints _dataPoints = null;
     private Map<LinkerEventHandler, Map<Node, Node>> _linkerEventHandlerMap = null;
     private final LinkerEventManager _linkerEventManager = LinkerEventManager.getInstance();
+    private final StyleSheetManager _styleSheetManager = StyleSheetManager.getInstance();
 
     public IGenericInputPointAddableManager _IInputPointAddable = null;
 
@@ -113,8 +116,7 @@ public abstract class AbstractUiNode extends StackPane implements IHasChildren<U
 
         _rectangle = new Rectangle();
         _rectangle.setVisible(true);
-        _rectangle.setFill(color);
-
+        _rectangle.setFill(Color.TRANSPARENT);
 
         _nodeName = new Text(nodeName);
 
@@ -136,6 +138,7 @@ public abstract class AbstractUiNode extends StackPane implements IHasChildren<U
             _IInputPointAddable = ((IIsInputAddable)this).returnInputManager();
         }
 
+        setStyle(_styleSheetManager.getStyle(StyleSheetManager.StyleNodeType.ABSTRACT_UI_NODE));
     }
 
     protected void displayAbstractNode(){

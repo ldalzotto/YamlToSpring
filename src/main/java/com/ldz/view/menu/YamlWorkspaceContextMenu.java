@@ -74,7 +74,7 @@ public class YamlWorkspaceContextMenu extends ContextMenu {
                             Point2D point2D = _yamlToController.screenToLocal(event.getScreenX(), event.getScreenY());
 
                             //UIListNode uiListNode = new UIListNode();
-                            _yamlToController.createUINode(NodeFactory.NodeType.LIST, point2D.getX(), point2D.getY(), "LISTLISTLISTLISTLISTLISTLIST");
+                            _yamlToController.createUINode(NodeFactory.NodeType.LIST, point2D.getX(), point2D.getY(), "To List Node ");
 
                             System.out.println("To List node created ");
                             System.out.println("Hiding context menu");

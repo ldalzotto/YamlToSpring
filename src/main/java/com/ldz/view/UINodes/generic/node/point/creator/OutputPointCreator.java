@@ -2,6 +2,7 @@ package com.ldz.view.UINodes.generic.node.point.creator;
 
 import com.ldz.constants.UINodePointType;
 import com.ldz.view.UINodes.UINodePoint;
+import javafx.geometry.Pos;
 import javafx.scene.layout.HBox;
 
 import java.util.ArrayList;
@@ -33,6 +34,7 @@ public class OutputPointCreator<T> extends AbstractPointCreator<T> implements IP
                 }
 
                 HBox labelAndPoint = new UINodePoint<T>(entryMap, 10.0, uiNodePointType, true, getClazz());
+                labelAndPoint.setAlignment(Pos.CENTER_RIGHT);
                 labelAndPoints.add(labelAndPoint);
                 System.out.println("Creation of output node " + labelAndPoint.getClass().getSimpleName() + labelAndPoint);
             }

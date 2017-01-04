@@ -7,6 +7,7 @@ import com.ldz.view.UINodes.generic.IGUIWorkspace;
 import com.ldz.view.UINodes.generic.childrenInterface.IHasChildren;
 import com.ldz.view.linker.LinkerEventManager;
 import com.ldz.view.menu.YamlWorkspaceContextMenu;
+import com.ldz.view.style.StyleSheetManager;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Node;

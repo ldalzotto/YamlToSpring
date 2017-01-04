@@ -48,7 +48,6 @@ public class LinkerEventHandler implements IGUIWorkspace{
                 _line.setStartX(pointLocal.getMaxX());
                 _line.setStartY((pointLocal.getMaxY()+pointLocal.getMinY())/2);
                 _line.setFill(Color.BLACK);
-                _line.setVisible(true);
             }
         });
 
@@ -57,6 +56,7 @@ public class LinkerEventHandler implements IGUIWorkspace{
                 Point2D lineLocalPoint = _line.screenToLocal(event.getScreenX(), event.getScreenY());
                 _line.setEndX(lineLocalPoint.getX());
                 _line.setEndY(lineLocalPoint.getY());
+                _line.setVisible(true);
             }
         });
 
@@ -141,7 +141,7 @@ public class LinkerEventHandler implements IGUIWorkspace{
     public void updateEndPosition(){
         Bounds screenBound = _endNode.localToScreen(_endNode.getBoundsInLocal());
         Bounds pointLocal = _line.screenToLocal(screenBound);
-        _line.setEndX(pointLocal.getMaxX());
+        _line.setEndX(pointLocal.getMinX());
         _line.setEndY((pointLocal.getMaxY()+pointLocal.getMinY())/2);
     }
 
