@@ -67,9 +67,8 @@ public class LinkerEventHandler implements IGUIWorkspace{
             public void handle(MouseEvent event) {
                 UINodePoint uiNodePoint = isMouseReleasedOnInputUINode(event);
                 if(uiNodePoint == null){
-                    _line.setVisible(false);
-                    _endNode = null;
                     System.out.println("The link has not been created");
+                    safeResetLinker(_instance);
                 } else {
                     _line.setVisible(true);
                     _endNode = uiNodePoint;
@@ -102,9 +101,7 @@ public class LinkerEventHandler implements IGUIWorkspace{
                             LinkerEventHandler linkerEventHandler = _linkerEventManager.getLinkEventHandlerFromAssociatedPoint(uiNodePoint);
                             if(linkerEventHandler != null){
                                 if(!uiNodePoint.equals(_endNode)){
-                                    linkerEventHandler.resetLinkerFromLinkerEventHandler();
-                                    System.out.println("Safely resetting " + linkerEventHandler);
-                                    _linkerEventManager.resetLinkerFromMainWorkspace(linkerEventHandler);
+                                    safeResetLinker(linkerEventHandler);
                                 }
                             }
                         }
@@ -126,6 +123,12 @@ public class LinkerEventHandler implements IGUIWorkspace{
             }
         }
         return null;
+    }
+
+    private void safeResetLinker(LinkerEventHandler linkerEventHandler) {
+        linkerEventHandler.resetLinkerFromLinkerEventHandler();
+        System.out.println("Safely resetting " + linkerEventHandler);
+        _linkerEventManager.resetLinkerFromMainWorkspace(linkerEventHandler);
     }
 
     public void updateStartPosition(){
