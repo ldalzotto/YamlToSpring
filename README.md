@@ -14,13 +14,15 @@ This project is built upon Maven.
 
 This project is under development.
 
+![alt tag](https://raw.githubusercontent.com/ldalzotto/YamlToSpring/master/example.png)
+
 #How to try the app ?
 To try the app, you simply have to build it via Maven : mvn package.
 Then, move to the folder target/jfx/native/node-yaml-to-spring/ and run the .exe file.
 
 #Things TO DO :
-* During workflow, make output transit through nodes
 * All Spring code generation
+* Work on design -> getting a better expercience on workspace
 
 #Refactoring TO DO :
 * Make UINodePoints & AbstractUINodePoints more readable and understandable
@@ -33,3 +35,4 @@ Then, move to the folder target/jfx/native/node-yaml-to-spring/ and run the .exe
 * Manage input of nodes
 * Create a data to list node -> add execution to workflow
 * Added add input button for list node
+* During workflow, make output transit through nodes
