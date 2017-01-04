@@ -22,9 +22,11 @@ import java.util.*;
 public class UINodePoint<T> extends HBox implements IHasChildren<HBox>, IGUIWorkspace {
 
     private Map<String, T> _carriedData = new HashMap<String, T>();
+    private Class<T> _clazz = null;
 
-    public UINodePoint(Map<String, T> carriedData, double radius, UINodePointType uiNodePointType, boolean isOutput){
+    public UINodePoint(Map<String, T> carriedData, double radius, UINodePointType uiNodePointType, boolean isOutput, Class<T> dataClazz){
         super();
+        _clazz = dataClazz;
         _carriedData = carriedData;
 
         Iterator<Map.Entry<String, T>> iterator = carriedData.entrySet().iterator();
@@ -84,11 +86,8 @@ public class UINodePoint<T> extends HBox implements IHasChildren<HBox>, IGUIWork
         this._carriedData = _carriedData;
     }
 
-    public Class get_type() {
-        if(!_carriedData.entrySet().isEmpty()){
-            return _carriedData.entrySet().iterator().next().getValue().getClass();
-        }
-        return null;
+    public Class<T> get_clazz(){
+        return _clazz;
     }
 
     class UINodeText extends Text implements IGUIWorkspace{

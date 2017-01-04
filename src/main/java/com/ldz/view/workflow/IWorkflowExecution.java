@@ -9,6 +9,6 @@ import java.util.List;
  * Created by loicd on 02/01/2017.
  */
 public interface IWorkflowExecution<I, O> {
-    O executeFromInput(List<UINodePoint<I>> intputPoints, List<AbstractUiNode> nodeToTransferData);
+    O executeFromInput(List<UINodePoint<I>> intputPoints);
     void dataTransfer(List<AbstractUiNode> nodeToTransferData, O outputData);
 }

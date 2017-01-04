@@ -31,7 +31,7 @@ public class UIListNode extends AbstractUiNode implements IWorkflowExecution<Ope
         System.out.println("to List node created.");
     }
 
-    public Operations executeFromInput(List<UINodePoint<Operation>> intputPoints, List<AbstractUiNode> nodeToTransferData) {
+    public Operations executeFromInput(List<UINodePoint<Operation>> intputPoints) {
         System.out.println("Computing list");
         Operations operations = new Operations();
         List<Operation> operationList = new ArrayList<Operation>();

@@ -12,7 +12,11 @@ import java.util.Map;
 /**
  * Created by loicd on 02/01/2017.
  */
-public class OutputPointCreator<T> implements IPointCreator<T>{
+public class OutputPointCreator<T> extends AbstractPointCreator<T> implements IPointCreator<T>{
+
+    public OutputPointCreator(Class<T> clazz){
+        super(clazz);
+    }
 
     public List<HBox> createLabelAndPoint(Map<String, T> pointsData) {
         List<HBox> labelAndPoints = new ArrayList<HBox>();
@@ -28,7 +32,7 @@ public class OutputPointCreator<T> implements IPointCreator<T>{
                     uiNodePointType = UINodePointType.getValueFromClass(entry.getValue().getClass());
                 }
 
-                HBox labelAndPoint = new UINodePoint<T>(entryMap, 10.0, uiNodePointType, true);
+                HBox labelAndPoint = new UINodePoint<T>(entryMap, 10.0, uiNodePointType, true, getClazz());
                 labelAndPoints.add(labelAndPoint);
                 System.out.println("Creation of output node " + labelAndPoint.getClass().getSimpleName() + labelAndPoint);
             }

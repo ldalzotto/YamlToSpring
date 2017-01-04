@@ -15,6 +15,7 @@ public class WorflowButton extends Button {
     public static WorflowButton getInstance(){
         if(_instance == null){
             _instance = new WorflowButton();
+            _instance.setId("workflowButton");
         }
         return _instance;
     }

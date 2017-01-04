@@ -42,14 +42,14 @@ public abstract class AbstractUINodePoints  extends BorderPane implements IHasCh
         _inputLabelsAndPoints = new UINodeVBox();
         _inputLabelsAndPoints.setSpacing(5);
 
-        List<HBox> outputPointsAndLabels = createPoints(new OutputPointCreator<IYamlDomain>(), _outputData);
+        List<HBox> outputPointsAndLabels = createPoints(new OutputPointCreator<IYamlDomain>(IYamlDomain.class), _outputData);
         if(!outputPointsAndLabels.isEmpty()){
             _outputLabelsAndPoints.getChildren().addAll(outputPointsAndLabels);
         }
         setRight(_outputLabelsAndPoints);
         _outputLabelsAndPoints.setVisible(true);
 
-        List<HBox> inputPointsAndLabels = createPoints(new InputPointCreator<IYamlDomain>(), _inputData);
+        List<HBox> inputPointsAndLabels = createPoints(new InputPointCreator<IYamlDomain>(IYamlDomain.class), _inputData);
         if(!inputPointsAndLabels.isEmpty()){
             _inputLabelsAndPoints.getChildren().addAll(inputPointsAndLabels);
         }
@@ -72,7 +72,7 @@ public abstract class AbstractUINodePoints  extends BorderPane implements IHasCh
             _inputData.put(stringIYamlDomainEntry.getKey(), stringIYamlDomainEntry.getValue());
         }
 
-        _inputLabelsAndPoints.getChildren().addAll(createPoints(new InputPointCreator<IYamlDomain>(), inputData));
+        _inputLabelsAndPoints.getChildren().addAll(createPoints(new InputPointCreator<IYamlDomain>(IYamlDomain.class), inputData));
     }
 
     public List<UINodePoint> getInputChildrens() {
