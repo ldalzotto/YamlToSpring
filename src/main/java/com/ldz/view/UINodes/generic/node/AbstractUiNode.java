@@ -213,8 +213,25 @@ public abstract class AbstractUiNode extends StackPane implements IHasChildren<U
 
     }
 
-    public void addInputNode(IYamlDomain data){
-
+    protected  <O extends IYamlDomain> void genericDataTransfer(List<AbstractUiNode> nodeToTransferData, O outputData){
+        for(AbstractUiNode abstractUiNode : nodeToTransferData){
+            for(UINodePoint uiNodePoint : this.getChilds().get(0).getOutputChildren()){
+                for(UINodePoint uiNodePoint1 : abstractUiNode.getChilds().get(0).getChilds()){
+                    Iterator<Map.Entry<LinkerEventHandler, Map<Node, Node>>> entryIterator = get_linkerEventHandlerMap().entrySet().iterator();
+                    while (entryIterator.hasNext()){
+                        Map.Entry<LinkerEventHandler, Map<Node, Node>> linkerEventHandlerMapEntry = entryIterator.next();
+                        if (linkerEventHandlerMapEntry.getValue().containsKey(uiNodePoint) && linkerEventHandlerMapEntry.getValue().containsValue(uiNodePoint1)){
+                            Map<String, ?> carriedData = uiNodePoint1.get_carriedData();
+                            String key = carriedData.keySet().iterator().next();
+                            Map<String, IYamlDomain> transitedData = new HashMap<String, IYamlDomain>();
+                            transitedData.put(key, outputData);
+                            uiNodePoint1.set_carriedData(transitedData);
+                            System.out.println("Transfering data " + transitedData + " from " + uiNodePoint + " to " + uiNodePoint1);
+                        }
+                    }
+                }
+            }
+        }
     }
 
     public Point2D get_initialCursorPosition() {

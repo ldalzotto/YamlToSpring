@@ -10,4 +10,5 @@ import java.util.List;
  */
 public interface IWorkflowExecution<I, O> {
     O executeFromInput(List<UINodePoint<I>> intputPoints, List<AbstractUiNode> nodeToTransferData);
+    void dataTransfer(List<AbstractUiNode> nodeToTransferData, O outputData);
 }

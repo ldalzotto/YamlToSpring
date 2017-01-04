@@ -58,8 +58,9 @@ public class WorkflowManager {
                 }
             }
             if(targetNode instanceof IWorkflowExecution){
-                ((IWorkflowExecution) targetNode).executeFromInput(targetNode.getChilds().get(0).getInputChildrens(), dataTransferNodes);
+                Object outputResult = ((IWorkflowExecution) targetNode).executeFromInput(targetNode.getChilds().get(0).getInputChildrens(), dataTransferNodes);
                 //set data to output
+                ((IWorkflowExecution) targetNode).dataTransfer(dataTransferNodes, outputResult);
             }
 
     }

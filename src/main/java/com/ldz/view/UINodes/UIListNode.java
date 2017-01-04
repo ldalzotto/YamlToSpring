@@ -39,29 +39,11 @@ public class UIListNode extends AbstractUiNode implements IWorkflowExecution<Ope
             operationList.add(operationUINodePoint.get_carriedData().entrySet().iterator().next().getValue());
         }
         operations.set_operations(operationList);
-
-        for(AbstractUiNode abstractUiNode : nodeToTransferData){
-            for(UINodePoint uiNodePoint : this.getChilds().get(0).getOutputChildren()){
-                for(UINodePoint uiNodePoint1 : abstractUiNode.getChilds().get(0).getChilds()){
-                    Iterator<Map.Entry<LinkerEventHandler, Map<Node, Node>>> entryIterator = get_linkerEventHandlerMap().entrySet().iterator();
-                    while (entryIterator.hasNext()){
-                        Map.Entry<LinkerEventHandler, Map<Node, Node>> linkerEventHandlerMapEntry = entryIterator.next();
-                        if (linkerEventHandlerMapEntry.getValue().containsKey(uiNodePoint) && linkerEventHandlerMapEntry.getValue().containsValue(uiNodePoint1)){
-                            Map<String, ?> carriedData = uiNodePoint1.get_carriedData();
-                            String key = carriedData.keySet().iterator().next();
-                            Map<String, IYamlDomain> transitedData = new HashMap<String, IYamlDomain>();
-                            transitedData.put(key, operations);
-                            uiNodePoint1.set_carriedData(transitedData);
-                            System.out.println("TRANSFERING DATA");
-                        }
-                    }
-                }
-            }
-
-        }
-
-
         return operations;
+    }
+
+    public void dataTransfer(List<AbstractUiNode> nodeToTransferData, Operations outputData) {
+        genericDataTransfer(nodeToTransferData, outputData);
     }
 
     public GenericInputAddableManager<Operation> returnInputManager() {

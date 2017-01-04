@@ -30,4 +30,6 @@ public class SpringNode extends AbstractUiNode implements IWorkflowExecution<Ope
         System.out.println("Generating file");
         return null;
     }
+
+    public void dataTransfer(List<AbstractUiNode> nodeToTransferData, File outputData) {}
 }
