@@ -6,7 +6,7 @@ import com.ldz.model.generic.IYamlDomain;
 /**
  * Created by ldalzotto on 24/12/2016.
  */
-class Parameter implements IYamlDomain {
+public class Parameter implements IYamlDomain {
     private String name;
     private String in;
     private String description;

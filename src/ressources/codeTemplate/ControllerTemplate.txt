@@ -1,8 +1,0 @@
-@Controller
-public class ${controllerName} {
-
-    @RequestMapping("${fullRessourcePath}")
-    public void helloWorld() {
-
-    }
-}

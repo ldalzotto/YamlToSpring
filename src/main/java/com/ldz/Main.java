@@ -5,6 +5,7 @@ import com.ldz.view.stages.SpringNodeCreatorStage;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
+
 /**
  * Created by ldalzotto on 24/12/2016.
  */
