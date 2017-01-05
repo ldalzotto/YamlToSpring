@@ -1,14 +1,16 @@
 package com.ldz.controller;
 
+import com.ldz.constants.templates.TemplatesPath;
+import com.ldz.constants.templates.TemplatesVariables;
 import com.ldz.model.Operation;
 import com.ldz.model.Operations;
 import com.ldz.model.Parameter;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Created by loicd on 05/01/2017.
@@ -16,9 +18,6 @@ import java.util.regex.Pattern;
 public class CodeGenerationController {
 
     private static CodeGenerationController _instance = null;
-
-    private final String CONTROLLER_TEMPLATE_PATH = "src/ressources/codeTemplate/controllerTemplate/ControllerTemplate.txt";
-    private final String CONTROLLER_REQUEST_MAPPING_PATH = "src/ressources/codeTemplate/controllerTemplate/requestMappingTemplate";
 
     private CodeGenerationController(){
 
@@ -34,7 +33,7 @@ public class CodeGenerationController {
     public String generateSpringFilesFromOperations(Operations operations){
         String controller = new String();
         try {
-            controller = readFile(CONTROLLER_TEMPLATE_PATH);
+            controller = readFile(TemplatesPath.CONTROLLER_TEMPLATE_PATH);
             //controller.replace("${fullRessourcePath}", operation.getFullRessourceName());
             StringBuilder requestsMapping = new StringBuilder();
             for(Operation operation : operations.get_operations()){
@@ -42,7 +41,7 @@ public class CodeGenerationController {
                 requestsMapping.append(requestMapping);
             }
 
-            controller = controller.replace("${requestsMapping}", requestsMapping.toString());
+            controller = controller.replace(TemplatesVariables.REQUESTS_MAPPING, requestsMapping.toString());
 
             System.out.println(controller);
         } catch (IOException e) {
@@ -52,19 +51,43 @@ public class CodeGenerationController {
     }
 
     private String processingRequestMapping(Operation operation) throws IOException {
-        String requestMapping = readFile(CONTROLLER_REQUEST_MAPPING_PATH);
-        requestMapping = requestMapping.replace("${fullRessourcePath}", operation.getFullRessourceName());
-        requestMapping = requestMapping.replace("${methodName}", detemineMethodName(operation));
-        requestMapping = requestMapping.replace("${capitalCrudeOperation}", operation.get_crudType().getValue().toUpperCase());
+        String requestMapping = readFile(TemplatesPath.CONTROLLER_REQUEST_MAPPING_PATH);
+        requestMapping = requestMapping.replace(TemplatesVariables.FULL_RESSOURCE_PATH, operation.getFullRessourceName());
+        requestMapping = requestMapping.replace(TemplatesVariables.METHOD_NAME, detemineMethodName(operation));
+        requestMapping = requestMapping.replace(TemplatesVariables.CAPITAL_CRUDE_OPERATION, operation.get_crudType().getValue().toUpperCase());
 
         //replacingParameters
         StringBuilder parameters = new StringBuilder();
 
+        List<StringBuilder> parametersDefinition = new ArrayList<StringBuilder>();
+
+        //work with parameters
         for(Parameter parameter : operation.getParameters()){
+            StringBuilder parameterDefinition = new StringBuilder();
             //check if the parameter is in path -> add @PathVariable annotation
+            Parameter.InValues inValues = Parameter.InValues.getValue(parameter.getIn());
+            if(inValues != null){
+                //pathvariable
+                if(inValues.equals(Parameter.InValues.path)){
+                    parameterDefinition.append("@PathVariable ");
+                }
+            }
+            if(parameter.getType() != null){
+                parameterDefinition.append(parameter.getType() + " ");
+            }
+            if(parameter.getName() != null){
+                parameterDefinition.append(parameter.getName());
+            }
+            parametersDefinition.add(parameterDefinition);
         }
 
-        requestMapping = requestMapping.replace("${parameters}", parameters.toString());
+        for(int i = 0; i < parametersDefinition.size(); i++){
+            parameters.append(parametersDefinition.get(i));
+            if(i!=parametersDefinition.size()-1){
+                parameters.append(",");
+            }
+        }
+        requestMapping = requestMapping.replace(TemplatesVariables.PARAMETERS, parameters.toString());
 
         return requestMapping;
     }

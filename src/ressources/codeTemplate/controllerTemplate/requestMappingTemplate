@@ -1,4 +1,4 @@
 @RequestMapping(path = "${fullRessourcePath}", method = RequestMethod.${capitalCrudeOperation})
-public void ${methodName}(${parameters}) {
+public void ${methodName}(${parametersValue}) {
 
 }

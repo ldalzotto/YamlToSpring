@@ -33,6 +33,19 @@ public class Parameter implements IYamlDomain {
     @JsonProperty("default")
     private Object _default;
 
+    public static enum InValues{
+        query, header, path, formData, body;
+
+        public static InValues getValue(String value){
+            for(InValues inValues : InValues.values()){
+                if(inValues.name().equals(value)){
+                    return inValues;
+                }
+            }
+            return null;
+        }
+    }
+
     public String getName() {
         return name;
     }
