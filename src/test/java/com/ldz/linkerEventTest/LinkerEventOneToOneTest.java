@@ -86,8 +86,8 @@ public class LinkerEventOneToOneTest extends FxRobot{
         _mockedCarriedData.put("api/v1/test", new Operation());
 
         _yamlLoadingControllerSpy = Mockito.spy(_yamlLoadingController);
-        Mockito.when(_yamlLoadingControllerSpy.getOperationsFromPath(Mockito.any(Path.class))).thenReturn(_mockedCarriedData);
-        Mockito.when(_yamlLoadingControllerSpy.getPathFromRessourceName(Mockito.anyString())).thenReturn(new Path());
+        Mockito.when(_yamlLoadingControllerSpy.getOperationsFromPathAndFullRessourceName(Mockito.any(Path.class), Mockito.anyString())).thenReturn(_mockedCarriedData);
+        Mockito.when(_yamlLoadingControllerSpy.getPathFromFullRessourceName(Mockito.anyString())).thenReturn(new Path());
         _nodeFactory.set_yamlLoadingController(_yamlLoadingControllerSpy);
     }
 

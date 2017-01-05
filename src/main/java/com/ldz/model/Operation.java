@@ -1,5 +1,6 @@
 package com.ldz.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ldz.model.generic.IYamlDomain;
 
 import java.util.LinkedHashMap;
@@ -21,6 +22,12 @@ public class Operation implements IYamlDomain {
     private List<String> schemes;
     private Boolean deprecated;
     private Object security;
+
+    @JsonIgnore
+    private String fullRessourceName;
+
+    @JsonIgnore
+    private CrudType _crudType;
 
     public List<String> getTags() {
         return tags;
@@ -116,5 +123,21 @@ public class Operation implements IYamlDomain {
 
     public void setSecurity(Object security) {
         this.security = security;
+    }
+
+    public String getFullRessourceName() {
+        return fullRessourceName;
+    }
+
+    public void setFullRessourceName(String fullRessourceName) {
+        this.fullRessourceName = fullRessourceName;
+    }
+
+    public CrudType get_crudType() {
+        return _crudType;
+    }
+
+    public void set_crudType(CrudType _crudType) {
+        this._crudType = _crudType;
     }
 }

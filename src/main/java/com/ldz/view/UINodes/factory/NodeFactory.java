@@ -51,10 +51,11 @@ public class NodeFactory {
         switch (nodeType){
             case YAML:
                 System.out.println("Start creating a YAML node...");
-                Path nodePath = _yamlLoadingController.getPathFromRessourceName(nodeName);
+                String fullRessourceName = _yamlLoadingController.getFullRessourceName(nodeName);
+                Path nodePath = _yamlLoadingController.getPathFromFullRessourceName(fullRessourceName);
                 outputData = new HashMap<String, IYamlDomain>();
                 if(nodePath != null){
-                    outputData = _yamlLoadingController.getOperationsFromPath(nodePath);
+                    outputData = _yamlLoadingController.getOperationsFromPathAndFullRessourceName(nodePath, fullRessourceName);
                 }
                 return new YamlNode(posX, posY, nodeName, outputData, null, Color.RED);
             case SPRING:

@@ -10,7 +10,6 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -43,22 +42,29 @@ public class YamlLoadingController {
         }
     }
 
-    public Path getPathFromRessourceName(String ressourceName){
-        if (_swaggerYamlFile != null) {
+    public String getFullRessourceName(String ressourceName){
+        if(_swaggerYamlFile != null){
             String ressourceNameTemp = null;
             if(ressourceName.contains(_swaggerYamlFile.getBasePath())){
                 ressourceNameTemp = ressourceName.replace(_swaggerYamlFile.getBasePath(), "");
+                return ressourceNameTemp;
             }
+        }
+        return null;
+    }
+
+    public Path getPathFromFullRessourceName(String fullRessourceName){
+        if (_swaggerYamlFile != null) {
             for (String pathName : _swaggerYamlFile.getPaths().keySet()) {
-                if (pathName.equals(ressourceNameTemp)) {
-                    return _swaggerYamlFile.getPaths().get(ressourceNameTemp);
+                if (pathName.equals(fullRessourceName)) {
+                    return _swaggerYamlFile.getPaths().get(fullRessourceName);
                 }
             }
         }
         return null;
     }
 
-    public Map<String, IYamlDomain> getOperationsFromPath(Path path){
+    public Map<String, IYamlDomain> getOperationsFromPathAndFullRessourceName(Path path, String fullRessourceName){
         Map<String, IYamlDomain> stringOperationMap = new HashMap<String, IYamlDomain>();
         try {
             if(path != null){
@@ -66,7 +72,12 @@ public class YamlLoadingController {
                     field.setAccessible(true);
                     if(field.get(path)!=null &&
                             (field.get(path) instanceof Operation)){
-                        stringOperationMap.put(field.getName(),  (Operation)field.get(path));
+                        Operation currentOperation = (Operation)field.get(path);
+                        currentOperation.setFullRessourceName(fullRessourceName);
+                        if(CrudType.contains(field.getName())){
+                            currentOperation.set_crudType(CrudType.returnFromValue(field.getName()));
+                        }
+                        stringOperationMap.put(field.getName(),  currentOperation);
                     }
                 }
             }

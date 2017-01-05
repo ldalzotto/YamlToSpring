@@ -15,7 +15,6 @@ import com.ldz.view.UINodes.YamlNode;
 import com.ldz.view.UINodes.factory.NodeFactory;
 import com.ldz.view.UINodes.generic.node.AbstractUiNode;
 import com.ldz.view.YamlToController;
-import com.ldz.view.linker.LinkerEventHandler;
 import com.ldz.view.linker.LinkerEventManager;
 import javafx.geometry.Bounds;
 import javafx.scene.Node;
@@ -32,7 +31,6 @@ import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
 
 import java.util.*;
-import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Created by loicd on 04/01/2017.
@@ -100,11 +98,15 @@ public class MainWorkflowTest extends FxRobot{
 
         _yamlLoadingControllerSpy = Mockito.spy(_yamlLoadingController);
 
-        Mockito.when(_yamlLoadingControllerSpy.getPathFromRessourceName("api/v1/test")).thenReturn(_yamlNode1Path);
-        Mockito.when(_yamlLoadingControllerSpy.getPathFromRessourceName("api/v3/test")).thenReturn(_yamlNode2Path);
+        Mockito.when(_yamlLoadingControllerSpy.getFullRessourceName("api/v1/test")).thenReturn("api/v1/test");
+        Mockito.when(_yamlLoadingControllerSpy.getFullRessourceName("api/v3/test")).thenReturn("api/v3/test");
 
-        Mockito.when(_yamlLoadingControllerSpy.getOperationsFromPath(_yamlNode1Path)).thenReturn(_mockedCarriedData1);
-        Mockito.when(_yamlLoadingControllerSpy.getOperationsFromPath(_yamlNode2Path)).thenReturn(_mockedCarriedData2);
+
+        Mockito.when(_yamlLoadingControllerSpy.getPathFromFullRessourceName("api/v1/test")).thenReturn(_yamlNode1Path);
+        Mockito.when(_yamlLoadingControllerSpy.getPathFromFullRessourceName("api/v3/test")).thenReturn(_yamlNode2Path);
+
+        Mockito.when(_yamlLoadingControllerSpy.getOperationsFromPathAndFullRessourceName(Mockito.eq(_yamlNode1Path), Mockito.anyString())).thenReturn(_mockedCarriedData1);
+        Mockito.when(_yamlLoadingControllerSpy.getOperationsFromPathAndFullRessourceName(Mockito.eq(_yamlNode2Path), Mockito.anyString())).thenReturn(_mockedCarriedData2);
 
         _nodeFactory.set_yamlLoadingController(_yamlLoadingControllerSpy);
     }

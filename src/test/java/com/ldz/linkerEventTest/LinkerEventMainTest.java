@@ -15,7 +15,6 @@ import com.ldz.view.UINodes.generic.node.AbstractUiNode;
 import com.ldz.view.UINodes.UINodePoint;
 import com.ldz.view.linker.LinkerEventManager;
 import com.ldz.view.YamlToController;
-import com.ldz.view.stages.SpringNodeCreatorScene;
 import javafx.geometry.Bounds;
 import javafx.scene.Node;
 import javafx.scene.input.MouseButton;
@@ -84,8 +83,8 @@ public class LinkerEventMainTest extends FxRobot {
         _mockedCarriedData.put("api/v2/test", new Operation());
 
         _yamlLoadingControllerSpy = Mockito.spy(_yamlLoadingController);
-        Mockito.when(_yamlLoadingControllerSpy.getOperationsFromPath(Mockito.any(Path.class))).thenReturn(_mockedCarriedData);
-        Mockito.when(_yamlLoadingControllerSpy.getPathFromRessourceName(Mockito.anyString())).thenReturn(new Path());
+        Mockito.when(_yamlLoadingControllerSpy.getOperationsFromPathAndFullRessourceName(Mockito.any(Path.class), Mockito.anyString())).thenReturn(_mockedCarriedData);
+        Mockito.when(_yamlLoadingControllerSpy.getPathFromFullRessourceName(Mockito.anyString())).thenReturn(new Path());
         _nodeFactory.set_yamlLoadingController(_yamlLoadingControllerSpy);
     }
 
@@ -189,7 +188,6 @@ public class LinkerEventMainTest extends FxRobot {
             }
         };
 
-        Assert.assertTrue(linkerEventHandler1.get_line().isVisible());
         Bounds pointLocal = linkerEventHandler1.get_line().screenToLocal(yamlStartNode1.localToScreen(yamlStartNode1.getBoundsInLocal()));
         Assert.assertTrue(linkerEventHandler1.get_line().getStartX() == pointLocal.getMaxX());
         Assert.assertTrue(linkerEventHandler1.get_line().getStartY() == (pointLocal.getMaxY()+pointLocal.getMinY())/2);
@@ -202,6 +200,7 @@ public class LinkerEventMainTest extends FxRobot {
             }
         };
 
+        Assert.assertTrue(linkerEventHandler1.get_line().isVisible());
         Assert.assertTrue(linkerEventHandler1.get_line().getEndX() != 0);
         Assert.assertTrue(linkerEventHandler1.get_line().getEndY() != 0);
 
