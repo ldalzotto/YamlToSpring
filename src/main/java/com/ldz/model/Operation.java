@@ -2,6 +2,9 @@ package com.ldz.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ldz.model.generic.IYamlDomain;
+import com.ldz.model.propagater.IValuePropagateable;
+import com.ldz.model.propagater.IValuePropagater;
+import com.ldz.model.propagater.PropagateValue;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -9,7 +12,8 @@ import java.util.List;
 /**
  * Created by ldalzotto on 24/12/2016.
  */
-public class Operation implements IYamlDomain {
+public class Operation implements IYamlDomain, IValuePropagateable {
+
     private List<String> tags;
     private String summary;
     private String description;
@@ -17,7 +21,10 @@ public class Operation implements IYamlDomain {
     private String operationId;
     private List<String> consumes;
     private List<String> produces;
+
+    @PropagateValue(classToPropagate = Parameter.class)
     private List<Parameter> parameters;
+
     private LinkedHashMap<String, Response> responses;
     private List<String> schemes;
     private Boolean deprecated;
@@ -139,5 +146,9 @@ public class Operation implements IYamlDomain {
 
     public void set_crudType(CrudType _crudType) {
         this._crudType = _crudType;
+    }
+
+    public void propagate(IValuePropagater iValuePropagater) {
+        iValuePropagater.propagate(this);
     }
 }

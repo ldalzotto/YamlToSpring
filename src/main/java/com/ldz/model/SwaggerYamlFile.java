@@ -1,5 +1,8 @@
 package com.ldz.model;
 
+import com.ldz.model.propagater.IValuePropagater;
+import com.ldz.model.propagater.PropagateValue;
+import com.ldz.model.propagater.IValuePropagateable;
 import com.ldz.model.generic.IYamlDomain;
 
 import java.util.LinkedHashMap;
@@ -8,7 +11,7 @@ import java.util.List;
 /**
  * Created by ldalzotto on 24/12/2016.
  */
-public class SwaggerYamlFile implements IYamlDomain {
+public class SwaggerYamlFile implements IYamlDomain, IValuePropagateable {
 
     private String swagger;
     private Info info;
@@ -19,7 +22,11 @@ public class SwaggerYamlFile implements IYamlDomain {
     private List<String> produces;
     private LinkedHashMap<String, Path> paths;
     private LinkedHashMap<String, Schema> definitions;
-    private LinkedHashMap<String, Parameter> parameters;
+
+    @PropagateValue(fieldsNameToPropagate = {"paths"},
+                classToPropagate = Parameter.class)
+    private List<Parameter> parameters;
+
     private LinkedHashMap<String, Response> responses;
     private Object securityDefinitions;
     private String security;
@@ -98,11 +105,11 @@ public class SwaggerYamlFile implements IYamlDomain {
         this.definitions = definitions;
     }
 
-    public LinkedHashMap<String, Parameter> getParameters() {
+    public List<Parameter> getParameters() {
         return parameters;
     }
 
-    public void setParameters(LinkedHashMap<String, Parameter> parameters) {
+    public void setParameters(List<Parameter> parameters) {
         this.parameters = parameters;
     }
 
@@ -144,5 +151,9 @@ public class SwaggerYamlFile implements IYamlDomain {
 
     public void setExternalDocs(ExternalDocumentation externalDocs) {
         this.externalDocs = externalDocs;
+    }
+
+    public void propagate(IValuePropagater iValuePropagater) {
+        iValuePropagater.propagate(this);
     }
 }

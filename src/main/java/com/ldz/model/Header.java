@@ -20,6 +20,7 @@ class Header implements IYamlDomain {
     private Integer maxItems;
     private Integer minItems;
     private Boolean uniqueItems;
+
     private Integer multipleOf;
 
     public String getType() {

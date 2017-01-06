@@ -5,6 +5,7 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.ldz.exception.YamlProcessingException;
 import com.ldz.model.*;
 import com.ldz.model.generic.IYamlDomain;
+import com.ldz.model.propagater.ValuePropagater;
 
 import java.io.File;
 import java.io.IOException;
@@ -39,7 +40,9 @@ public class YamlLoadingController {
             System.out.println("YAML loaded successfully !");
 
             System.out.println("Processing patterned fields...");
-            //TODO
+            ValuePropagater valuePropagater = new ValuePropagater();
+            valuePropagater.set_oldPropagater(valuePropagater);
+            _swaggerYamlFile.propagate(valuePropagater);
             System.out.println("Done.");
 
         } catch (IOException e) {
