@@ -21,6 +21,11 @@ To try the app, you simply have to build it via Maven : mvn package.
 Then, move to the folder target/jfx/native/node-yaml-to-spring/ and run the .exe file.
 
 #Things TO DO :
+* Manage Pameter scope of swagger file -> {
+    - While reading the Yaml file, there should be a step where all patterned objects must be recorevered from their original definition.
+    - While reading the Yaml file, there should be a step where scoped paremeters are putted inside the correct Operation parameters
+    - Seen scope are {SwaggerGlobal}>{PathItem}>{OperationItem}
+}
 * All Spring code generation
 * Work on design -> getting a better expercience on workspace
 
