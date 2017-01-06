@@ -2,6 +2,7 @@ package com.ldz.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import com.ldz.exception.YamlParameterPropagationException;
 import com.ldz.exception.YamlProcessingException;
 import com.ldz.model.*;
 import com.ldz.model.generic.IYamlDomain;
@@ -31,7 +32,7 @@ public class YamlLoadingController {
 
     private YamlLoadingController(){}
 
-    public void loadingYaml(File yamlFile) throws YamlProcessingException{
+    public void loadingYaml(File yamlFile) throws YamlProcessingException, YamlParameterPropagationException{
         System.out.println("Loading YAML method called...");
         ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
         //Object swagger = null;
@@ -39,11 +40,9 @@ public class YamlLoadingController {
             _swaggerYamlFile = mapper.readValue(yamlFile, SwaggerYamlFile.class);
             System.out.println("YAML loaded successfully !");
 
-            System.out.println("Processing patterned fields...");
-            ValuePropagater valuePropagater = new ValuePropagater();
-            valuePropagater.set_oldPropagater(valuePropagater);
-            _swaggerYamlFile.propagate(valuePropagater);
-            System.out.println("Done.");
+            System.out.println("Propagating global parameters from swagger file...");
+            _swaggerYamlFile.propagate(new ValuePropagater());
+            System.out.println("Propagating global parameters done.");
 
         } catch (IOException e) {
             throw new YamlProcessingException(e.getMessage(), e.getCause());

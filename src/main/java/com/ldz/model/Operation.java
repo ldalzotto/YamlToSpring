@@ -1,6 +1,7 @@
 package com.ldz.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.ldz.exception.YamlParameterPropagationException;
 import com.ldz.model.generic.IYamlDomain;
 import com.ldz.model.propagater.IValuePropagateable;
 import com.ldz.model.propagater.IValuePropagater;
@@ -148,7 +149,7 @@ public class Operation implements IYamlDomain, IValuePropagateable {
         this._crudType = _crudType;
     }
 
-    public void propagate(IValuePropagater iValuePropagater) {
+    public void propagate(IValuePropagater iValuePropagater) throws YamlParameterPropagationException {
         iValuePropagater.propagate(this);
     }
 }

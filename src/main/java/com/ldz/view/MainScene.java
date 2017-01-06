@@ -56,7 +56,7 @@ public class MainScene extends Scene {
                         _yamlLoadingController.loadingYaml(yamlFile);
                         _yamlTree.initializeYamlTree(_yamlLoadingController.get_swaggerYamlFile());
                     }
-                } catch (YamlProcessingException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }

@@ -1,5 +1,6 @@
 package com.ldz.model.propagater;
 
+import com.ldz.exception.YamlParameterPropagationException;
 import com.ldz.model.generic.IYamlDomain;
 
 import java.lang.reflect.Field;
@@ -17,6 +18,10 @@ public class ValuePropagater implements IValuePropagater{
         return _currentValuesToPropagate;
     }
 
+    public ValuePropagater(){
+        _oldPropagater = this;
+    }
+
     public void set_currentValuesToPropagate(List<IYamlDomain> _currentValuesToPropagate) {
         this._currentValuesToPropagate = _currentValuesToPropagate;
     }
@@ -29,101 +34,98 @@ public class ValuePropagater implements IValuePropagater{
         return _oldPropagater;
     }
 
-    public void propagate(IValuePropagateable classToPropagate) {
-        Class<?> clazz = classToPropagate.getClass();
-        Field[] fields = clazz.getDeclaredFields();
-        System.out.println("Start propagating to " + classToPropagate);
-        for(Field field : fields){
-            PropagateValue propagateValueAnnotation = field.getAnnotation(PropagateValue.class);
-            if(propagateValueAnnotation != null){
+    public void propagate(IValuePropagateable classToPropagate) throws YamlParameterPropagationException{
+        try {
+            Class<?> clazz = classToPropagate.getClass();
+            Field[] fields = clazz.getDeclaredFields();
+            System.out.println("Start propagating to " + classToPropagate);
+            for(Field field : fields){
+                PropagateValue propagateValueAnnotation = field.getAnnotation(PropagateValue.class);
+                if(propagateValueAnnotation != null){
 
-                field.setAccessible(true);
-                Object mainFieldobject = null;
-                try {
+                    field.setAccessible(true);
+                    Object mainFieldobject = null;
                     mainFieldobject = field.get(classToPropagate);
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                }
-                Boolean isElligibleForAggregation = false;
 
-                if(propagateValueAnnotation.classToPropagate().isInstance(mainFieldobject)){
-                    isElligibleForAggregation = true;
-                } else if(mainFieldobject instanceof List) {
-                    ListIterator listIterator = ((List) mainFieldobject).listIterator();
-                    while (listIterator.hasNext()) {
+                    /**
+                     * Aggregation procedure from old value of propagator
+                     */
+                    aggregate(classToPropagate, field, propagateValueAnnotation, mainFieldobject);
+
+
+                    /**
+                     * pseudo recursive call to progate value to the deepest
+                     */
+                    propagateValue(classToPropagate, clazz, propagateValueAnnotation);
+
+                }
+            }
+        } catch (Exception e) {
+            throw new YamlParameterPropagationException(e.getMessage(), e);
+        }
+    }
+
+    private void propagateValue(IValuePropagateable classToPropagate, Class<?> clazz, PropagateValue propagateValueAnnotation) throws NoSuchFieldException, IllegalAccessException, YamlParameterPropagationException {
+        String[] fieldsNameToPropagate = propagateValueAnnotation.fieldsNameToPropagate();
+        for(String fieldName : fieldsNameToPropagate){
+                Field fieldToPropagate = clazz.getDeclaredField(fieldName);
+                fieldToPropagate.setAccessible(true);
+                Object fieldObject = fieldToPropagate.get(classToPropagate);
+
+
+                if(fieldObject instanceof List){
+                    ListIterator listIterator = ((List) fieldObject).listIterator();
+                    while (listIterator.hasNext()){
                         Object value = listIterator.next();
-                        if (propagateValueAnnotation.classToPropagate().isInstance(value)) {
-                            isElligibleForAggregation = true;
-                        }
-                    }
-                }
-
-                if(isElligibleForAggregation){
-                    //aggregate value
-                    if(_oldPropagater != null){
-                        if(mainFieldobject instanceof List){
-                            //aggragation of list
-                            _currentValuesToPropagate.addAll(_oldPropagater.get_currentValuesToPropagate());
-                            _currentValuesToPropagate.addAll((List)mainFieldobject);
-                            try {
-                                field.set(classToPropagate, _currentValuesToPropagate);
-                            } catch (IllegalAccessException e) {
-                                e.printStackTrace();
-                            }
-                        } else {
-
-                        }
-                    }
-                }
-
-
-                //check about the fields to propagate
-                String[] fieldsNameToPropagate = propagateValueAnnotation.fieldsNameToPropagate();
-                for(String fieldName : fieldsNameToPropagate){
-                    try {
-                        Field fieldToPropagate = clazz.getDeclaredField(fieldName);
-                        fieldToPropagate.setAccessible(true);
-                        Object fieldObject = fieldToPropagate.get(classToPropagate);
-
-
-
-
-                        if(fieldObject instanceof List){
-                            ListIterator listIterator = ((List) fieldObject).listIterator();
-                            while (listIterator.hasNext()){
-                                Object value = listIterator.next();
-                                if(value instanceof IValuePropagateable){
-                                    ValuePropagater valuePropagater = new ValuePropagater();
-                                    valuePropagater.set_oldPropagater(this);
-                                    ((IValuePropagateable) value).propagate(valuePropagater);
-                                }
-                            }
-                        }else if(fieldObject instanceof Map){
-                            Iterator<Map.Entry> mapIterator = ((Map) fieldObject).entrySet().iterator();
-                            while (mapIterator.hasNext()){
-                                Object currentValue = mapIterator.next().getValue();
-                                if(currentValue instanceof IValuePropagateable){
-                                    ValuePropagater valuePropagater = new ValuePropagater();
-                                    valuePropagater.set_oldPropagater(this);
-                                    ((IValuePropagateable) currentValue).propagate(valuePropagater);
-                                }
-                            }
-                        }else if(fieldObject instanceof IValuePropagateable){
+                        if(value instanceof IValuePropagateable){
                             ValuePropagater valuePropagater = new ValuePropagater();
                             valuePropagater.set_oldPropagater(this);
-                            ((IValuePropagateable) fieldObject).propagate(valuePropagater);
+                            ((IValuePropagateable) value).propagate(valuePropagater);
                         }
-
-
-                    } catch (NoSuchFieldException e) {
-                        e.printStackTrace();
-                    } catch (IllegalAccessException ex) {
-                        ex.printStackTrace();
                     }
-
+                }else if(fieldObject instanceof Map){
+                    Iterator<Map.Entry> mapIterator = ((Map) fieldObject).entrySet().iterator();
+                    while (mapIterator.hasNext()){
+                        Object currentValue = mapIterator.next().getValue();
+                        if(currentValue instanceof IValuePropagateable){
+                            ValuePropagater valuePropagater = new ValuePropagater();
+                            valuePropagater.set_oldPropagater(this);
+                            ((IValuePropagateable) currentValue).propagate(valuePropagater);
+                        }
+                    }
+                }else if(fieldObject instanceof IValuePropagateable){
+                    ValuePropagater valuePropagater = new ValuePropagater();
+                    valuePropagater.set_oldPropagater(this);
+                    ((IValuePropagateable) fieldObject).propagate(valuePropagater);
                 }
 
-            }
         }
+    }
+
+    private void aggregate(IValuePropagateable classToPropagate, Field field, PropagateValue propagateValueAnnotation, Object mainFieldobject) throws IllegalAccessException {
+        if(mainFieldobject instanceof List) {
+             ListIterator listIterator = ((List) mainFieldobject).listIterator();
+             while (listIterator.hasNext()) {
+                 Object value = listIterator.next();
+
+                 //not adding duplicates
+                 if (propagateValueAnnotation.classToPropagate().isInstance(value)) {
+                     for(IYamlDomain iYamlDomain : _oldPropagater.get_currentValuesToPropagate()){
+                         if(!_currentValuesToPropagate.contains(iYamlDomain)){
+                             _currentValuesToPropagate.add(iYamlDomain);
+                         }
+                     }
+                     for(Object object : (List)mainFieldobject){
+                         if(object instanceof IYamlDomain){
+                             if(!_currentValuesToPropagate.contains(object)){
+                                 _currentValuesToPropagate.add((IYamlDomain) object);
+                             }
+                         }
+                     }
+
+                     field.set(classToPropagate, _currentValuesToPropagate);
+                 }
+             }
+         }
     }
 }

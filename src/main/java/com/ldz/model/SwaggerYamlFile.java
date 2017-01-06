@@ -1,5 +1,6 @@
 package com.ldz.model;
 
+import com.ldz.exception.YamlParameterPropagationException;
 import com.ldz.model.propagater.IValuePropagater;
 import com.ldz.model.propagater.PropagateValue;
 import com.ldz.model.propagater.IValuePropagateable;
@@ -153,7 +154,7 @@ public class SwaggerYamlFile implements IYamlDomain, IValuePropagateable {
         this.externalDocs = externalDocs;
     }
 
-    public void propagate(IValuePropagater iValuePropagater) {
+    public void propagate(IValuePropagater iValuePropagater) throws YamlParameterPropagationException{
         iValuePropagater.propagate(this);
     }
 }

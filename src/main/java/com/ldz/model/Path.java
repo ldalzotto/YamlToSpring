@@ -1,5 +1,6 @@
 package com.ldz.model;
 
+import com.ldz.exception.YamlParameterPropagationException;
 import com.ldz.model.generic.IYamlDomain;
 import com.ldz.model.propagater.IValuePropagateable;
 import com.ldz.model.propagater.IValuePropagater;
@@ -87,7 +88,7 @@ public class Path implements IYamlDomain, IValuePropagateable{
         this.parameters = parameters;
     }
 
-    public void propagate(IValuePropagater iValuePropagater) {
+    public void propagate(IValuePropagater iValuePropagater) throws YamlParameterPropagationException {
         iValuePropagater.propagate(this);
     }
 }
