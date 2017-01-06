@@ -22,6 +22,7 @@ public class SwaggerYamlFile implements IYamlDomain, IValuePropagateable {
     private List<String> consumes;
     private List<String> produces;
     private LinkedHashMap<String, Path> paths;
+
     private LinkedHashMap<String, Schema> definitions;
 
     @PropagateValue(fieldsNameToPropagate = {"paths"},

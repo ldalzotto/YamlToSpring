@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -43,6 +44,10 @@ public class YamlLoadingController {
             System.out.println("Propagating global parameters from swagger file...");
             _swaggerYamlFile.propagate(new ValuePropagater());
             System.out.println("Propagating global parameters done.");
+
+            System.out.println("Evaluating patterned objects in their definitions...");
+            patternedObjectsDefinitionsEvaluation();
+            System.out.println("Evaluating patterned objects done.");
 
         } catch (IOException e) {
             throw new YamlProcessingException(e.getMessage(), e.getCause());
@@ -95,6 +100,47 @@ public class YamlLoadingController {
         } catch (NullPointerException e){
             e.printStackTrace();
             return stringOperationMap;
+        }
+    }
+
+    public void patternedObjectsDefinitionsEvaluation(){
+        Iterator<Map.Entry<String, Schema>> entryIterator = _swaggerYamlFile.getDefinitions().entrySet().iterator();
+        while (entryIterator.hasNext()){
+            Map.Entry<String, Schema> stringSchemaEntry = entryIterator.next();
+            Schema currentSchema = stringSchemaEntry.getValue();
+            //finding reference ?
+            updatingReferenceSchema(currentSchema);
+        }
+    }
+
+    private Schema updatingReferenceSchema(Schema schema) {
+        if(schema.get$ref() != null){
+            String[] tokenizedRef = schema.get$ref().split("/");
+            String refId = tokenizedRef[tokenizedRef.length-1];
+            Schema referencedSchema = _swaggerYamlFile.getDefinitions().get(refId);
+            if(referencedSchema != null){
+                return updatingReferenceSchema(referencedSchema);
+            } else {
+                return null;
+            }
+        } else {
+            //check properties
+            if(schema.getProperties() != null){
+                LinkedHashMap<String, Schema> newMap = new LinkedHashMap<String, Schema>();
+                Iterator<Map.Entry<String, Schema>> entryIterator = schema.getProperties().entrySet().iterator();
+                while (entryIterator.hasNext()){
+                    Schema currentSchema = new Schema();
+                    Map.Entry<String, Schema> stringSchemaEntry = entryIterator.next();
+                    currentSchema = stringSchemaEntry.getValue();
+                    //finding reference ?
+                    currentSchema = updatingReferenceSchema(currentSchema);
+                    newMap.put(stringSchemaEntry.getKey(), currentSchema);
+                }
+                schema.setProperties(newMap);
+                return schema;
+            } else {
+                return schema;
+            }
         }
     }
 

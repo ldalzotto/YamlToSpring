@@ -3,6 +3,7 @@ package com.ldz.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ldz.model.generic.IYamlDomain;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 
 /**
@@ -27,8 +28,10 @@ public class Schema implements IYamlDomain {
     private String type;
     private Item items;
 
-    private Object properties;
-    private Object additionalProperties;
+    //Map de schema
+    private LinkedHashMap<String, Schema> properties;
+
+    private Schema additionalProperties;
     private Object allOf;
 
     @JsonProperty("enum")
@@ -39,7 +42,7 @@ public class Schema implements IYamlDomain {
     private XmlObject xml;
     private ExternalDocumentation externalDocs;
     private Object example;
-    private Object $ref;
+    private String $ref;
 
     public String getDiscriminator() {
         return discriminator;
@@ -81,11 +84,11 @@ public class Schema implements IYamlDomain {
         this.example = example;
     }
 
-    public Object get$ref() {
+    public String get$ref() {
         return $ref;
     }
 
-    public void set$ref(Object $ref) {
+    public void set$ref(String $ref) {
         this.$ref = $ref;
     }
 
@@ -217,19 +220,19 @@ public class Schema implements IYamlDomain {
         this.items = items;
     }
 
-    public Object getProperties() {
+    public LinkedHashMap<String, Schema> getProperties() {
         return properties;
     }
 
-    public void setProperties(Object properties) {
+    public void setProperties(LinkedHashMap<String, Schema> properties) {
         this.properties = properties;
     }
 
-    public Object getAdditionalProperties() {
+    public Schema getAdditionalProperties() {
         return additionalProperties;
     }
 
-    public void setAdditionalProperties(Object additionalProperties) {
+    public void setAdditionalProperties(Schema additionalProperties) {
         this.additionalProperties = additionalProperties;
     }
 
