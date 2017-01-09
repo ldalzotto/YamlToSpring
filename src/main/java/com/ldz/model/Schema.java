@@ -32,7 +32,7 @@ public class Schema implements IYamlDomain {
     private LinkedHashMap<String, Schema> properties;
 
     private Schema additionalProperties;
-    private Object allOf;
+    private List<Schema> allOf;
 
     @JsonProperty("enum")
     private List<String> _enum;
@@ -236,11 +236,11 @@ public class Schema implements IYamlDomain {
         this.additionalProperties = additionalProperties;
     }
 
-    public Object getAllOf() {
+    public List<Schema> getAllOf() {
         return allOf;
     }
 
-    public void setAllOf(Object allOf) {
+    public void setAllOf(List<Schema> allOf) {
         this.allOf = allOf;
     }
 

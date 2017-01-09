@@ -6,15 +6,14 @@ import com.ldz.exception.YamlParameterPropagationException;
 import com.ldz.exception.YamlProcessingException;
 import com.ldz.model.*;
 import com.ldz.model.generic.IYamlDomain;
+import com.ldz.model.mapper.ItemToSchemaMapper;
+import com.ldz.model.mapper.SchemaToItemMapper;
 import com.ldz.model.propagater.ValuePropagater;
 
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by ldalzotto on 24/12/2016.
@@ -23,6 +22,9 @@ public class YamlLoadingController {
 
     private static YamlLoadingController _instance = null;
     private SwaggerYamlFile _swaggerYamlFile = null;
+
+    private ItemToSchemaMapper _itemToSchemaMapper = ItemToSchemaMapper.getInstance();
+    private SchemaToItemMapper _schemaToItemMapper = SchemaToItemMapper.getInstance();
 
     public static YamlLoadingController getInstance(){
         if(_instance == null){
@@ -137,10 +139,33 @@ public class YamlLoadingController {
                     newMap.put(stringSchemaEntry.getKey(), currentSchema);
                 }
                 schema.setProperties(newMap);
-                return schema;
-            } else {
-                return schema;
             }
+            if (schema.getAdditionalProperties() != null) {
+                //convert additional properties
+                schema.setAdditionalProperties(updatingReferenceSchema(schema.getAdditionalProperties()));
+            }
+
+            //is there array items with reference ?
+            if(schema.getItems() != null){
+                if(schema.getItems().get$ref() != null){
+                    Schema schema1 = updatingReferenceSchema(schema.getItems());
+                    schema.setItems(_schemaToItemMapper.apply(schema1));
+                }
+            }
+
+            //is there polymorphism ? -> retrieve all parent swagger objects
+            if(schema.getAllOf() != null){
+                System.out.println("Swagger polymorphism found for " + schema.getAllOf());
+                List<Schema> schemas = new ArrayList<Schema>();
+                for(Schema schema1 : schema.getAllOf()){
+                    Schema currentSchema = updatingReferenceSchema(schema1);
+                    schemas.add(currentSchema);
+                }
+                schema.setAllOf(schemas);
+            }
+
+
+            return schema;
         }
     }
 
